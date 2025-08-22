@@ -1,0 +1,15 @@
+import ListCulture from "./ListCulture";
+import TopCategoryStory from "./TopCategoryStory";
+
+const TopCategoryCulture = ({ culture }) => {
+  const otherStories = culture.slice(1, 6);
+  return (
+    <div>
+      <h2>Culture</h2>
+      <TopCategoryStory topStory={culture[0]} />
+      <ListCulture otherStories={otherStories} />
+    </div>
+  );
+};
+
+export default TopCategoryCulture;
