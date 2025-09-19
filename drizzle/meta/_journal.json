@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1757845867357,
+      "tag": "0000_spicy_spencer_smythe",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1757907816101,
+      "tag": "0001_massive_goblin_queen",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1758092324987,
+      "tag": "0002_elite_newton_destine",
+      "breakpoints": true
+    }
+  ]
+}

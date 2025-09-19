@@ -1,0 +1,64 @@
+"use client";
+
+import { signIn, signOut, useSession } from "next-auth/react";
+import { Button } from "./ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import Link from "next/link";
+import { slugify } from "@/lib/utils/helpers";
+
+const UserComponent = () => {
+  const { data: session } = useSession();
+  const nameFallback = (name: string) => {
+    const nameArray = name.split(" ");
+    return nameArray[0].slice(0, 1) + nameArray[1].slice(0, 1);
+  };
+
+  const handleSignIn = async () => {
+    await signIn("google");
+  };
+
+  console.log(session?.user?.image);
+
+  return (
+    <div>
+      {session ? (
+        <div className="flex flex-row font-semibold flex-wrap items-center gap-12">
+          <Popover>
+            <PopoverTrigger>
+              <Avatar className="w-10 h-10">
+                <AvatarImage
+                  src={`${session?.user?.image}`}
+                  alt={`${session?.user?.name} profile`}
+                />
+                <AvatarFallback>
+                  {nameFallback(session?.user?.name as string)}
+                </AvatarFallback>
+              </Avatar>
+            </PopoverTrigger>
+            <PopoverContent>
+              <div className="flex flex-col">
+                <Link
+                  href={`/profile/${session?.user?.id}/${slugify(
+                    session?.user?.name as string
+                  )}`}
+                >
+                  Profile
+                </Link>
+                <Button onClick={() => signOut()}>Sign Out</Button>
+              </div>
+            </PopoverContent>
+          </Popover>
+        </div>
+      ) : (
+        <Button onClick={handleSignIn}>Sign in</Button>
+      )}
+    </div>
+  );
+};
+
+export default UserComponent;

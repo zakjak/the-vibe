@@ -1,11 +1,12 @@
 import { Card } from "@/components/ui/card";
+import { calculateTime } from "@/lib/utils/helpers";
 import { Separator } from "@radix-ui/react-separator";
 import { Clock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 interface ItemProps {
-  id: number;
+  id: string;
   title: string;
   category: string;
   date: string;
@@ -43,7 +44,7 @@ const TopSmallCards = ({ item }: { item: ItemProps }) => {
             <Clock width={13} />
           </span>
           <Separator className="w-0.5 h-3 bg-gray-500" />
-          <span>{item.date}</span>
+          <span>{calculateTime(item.date)}</span>
         </div>
       </div>
     </Card>

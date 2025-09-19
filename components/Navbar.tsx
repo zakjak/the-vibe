@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { Search, User } from "lucide-react";
+import { Search } from "lucide-react";
 import ModeToggle from "./ModeToggle";
 import { Separator } from "@radix-ui/react-dropdown-menu";
+import UserComponent from "./UserComponent";
 
 const Navbar = () => {
   return (
@@ -25,7 +26,7 @@ const Navbar = () => {
           </div>
         </div>
         <div className="flex gap-4 items-center">
-          <User />
+          <UserComponent />
           <Search />
           <ModeToggle />
         </div>

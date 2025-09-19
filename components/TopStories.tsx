@@ -6,13 +6,25 @@ import data from "@/data.json";
 import TopCategoryTechnology from "./TopCategoryTechnology";
 import TopCategoryInnovation from "./TopCategoryInnovation";
 
-const TopStories = () => {
-  const politics = data.filter((cat) => cat.category === "politics");
-  const entertainment = data.filter((cat) => cat.category === "entertainment");
-  const business = data.filter((cat) => cat.category === "business");
-  const culture = data.filter((cat) => cat.category === "culture");
-  const technology = data.filter((cat) => cat.category === "technology");
-  const innovation = data.filter((cat) => cat.category === "innovation");
+const TopStories = async () => {
+  const politics = await (
+    await fetch("http://localhost:3000/api/articles/politics")
+  ).json();
+  const entertainment = await (
+    await fetch("http://localhost:3000/api/articles/entertainment")
+  ).json();
+  const business = await (
+    await fetch("http://localhost:3000/api/articles/business")
+  ).json();
+  const culture = await (
+    await fetch("http://localhost:3000/api/articles/culture")
+  ).json();
+  const technology = await (
+    await fetch("http://localhost:3000/api/articles/technology")
+  ).json();
+  const sports = await (
+    await fetch("http://localhost:3000/api/articles/sports")
+  ).json();
 
   return (
     <div className="mt-10">
@@ -23,7 +35,7 @@ const TopStories = () => {
         <TopCategoryBusiness business={business} />
         <TopCategoryCulture culture={culture} />
         <TopCategoryTechnology technology={technology} />
-        <TopCategoryInnovation innovation={innovation} />
+        <TopCategoryInnovation sports={sports} />
       </div>
     </div>
   );
