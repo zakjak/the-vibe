@@ -22,7 +22,7 @@ export const users = pgTable("users", {
   name: text("name"),
   email: text("email").unique(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
-  isAdmin: boolean().default(true),
+  isAdmin: boolean().default(false),
 });
 
 export const accounts = pgTable(

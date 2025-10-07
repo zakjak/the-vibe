@@ -9,20 +9,14 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import Link from "next/link";
-import { slugify } from "@/lib/utils/helpers";
+import { nameFallback, slugify } from "@/lib/utils/helpers";
 
 const UserComponent = () => {
   const { data: session } = useSession();
-  const nameFallback = (name: string) => {
-    const nameArray = name.split(" ");
-    return nameArray[0].slice(0, 1) + nameArray[1].slice(0, 1);
-  };
 
   const handleSignIn = async () => {
     await signIn("google");
   };
-
-  console.log(session?.user?.image);
 
   return (
     <div>

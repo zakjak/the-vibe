@@ -8,40 +8,49 @@ import { calculateTime } from "@/lib/utils/helpers";
 
 const RelatedArticles = ({ relatedArticles }) => {
   return (
-    <div>
-      {relatedArticles?.map((article) => (
-        <Card key={article.id} className="mt-6">
-          <Link
-            href={`/${article.category}/${
-              article.id
-            }/${article.title.replaceAll(" ", "-")}`}
-            className="lg:w-32 lg:h-22 h-20 w-18"
-          >
-            <Image
-              src={article.image}
-              alt={`${article.title}`}
-              height={140}
-              width={140}
-              className="w-full h-full object-cover rounded-md"
-            />
-          </Link>
-          <Link
-            href={`/${article.category}/${
-              article.id
-            }/${article.title.replaceAll(" ", "-")}`}
-          >
-            <h2>{article.title}</h2>
-          </Link>
-          <div className="flex items-center gap-2">
-            <span>{article?.category}</span>
-            <Separator className="w-0.5 h-3 bg-gray-500" />
-            <span className="flex gap-1 items-center">
-              <Clock width={13} />
-              {calculateTime(article?.date)}
-            </span>
-          </div>
-        </Card>
-      ))}
+    <div className="w-full col-span-3 md:col-span-1">
+      <h2 className="text-xl font-bold leading-2 tracking-wide">
+        Top Related Articles
+      </h2>
+      <div className="grid grid-cols-2 gap-2 md:gap- md:grid-cols-1">
+        {relatedArticles?.map((article) => (
+          <Card key={article.id} className="mt-6">
+            <div className="lg:w-32 lg:h-22 md:h-[15rem] h-[13rem]">
+              <Link
+                href={`/${article.category}/${
+                  article.id
+                }/${article.title.replaceAll(" ", "-")}`}
+                className=""
+              >
+                <Image
+                  src={article.image}
+                  alt={`${article.title}`}
+                  height={140}
+                  width={140}
+                  className="w-full h-full object-cover rounded-md"
+                />
+              </Link>
+            </div>
+            <div>
+              <Link
+                href={`/${article.category}/${
+                  article.id
+                }/${article.title.replaceAll(" ", "-")}`}
+              >
+                <h2>{article.title}</h2>
+              </Link>
+              <div className="flex items-center gap-2 text-sm text-zinc-400">
+                <span>{article?.category}</span>
+                <Separator className="w-0.5 h-3 bg-gray-500" />
+                <span className="flex gap-1 items-center">
+                  <Clock width={13} />
+                  {calculateTime(article?.date)}
+                </span>
+              </div>
+            </div>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 };

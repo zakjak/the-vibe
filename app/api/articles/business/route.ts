@@ -7,8 +7,8 @@ export async function GET(req: Request, res: Response) {
     const response = await db
       .select()
       .from(articles)
-      .where(eq(articles.category, "business"))
-      .limit(6);
+      .where(eq(articles.category, "business"));
+    // .limit(6);
     return Response.json(response);
   } catch (err) {
     console.log("Error fetching articles:", err);

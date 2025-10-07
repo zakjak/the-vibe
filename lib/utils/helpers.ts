@@ -18,6 +18,11 @@ export const calculateTime = (date: string) => {
   }
 };
 
+export const nameFallback = (name: string) => {
+  const nameArray = name?.split(" ");
+  return nameArray[0]?.slice(0, 1) + nameArray[1]?.slice(0, 1);
+};
+
 export const slugify = (username: string) => {
   return username.toLowerCase().trim().replace(/\s+/g, "-");
 };

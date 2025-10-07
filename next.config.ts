@@ -5,11 +5,15 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'c02.purpledshub.com'
-      }
-    ]
-  }
+        protocol: "https",
+        hostname: "c02.purpledshub.com",
+      },
+      {
+        protocol: "https",
+        hostname: "imagedelivery.net",
+      },
+    ],
+  },
 };
 
 export default nextConfig;

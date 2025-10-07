@@ -23,6 +23,7 @@ const Navbar = () => {
             <Link href="/culture">Culture</Link>
             <Link href="/technology">Technology</Link>
             <Link href="/innovation">Innovation</Link>
+            <Link href="/sports ">Innovation</Link>
           </div>
         </div>
         <div className="flex gap-4 items-center">

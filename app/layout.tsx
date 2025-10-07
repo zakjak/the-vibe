@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/theme-provider";
 import AuthProvider from "@/components/providers";
+import QueryClientProvider from "@/components/QueryClientProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,7 +40,7 @@ export default function RootLayout({
         >
           <AuthProvider>
             <Navbar />
-            {children}
+            <QueryClientProvider>{children}</QueryClientProvider>
             <Footer />
           </AuthProvider>
         </ThemeProvider>
