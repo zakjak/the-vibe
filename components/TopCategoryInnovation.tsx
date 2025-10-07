@@ -7,8 +7,12 @@ const TopCategoryInnovation = ({ sports }) => {
   return (
     <div>
       <h2>Sports</h2>
-      <TopCategoryStory topStory={sports[0]} />
-      <ListInnovation otherStories={otherStories} />
+      {sports && (
+        <>
+          <TopCategoryStory topStory={sports[0]} />
+          <ListInnovation otherStories={otherStories} />
+        </>
+      )}
     </div>
   );
 };

@@ -12,7 +12,7 @@ interface Articles {
 const TopOtherStories = ({ articles }: { articles: Articles[] }) => {
   return (
     <div className="mt-6 flex flex-col gap-4">
-      {articles.map((item) => (
+      {articles?.map((item) => (
         <TopSmallCards item={item} key={item.id} />
       ))}
     </div>

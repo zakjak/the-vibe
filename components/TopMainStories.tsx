@@ -11,10 +11,10 @@ const TopMainStories = () => {
   return (
     <div className="grid lg:grid-cols-6 md:grid-cols-4 gap-8">
       <div className="lg:col-span-4 md:col-span-2">
-        <LatestStoryBanner article={article?.allPolitics} />
+        <LatestStoryBanner article={article?.latestPolitics} />
       </div>
       <div className="lg:col-span-2 md:col-span-2">
-        <TopOtherStories articles={article.topOtherStories} />
+        <TopOtherStories articles={article?.topOtherStories} />
       </div>
     </div>
   );
