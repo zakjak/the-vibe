@@ -8,12 +8,12 @@ import {
 } from "drizzle-orm/pg-core";
 import postgres from "postgres";
 
-import { drizzle } from "drizzle-orm/postgres-js";
+import { drizzle, PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import type { AdapterAccountType } from "@auth/core/adapters";
 
 const pool = postgres(process.env.AUTH_DRIZZLE_URL as string, { max: 1 });
 
-export const db = drizzle(pool);
+export const db: PostgresJsDatabase = drizzle(pool);
 
 export const users = pgTable("users", {
   id: text("id")

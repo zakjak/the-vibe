@@ -9,12 +9,10 @@ interface Articles {
   story: string;
 }
 
-const TopOtherStories = async () => {
-  const data = await fetch("http://localhost:3000/api/articles");
-  const articles: Articles[] = await data.json();
+const TopOtherStories = ({ articles }: { articles: Articles[] }) => {
   return (
     <div className="mt-6 flex flex-col gap-4">
-      {articles.slice(1, 4).map((item) => (
+      {articles.map((item) => (
         <TopSmallCards item={item} key={item.id} />
       ))}
     </div>

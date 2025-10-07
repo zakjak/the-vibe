@@ -1,14 +1,20 @@
+"use client";
+
 import LatestStoryBanner from "./LatestStoryBanner";
 import TopOtherStories from "./TopOtherStories";
+import { useLatestStories } from "@/hooks/useLatestStories";
 
 const TopMainStories = () => {
+  const { data: article } = useLatestStories();
+  console.log(article);
+
   return (
     <div className="grid lg:grid-cols-6 md:grid-cols-4 gap-8">
       <div className="lg:col-span-4 md:col-span-2">
-        <LatestStoryBanner />
+        <LatestStoryBanner article={article?.allPolitics} />
       </div>
       <div className="lg:col-span-2 md:col-span-2">
-        <TopOtherStories />
+        <TopOtherStories articles={article.topOtherStories} />
       </div>
     </div>
   );
