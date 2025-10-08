@@ -2,9 +2,9 @@
 
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
-const fetchBusiness = async (page: number) => {
+const fetchCulture = async (page: number) => {
   const res = await fetch(
-    `http://localhost:3000/api/articles/business?page=${page}`
+    `http://localhost:3000/api/articles/culture?page=${page}`
   );
   if (!res.ok) {
     throw new Error("Network response was not ok");
@@ -12,10 +12,10 @@ const fetchBusiness = async (page: number) => {
   return res.json();
 };
 
-export const useBusiness = (page: number) => {
+export const useCulture = (page: number) => {
   return useQuery({
-    queryKey: ["business", page],
-    queryFn: () => fetchBusiness(page),
+    queryKey: ["culture", page],
+    queryFn: () => fetchCulture(page),
     placeholderData: keepPreviousData,
   });
 };

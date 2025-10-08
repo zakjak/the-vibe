@@ -1,18 +1,21 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
-export const useTechnology = () => {
+const fetchTechnology = async (page: number) => {
+  const res = await fetch(
+    `http://localhost:3000/api/articles/technology?page=${page}`
+  );
+  if (!res.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return res.json();
+};
+
+export const useTechnology = (page: number) => {
   return useQuery({
-    queryKey: ["technology"],
-    queryFn: async () => {
-      const res = await fetch("http://localhost:3000/api/articles/technology");
-
-      if (!res.ok) {
-        throw new Error("Failed to fetch posts");
-      }
-
-      return res.json();
-    },
+    queryKey: ["technology", page],
+    queryFn: () => fetchTechnology(page),
+    placeholderData: keepPreviousData,
   });
 };
