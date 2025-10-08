@@ -7,6 +7,7 @@ import TopCategoryPolitics from "./TopCategoryPolitics";
 import TopCategoryTechnology from "./TopCategoryTechnology";
 import TopCategoryInnovation from "./TopCategoryInnovation";
 import { useLatestStories } from "@/hooks/useLatestStories";
+import TopCategorySports from "./TopCategorySports";
 
 const TopStories = () => {
   const { data: articles } = useLatestStories();
@@ -20,7 +21,7 @@ const TopStories = () => {
         <TopCategoryBusiness business={articles?.topBusiness} />
         <TopCategoryCulture culture={articles?.topCulture} />
         <TopCategoryTechnology technology={articles?.topTechnology} />
-        <TopCategoryInnovation sports={articles?.topSports} />
+        <TopCategorySports sports={articles?.topSports} />
       </div>
     </div>
   );

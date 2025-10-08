@@ -1,3 +1,4 @@
+import { calculateTime } from "@/lib/utils/helpers";
 import { Separator } from "@radix-ui/react-separator";
 import Link from "next/link";
 
@@ -18,7 +19,7 @@ const ListBusiness = ({ otherStories }) => {
           <div className="flex items-center text-xs gap-2">
             <span>{story.category}</span>
             <Separator className="w-0.5 h-4 bg-gray-400" />
-            <span>{story.date}</span>
+            <span>{calculateTime(story.date)}</span>
           </div>
         </div>
       ))}

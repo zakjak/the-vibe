@@ -14,13 +14,15 @@ const LatestStoryBanner = ({ article }) => {
               article[0]?.id
             }/${article[0]?.title.replaceAll(" ", "-")}`}
           >
-            <Image
-              src={article[0]?.image}
-              alt={`${article[0]?.title}`}
-              height={240}
-              className="w-full h-full object-cover rounded-xl"
-              width={240}
-            />
+            <div className="h-full w-full">
+              <Image
+                src={article[0]?.image}
+                alt={`${article[0]?.title}`}
+                height={240}
+                className="w-full h-full object-cover rounded-xl"
+                width={240}
+              />
+            </div>
           </Link>
           <Link
             href={`/${article[0]?.category}/${

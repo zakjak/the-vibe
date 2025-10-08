@@ -19,15 +19,16 @@ const TopSmallCards = ({ item }: { item: ItemProps }) => {
     <Card className="flex items-center gap-4">
       <Link
         href={`/${item.category}/${item.id}/${item.title.replaceAll(" ", "-")}`}
-        className="lg:w-32 lg:h-22 h-20 w-18"
       >
-        <Image
-          src={item.image}
-          alt={`${item.title}`}
-          height={140}
-          width={140}
-          className="w-full h-full object-cover rounded-md"
-        />
+        <div className="md:w-32 md:h-22 h-32 w-32">
+          <Image
+            src={item.image}
+            alt={`${item.title}`}
+            height={140}
+            width={140}
+            className="w-full h-full object-cover rounded-md"
+          />
+        </div>
       </Link>
       <div className="leading-4">
         <Link
@@ -36,14 +37,16 @@ const TopSmallCards = ({ item }: { item: ItemProps }) => {
             "-"
           )}`}
         >
-          <h3 className="text-xs">{item.title}</h3>
+          <h3 className="md:text-xs text-md line-clamp-2">{item.title}</h3>
         </Link>
-        <span className="text-gray-500 text-[.7rem]">{item.title}</span>
-        <div className="flex gap-2 items-center text-gray-500 text-[.7rem]">
+        <span className="text-zinc-500 text-[.7rem] line-clamp-2 my-1">
+          {item.story}
+        </span>
+        <div className="flex gap-2 items-center text-zinc-400 text-[.7rem]">
           <span>
             <Clock width={13} />
           </span>
-          <Separator className="w-0.5 h-3 bg-gray-500" />
+          <Separator className="w-0.5 h-3 bg-zinc-400" />
           <span>{calculateTime(item.date)}</span>
         </div>
       </div>

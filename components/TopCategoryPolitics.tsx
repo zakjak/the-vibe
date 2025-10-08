@@ -7,11 +7,11 @@ const TopCategoryPolitics = ({ politics }) => {
   return (
     <div>
       {politics && (
-        <>
+        <div className="w-full">
           <h2>Politics</h2>
           <TopCategoryStory topStory={politics[0]} />
           <ListPolitics otherStories={otherStories} />
-        </>
+        </div>
       )}
     </div>
   );

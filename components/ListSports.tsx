@@ -2,7 +2,7 @@ import { calculateTime } from "@/lib/utils/helpers";
 import { Separator } from "@radix-ui/react-separator";
 import Link from "next/link";
 
-const ListTechnology = ({ otherStories }) => {
+const ListSports = ({ otherStories }) => {
   return (
     <div>
       {otherStories.map((story) => (
@@ -27,4 +27,4 @@ const ListTechnology = ({ otherStories }) => {
   );
 };
 
-export default ListTechnology;
+export default ListSports;
