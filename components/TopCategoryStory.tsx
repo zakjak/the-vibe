@@ -4,13 +4,12 @@ import { Separator } from "@radix-ui/react-separator";
 import Link from "next/link";
 
 const TopCategoryStory = ({ topStory }) => {
-  console.log(topStory?.image);
   return (
     <Card className="mt-2">
       <Link
-        href={`/${topStory?.category}/${
-          topStory?.id
-        }/${topStory?.title.replaceAll(" ", "-")}`}
+        href={`/${topStory?.category}/${topStory?.id}/${
+          topStory && topStory?.title?.replaceAll(" ", "-")
+        }`}
       >
         <Image
           src={topStory?.image}
@@ -23,7 +22,7 @@ const TopCategoryStory = ({ topStory }) => {
         <Link
           href={`/${topStory?.category}/${
             topStory?.id
-          }/${topStory?.title.replaceAll(" ", "-")}`}
+          }/${topStory?.title?.replaceAll(" ", "-")}`}
         >
           <h2 className="text-sm">{topStory?.title}</h2>
         </Link>

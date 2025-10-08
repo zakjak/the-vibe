@@ -8,16 +8,23 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
-const PaginationComponent = () => {
+const PaginationComponent = ({ pageNumber }: { pageNumber: number }) => {
   return (
     <Pagination>
       <PaginationContent>
         <PaginationItem>
-          <PaginationPrevious href="#" />
+          <PaginationPrevious href="" />
         </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href="#">1</PaginationLink>
-        </PaginationItem>
+        {[...Array(pageNumber)].map((_, i) => (
+          <PaginationItem key={i + 1}>
+            <PaginationLink
+              href={`/politics?page=${i + 1}`}
+              isActive={i + 1 === i + 1}
+            >
+              {i + 1}
+            </PaginationLink>
+          </PaginationItem>
+        ))}
         <PaginationItem>
           <PaginationEllipsis />
         </PaginationItem>
