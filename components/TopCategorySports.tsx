@@ -6,7 +6,7 @@ const TopCategorySports = ({ sports }) => {
   const otherStories = sports?.slice(1, 6);
   return (
     <div>
-      <h2>Technology</h2>
+      <h2 className="text-xl tracking-wider">Sports</h2>
       {sports && (
         <>
           <TopCategoryStory topStory={sports[0]} />

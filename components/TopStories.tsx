@@ -14,8 +14,8 @@ const TopStories = () => {
 
   return (
     <div className="mt-10">
-      <h1>Top Stories</h1>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-y-6 gap-6">
+      <h1 className="text-2xl font-bold">Top Stories</h1>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-y-6 gap-6 mt-2">
         <TopCategoryPolitics politics={articles?.topPolitics} />
         <TopCategoryEntertainment entertainment={articles?.topEntertainment} />
         <TopCategoryBusiness business={articles?.topBusiness} />

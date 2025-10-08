@@ -7,7 +7,7 @@ const TopCategoryBusiness = ({ business }) => {
     <div>
       {business && (
         <>
-          <h2>Business</h2>
+          <h2 className="text-lg tracking-wider">Business</h2>
           <TopCategoryStory topStory={business[0]} />
           <ListBusiness otherStories={otherStories} />
         </>

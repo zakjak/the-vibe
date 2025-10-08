@@ -8,7 +8,7 @@ const TopCategoryEntertainment = ({ entertainment }) => {
     <div>
       {entertainment && (
         <>
-          <h2>Entertainment</h2>
+          <h2 className="text-xl tracking-wider">Entertainment</h2>
           <TopCategoryStory topStory={entertainment[0]} />
           <ListEntertainment otherStories={otherStories} />
         </>
