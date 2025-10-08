@@ -3,7 +3,7 @@ import React from "react";
 
 const NavbarSmallLinks = ({ navLinks }) => {
   return (
-    <div className="text-sm flex justify-center lg:hidden bg-black text-white h-8">
+    <div className="text-sm flex justify-center lg:hidden bg-black text-white h-8 w-full">
       <div className="flex items-center justify-center ">
         <div className="w-[90%] flex gap-2 my-auto no-scrollbar overflow-x-auto">
           {navLinks.map((link) => (

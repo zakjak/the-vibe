@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Search } from "lucide-react";
 import ModeToggle from "./ModeToggle";
@@ -6,8 +8,11 @@ import UserComponent from "./UserComponent";
 import NavbarLargeLinks from "./NavbarLargeLinks";
 import SearchInput from "./SearchInput";
 import NavbarSmallLinks from "./NavbarSmallLinks";
+import { useState } from "react";
 
 const Navbar = () => {
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
   const navLinks = [
     {
       name: "Home",
@@ -54,12 +59,17 @@ const Navbar = () => {
               </h1>
             </div>
             <Separator className="bg-gray-400 h-4 w-0.5 hidden lg:flex" />
-            <SearchInput />
+            <div className="block lg:hidden w-full mx-2">
+              <SearchInput />
+            </div>
             <NavbarLargeLinks navLinks={navLinks} />
           </div>
           <div className="flex gap-4 items-center">
             <UserComponent />
-            <Search />
+            <Search
+              className="hidden lg:block cursor-pointer"
+              onClick={() => setIsSearchOpen(!isSearchOpen)}
+            />
             <ModeToggle />
           </div>
         </div>
@@ -67,6 +77,11 @@ const Navbar = () => {
       <section className="flex items-center justify-center">
         <NavbarSmallLinks navLinks={navLinks} />
       </section>
+      {isSearchOpen && (
+        <section className="hidden lg:block w-[70%] mx-auto py-2">
+          <SearchInput />
+        </section>
+      )}
     </nav>
   );
 };
