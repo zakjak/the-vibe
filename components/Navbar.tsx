@@ -18,12 +18,12 @@ const Navbar = () => {
           <div className="text-sm flex gap-2 items-center">
             <Link href="/">Home</Link>
             <Link href="/politics">Politics</Link>
+            <Link href="/sports ">Sports</Link>
             <Link href="/entertainment">Entertainment</Link>
             <Link href="/business">Business</Link>
             <Link href="/culture">Culture</Link>
             <Link href="/technology">Technology</Link>
             <Link href="/innovation">Innovation</Link>
-            <Link href="/sports ">Innovation</Link>
           </div>
         </div>
         <div className="flex gap-4 items-center">

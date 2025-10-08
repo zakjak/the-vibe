@@ -1,4 +1,4 @@
-import AllBusiness from "@/components/AllBusiness";
+import AllSports from "@/components/AllSports";
 
 const SportsPage = () => {
   // const sports = (
@@ -7,7 +7,7 @@ const SportsPage = () => {
 
   return (
     <div>
-      <AllBusiness />
+      <AllSports />
     </div>
   );
 };
