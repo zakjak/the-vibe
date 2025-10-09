@@ -34,7 +34,7 @@ const UserComponent = () => {
                 </AvatarFallback>
               </Avatar>
             </PopoverTrigger>
-            <PopoverContent>
+            <PopoverContent className="z-[1000] mr-4">
               <div className="flex flex-col">
                 <Link
                   href={`/profile/${session?.user?.id}/${slugify(

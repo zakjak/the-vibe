@@ -9,6 +9,8 @@ import TopCategoryInnovation from "./TopCategoryInnovation";
 import { useLatestStories } from "@/hooks/useLatestStories";
 import TopCategorySports from "./TopCategorySports";
 import TopStoriesSkeleton from "./TopStoriesSkeleton";
+import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 
 const TopStories = () => {
   const { data: articles, isLoading } = useLatestStories();
