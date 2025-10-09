@@ -1,11 +1,14 @@
 "use client";
 
 import LatestStoryBanner from "./LatestStoryBanner";
+import TopMainStoriesSkeleton from "./TopMainStoriesSkeleton";
 import TopOtherStories from "./TopOtherStories";
 import { useLatestStories } from "@/hooks/useLatestStories";
 
 const TopMainStories = () => {
-  const { data: article } = useLatestStories();
+  const { data: article, isLoading } = useLatestStories();
+
+  if (isLoading) return <TopMainStoriesSkeleton />;
 
   return (
     <div className="grid lg:grid-cols-6 md:grid-cols-4 gap-8">

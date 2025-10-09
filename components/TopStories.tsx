@@ -8,9 +8,12 @@ import TopCategoryTechnology from "./TopCategoryTechnology";
 import TopCategoryInnovation from "./TopCategoryInnovation";
 import { useLatestStories } from "@/hooks/useLatestStories";
 import TopCategorySports from "./TopCategorySports";
+import TopStoriesSkeleton from "./TopStoriesSkeleton";
 
 const TopStories = () => {
-  const { data: articles } = useLatestStories();
+  const { data: articles, isLoading } = useLatestStories();
+
+  if (isLoading) return <TopStoriesSkeleton />;
 
   return (
     <div className="mt-10">
