@@ -5,8 +5,9 @@ import { GrInstagram } from "react-icons/gr";
 
 const Footer = () => {
   const date = new Date();
+
   return (
-    <div className="w-full p-14 bg-black text-white flex justify-center">
+    <footer className="w-full p-14 bg-black text-white flex justify-center">
       <div className="flex items-center w-[70rem]">
         <div className="mr-10 text-3xl">
           <span>NewsAfrika</span>
@@ -35,7 +36,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </div>
+    </footer>
   );
 };
 

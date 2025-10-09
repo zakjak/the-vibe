@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen overflow-scroll`}
       >
         <ThemeProvider
           attribute="class"
@@ -40,10 +40,12 @@ export default function RootLayout({
         >
           <AuthProvider>
             <Navbar />
-            <QueryClientProvider>{children}</QueryClientProvider>
-            <Footer />
+            <QueryClientProvider>
+              <main className="flex-1 min-h-screen">{children}</main>
+            </QueryClientProvider>
           </AuthProvider>
         </ThemeProvider>
+        <Footer />
       </body>
     </html>
   );

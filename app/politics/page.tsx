@@ -2,7 +2,7 @@ import AllPolitics from "@/components/AllPolitics";
 
 const PoliticsPage = () => {
   return (
-    <div>
+    <div className="mb-4">
       <AllPolitics />
     </div>
   );
