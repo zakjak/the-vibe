@@ -48,7 +48,7 @@ const AllSearch = () => {
       {articles && (
         <div className="">
           {articles?.map((article) => (
-            <div key={article?.id}>
+            <div key={article?.id} className="border-b pb-6 pt-4">
               <Card className="mt-2 flex gap-2 md:h-[11rem] h-[6rem]">
                 <Link
                   href={`/${article?.category}/${article?.id}/${
@@ -88,7 +88,9 @@ const AllSearch = () => {
             </div>
           ))}
           <div className="mt-8">
-            <PaginationComponent pageNumber={data?.pageNumber} query={q} />
+            {data?.pageNumber > 1 && (
+              <PaginationComponent pageNumber={data?.pageNumber} query={q} />
+            )}
           </div>
         </div>
       )}

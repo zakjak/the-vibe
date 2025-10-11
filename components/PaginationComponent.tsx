@@ -3,7 +3,6 @@ import {
   PaginationContent,
   PaginationEllipsis,
   PaginationItem,
-  PaginationLink,
 } from "@/components/ui/pagination";
 import { useState } from "react";
 import { getPaginationRange } from "@/lib/utils/helpers";
@@ -25,6 +24,10 @@ const PaginationComponent = ({
   };
 
   const paginationRange = getPaginationRange(currentPage, pageNumber);
+
+  console.log("page number", pageNumber);
+
+  console.log(paginationRange);
 
   return (
     <Pagination>
