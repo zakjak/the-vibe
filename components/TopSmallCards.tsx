@@ -1,20 +1,12 @@
 import { Card } from "@/components/ui/card";
+import { Article } from "@/lib/types/article";
 import { calculateTime } from "@/lib/utils/helpers";
 import { Separator } from "@radix-ui/react-separator";
 import { Clock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-interface ItemProps {
-  id: string;
-  title: string;
-  category: string;
-  date: string;
-  image: string;
-  story: string;
-}
-
-const TopSmallCards = ({ item }: { item: ItemProps }) => {
+const TopSmallCards = ({ item }: { item: Article }) => {
   return (
     <Card className="flex items-center gap-4">
       <Link

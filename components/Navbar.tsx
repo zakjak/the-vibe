@@ -9,9 +9,13 @@ import NavbarLargeLinks from "./NavbarLargeLinks";
 import SearchInput from "./SearchInput";
 import NavbarSmallLinks from "./NavbarSmallLinks";
 import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const Navbar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const searchParams = useSearchParams();
+  const page = Number(searchParams.get("page")) || 1;
+  const router = useRouter();
 
   const navLinks = [
     {
@@ -48,6 +52,11 @@ const Navbar = () => {
     },
   ];
 
+  const handleSearch = (data: string) => {
+    const query = encodeURIComponent(data);
+    router.push(`/search?q=${query}&page=${page}`);
+  };
+
   return (
     <nav className="sticky top-0 dark:bg-black dark:shadow bg-white z-[999]">
       <section className="h-14 flex items-center shadow-md">
@@ -60,7 +69,7 @@ const Navbar = () => {
             </div>
             <Separator className="bg-gray-400 h-4 w-0.5 hidden lg:flex" />
             <div className="block lg:hidden w-full mx-2">
-              <SearchInput />
+              <SearchInput onSearch={handleSearch} />
             </div>
             <NavbarLargeLinks navLinks={navLinks} />
           </div>
@@ -79,7 +88,7 @@ const Navbar = () => {
       </section>
       {isSearchOpen && (
         <section className="hidden lg:block w-[70%] mx-auto py-2">
-          <SearchInput />
+          <SearchInput onSearch={handleSearch} />
         </section>
       )}
     </nav>

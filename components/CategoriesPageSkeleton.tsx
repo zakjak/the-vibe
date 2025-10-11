@@ -1,14 +1,12 @@
 import { Skeleton } from "./ui/skeleton";
 
-const TopStoriesSkeleton = () => {
+const CategoriesPageSkeleton = () => {
   const stories = [1, 2, 3, 4, 5, 6];
-
   return (
-    <div className="mt-10">
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-y-6 gap-6 mt-2">
+    <div className="lg:w-[70rem] md:w-[40rem] w-[30rem] mx-auto">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 mx-12 mt-4 mb-6 gap-5">
         {stories.map((story) => (
           <div className="w-full" key={story}>
-            <Skeleton className="h-4 w-[100px]" />
             <div className="mt-2">
               <Skeleton className="w-full h-[15rem]" />
               <div className="mt-4">
@@ -25,4 +23,4 @@ const TopStoriesSkeleton = () => {
   );
 };
 
-export default TopStoriesSkeleton;
+export default CategoriesPageSkeleton;

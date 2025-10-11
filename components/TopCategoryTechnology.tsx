@@ -1,15 +1,16 @@
+import { Articles } from "@/lib/types/article";
 import ListTechnology from "./ListTechnology";
 import TopCategoryStory from "./TopCategoryStory";
 
-const TopCategoryTechnology = ({ technology }) => {
-  const otherStories = technology?.slice(1, 6);
+const TopCategoryTechnology = ({ articles }: Articles) => {
+  const otherStories = articles?.slice(1, 6);
   return (
     <div>
       <h2 className="text-lg tracking-wider">Technology</h2>
-      {technology && (
+      {articles && (
         <>
-          <TopCategoryStory topStory={technology[0]} />
-          <ListTechnology otherStories={otherStories} />
+          <TopCategoryStory topStory={articles[0]} />
+          <ListTechnology articles={otherStories} />
         </>
       )}
     </div>

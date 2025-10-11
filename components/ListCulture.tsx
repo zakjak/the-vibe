@@ -1,11 +1,12 @@
+import { Articles } from "@/lib/types/article";
 import { calculateTime } from "@/lib/utils/helpers";
 import { Separator } from "@radix-ui/react-separator";
 import Link from "next/link";
 
-const ListCulture = ({ otherStories }) => {
+const ListCulture = ({ articles }: Articles) => {
   return (
     <div>
-      {otherStories.map((story) => (
+      {articles.map((story) => (
         <div key={story.id} className="flex flex-col gap-2 mt-4">
           <Separator className="h-0.5 w-full bg-gray-300" />
           <Link

@@ -5,15 +5,16 @@ import Image from "next/image";
 import { Clock } from "lucide-react";
 import { Separator } from "@radix-ui/react-separator";
 import { calculateTime } from "@/lib/utils/helpers";
+import { Articles } from "@/lib/types/article";
 
-const RelatedArticles = ({ relatedArticles }) => {
+const RelatedArticles = ({ articles }: Articles) => {
   return (
     <div className="w-full col-span-3 md:col-span-1">
       <h2 className="text-xl font-bold leading-2 tracking-wide">
         Top Related Articles
       </h2>
       <div className="grid grid-cols-2 gap-2 md:gap- md:grid-cols-1">
-        {relatedArticles?.map((article) => (
+        {articles?.map((article) => (
           <Card key={article.id} className="mt-6">
             <div className="lg:w-32 lg:h-22 md:h-[15rem] h-[13rem]">
               <Link

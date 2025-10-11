@@ -9,8 +9,6 @@ import TopCategoryInnovation from "./TopCategoryInnovation";
 import { useLatestStories } from "@/hooks/useLatestStories";
 import TopCategorySports from "./TopCategorySports";
 import TopStoriesSkeleton from "./TopStoriesSkeleton";
-import { useEffect, useState } from "react";
-import { useInView } from "react-intersection-observer";
 
 const TopStories = () => {
   const { data: articles, isLoading } = useLatestStories();
@@ -23,14 +21,12 @@ const TopStories = () => {
         <>
           <h1 className="text-2xl font-bold">Top Stories</h1>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-y-6 gap-6 mt-2">
-            <TopCategoryPolitics politics={articles?.topPolitics} />
-            <TopCategoryEntertainment
-              entertainment={articles?.topEntertainment}
-            />
-            <TopCategoryBusiness business={articles?.topBusiness} />
-            <TopCategoryCulture culture={articles?.topCulture} />
-            <TopCategoryTechnology technology={articles?.topTechnology} />
-            <TopCategorySports sports={articles?.topSports} />
+            <TopCategoryPolitics articles={articles?.topPolitics} />
+            <TopCategoryEntertainment articles={articles?.topEntertainment} />
+            <TopCategoryBusiness articles={articles?.topBusiness} />
+            <TopCategoryCulture articles={articles?.topCulture} />
+            <TopCategoryTechnology articles={articles?.topTechnology} />
+            <TopCategorySports articles={articles?.topSports} />
           </div>
         </>
       )}

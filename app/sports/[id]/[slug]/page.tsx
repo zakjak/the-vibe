@@ -1,24 +1,27 @@
 import ArticleStory from "@/components/ArticleStory";
 import RelatedArticles from "@/components/RelatedArticles";
+import { Article } from "@/lib/types/article";
 
 const ArticlePage = async ({ params }: { params: Promise<{ id: number }> }) => {
   const { id } = await params;
-  const sport = await (
+  const technology: Article[] = await (
     await fetch(`http://localhost:3000/api/articles/article/${id}`)
   ).json();
 
   const relatedAritlces = await (
     await fetch(
-      `http://localhost:3000/api/articles/category/${sport[0]?.category}`
+      `http://localhost:3000/api/articles/category/${technology[0]?.category}`
     )
   ).json();
 
+  console.log(technology[0]?.author);
+
   return (
-    <div className="grid grid-cols-3 p-10 gap-10">
+    <div className="grid md:grid-cols-3 p-10 gap-8">
       {/* Left Section */}
-      <ArticleStory sport={sport} />
+      <ArticleStory article={technology[0]} />
       {/* Right Section */}
-      <RelatedArticles relatedArticles={relatedAritlces} />
+      <RelatedArticles articles={relatedAritlces} />
     </div>
   );
 };

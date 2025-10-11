@@ -3,8 +3,9 @@ import { Card } from "./ui/card";
 import { Separator } from "@radix-ui/react-separator";
 import Link from "next/link";
 import { calculateTime } from "@/lib/utils/helpers";
+import { Article } from "@/lib/types/article";
 
-const TopCategoryStory = ({ topStory }) => {
+const TopCategoryStory = ({ topStory }: { topStory: Article }) => {
   return (
     <Card className="mt-2">
       <Link

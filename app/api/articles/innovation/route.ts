@@ -12,12 +12,12 @@ export async function GET(req: Request) {
     const countRows = await db
       .select({ count: count() })
       .from(articles)
-      .where(eq(articles.category, "business"));
+      .where(eq(articles.category, "innovation"));
     const pageNumber = Math.ceil(countRows[0].count / 10);
     const response = await db
       .select()
       .from(articles)
-      .where(eq(articles.category, "business"))
+      .where(eq(articles.category, "innovation"))
       .limit(10)
       .offset(calculatePageNumber);
 

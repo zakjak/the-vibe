@@ -6,9 +6,17 @@ import {
   PaginationLink,
 } from "@/components/ui/pagination";
 import { useState } from "react";
+import { getPaginationRange } from "@/lib/utils/helpers";
 import { Button } from "./ui/button";
+import Link from "next/link";
 
-const PaginationComponent = ({ pageNumber }: { pageNumber: number }) => {
+const PaginationComponent = ({
+  pageNumber,
+  query,
+}: {
+  pageNumber: number;
+  query?: string;
+}) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const handlePageClick = (page: number) => {
@@ -16,60 +24,34 @@ const PaginationComponent = ({ pageNumber }: { pageNumber: number }) => {
     setCurrentPage(page);
   };
 
-  const getPageNumbers = () => {
-    if (pageNumber <= 5) {
-      return Array.from({ length: pageNumber }, (_, i) => i + 1);
-    }
-
-    if (currentPage <= 3) {
-      return [1, 2, 3, "...", pageNumber];
-    }
-
-    if (currentPage >= pageNumber - 2) {
-      return [1, "...", pageNumber - 1, pageNumber - 1, pageNumber];
-    }
-
-    return [
-      1,
-      "...",
-      pageNumber - 1,
-      currentPage,
-      currentPage + 1,
-      "...",
-      pageNumber,
-    ];
-  };
+  const paginationRange = getPaginationRange(currentPage, pageNumber);
 
   return (
     <Pagination>
-      {pageNumber !== 1 && (
-        <PaginationContent>
-          {getPageNumbers().map((page, idx) =>
-            page === "..." ? (
-              <span key={idx} className="px-2 text-gray-400">
+      <PaginationContent>
+        <PaginationItem className="flex gap-3">
+          {paginationRange.map((p, i) =>
+            p === "..." ? (
+              <span key={i} className="font-semibold">
                 ...
               </span>
             ) : (
-              <PaginationItem key={idx}>
-                <PaginationLink
-                  href={`/politics?page=${currentPage + 1}`}
-                  isActive={currentPage === idx + 1}
+              <div key={i} className="">
+                <Link
+                  onClick={() => handlePageClick(p as number)}
+                  href={
+                    // query
+                    `/search?q=${query}&page=${p}`
+                    // : `/politics?page=${currentPage + 1}`
+                  }
                 >
-                  <Button
-                    onClick={() => handlePageClick(page as number)}
-                    disabled={currentPage === 1}
-                  >
-                    {page}
-                  </Button>
-                </PaginationLink>
-              </PaginationItem>
+                  <Button disabled={p === "..."}>{p}</Button>
+                </Link>
+              </div>
             )
           )}
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-        </PaginationContent>
-      )}
+        </PaginationItem>
+      </PaginationContent>
     </Pagination>
   );
 };
