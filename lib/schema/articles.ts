@@ -1,5 +1,5 @@
 import { pgTable as table } from "drizzle-orm/pg-core";
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import * as t from "drizzle-orm/pg-core";
 import { users } from "./schema";
 
@@ -22,6 +22,7 @@ export const articles = table(
       .array()
       .default(sql`'{}'::text[]`),
     author: t.varchar({ length: 250 }),
+    views: t.integer().default(0),
     ownerId: t.text("owner_id").references(() => users.id),
   },
   (table) => [
@@ -36,6 +37,25 @@ export const articles = table(
     ),
   ]
 );
+
+export const readList = table("readlist", {
+  id: t.serial("id").primaryKey(),
+  ownerId: t.text("owner_id").references(() => users.id),
+  articleId: t.integer("articleId").references(() => articles.id, {
+    onDelete: "cascade",
+  }),
+});
+
+export const articlesRelations = relations(articles, ({ many }) => ({
+  readLists: many(readList),
+}));
+
+export const readListRelations = relations(readList, ({ one }) => ({
+  article: one(articles, {
+    fields: [readList.articleId],
+    references: [articles.id],
+  }),
+}));
 
 export const comments = table("comments", {
   id: t.integer().primaryKey().generatedAlwaysAsIdentity(),

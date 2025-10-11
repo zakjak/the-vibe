@@ -1,3 +1,4 @@
+"use client";
 import { calculateTime } from "@/lib/utils/helpers";
 import { Separator } from "@radix-ui/react-separator";
 import Image from "next/image";
@@ -16,7 +17,7 @@ const ArticleStory = ({ article }: { article: Article }) => {
         <div className="flex items-center gap-1 mb-4">
           <span>{article?.category}</span>
           <Separator className="bg-gray-400 h-4 w-0.5" />
-          <span>{calculateTime(article.date)}</span>
+          <span>{calculateTime(article?.date)}</span>
         </div>
         <Image
           src={article?.image}
