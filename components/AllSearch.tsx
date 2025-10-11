@@ -24,24 +24,20 @@ const AllSearch = () => {
   const totalArticles = (page: number) => {
     if (page * 10 < data?.countRows[0]?.count) {
       if (page <= 1) {
-        return `Displaying ${page}-${page * 10} results out of{" "}
+        return `Displaying ${page}-${page * 10} results out of ${" "}
                 ${data?.countRows[0]?.count} for ${q.replaceAll("+", " ")}`;
       } else {
         return `Displaying ${(page - 1) * 10 + 1}-${
           data?.countRows[0]?.count
-        } results out of{" "}
+        } results out of ${" "}
                 ${data?.countRows[0]?.count} for ${q.replaceAll("+", " ")}`;
       }
     } else {
       return `Displaying ${(page - 1) * 10 + 1}-${
         data?.countRows[0]?.count
-      } results out of{" "}
+      } results out of ${" "}
                 ${data?.countRows[0]?.count} for ${q.replaceAll("+", " ")}`;
     }
-
-    // else if (page * 10 > data?.countRows[0]?.count) {
-    //   return `page ${page} does not exist in the searched documents, try using the buttons for the page`;
-    // }
   };
 
   return (
