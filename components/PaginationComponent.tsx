@@ -40,9 +40,9 @@ const PaginationComponent = ({
                 <Link
                   onClick={() => handlePageClick(p as number)}
                   href={
-                    // query
-                    `/search?q=${query}&page=${p}`
-                    // : `/politics?page=${currentPage + 1}`
+                    query
+                      ? `/search?q=${query}&page=${p}`
+                      : `/politics?page=${p}`
                   }
                 >
                   <Button disabled={p === "..."}>{p}</Button>

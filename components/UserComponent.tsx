@@ -35,11 +35,12 @@ const UserComponent = () => {
               </Avatar>
             </PopoverTrigger>
             <PopoverContent className="z-[1000] mr-4">
-              <div className="flex flex-col">
+              <div className="flex flex-col gap-2">
                 <Link
                   href={`/profile/${session?.user?.id}/${slugify(
                     session?.user?.name as string
                   )}`}
+                  className="bg-blue-500 text-gray-100 hover:bg-blue-400 p-1 font-semibold rounded-sm"
                 >
                   Profile
                 </Link>
