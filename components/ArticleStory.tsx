@@ -9,7 +9,6 @@ import { plateToHtml } from "@/lib/utils/plateToHtml";
 import { Article } from "@/lib/types/article";
 import { useSavedArticle, useToggleBookmark } from "@/hooks/useBookmarks";
 import { useSession } from "next-auth/react";
-import { useEffect } from "react";
 
 type SavedArticleProp = {
   id: number;

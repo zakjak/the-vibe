@@ -1,6 +1,6 @@
 import { readList } from "@/lib/schema/articles";
 import { db } from "@/lib/schema/schema";
-import { eq } from "drizzle-orm";
+import { eq, exists } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -33,12 +33,14 @@ export async function PUT(
   const { id } = await params;
   const res = await req.json();
 
-  const exists = await db
-    .select({ exists: readList.articleId })
+  const result = await db
+    .select({ count: readList.id })
     .from(readList)
-    .where(eq(readList.ownerId, res.ownerId));
+    .where(eq(readList.articleId, id));
 
-  if (!exists.length) {
+  const exists = (result[0]?.count ?? 0) > 0;
+
+  if (!exists) {
     const response = await db
       .insert(readList)
       .values({ ownerId: res.ownerId, articleId: id })
