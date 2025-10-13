@@ -4,7 +4,7 @@ import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
 
 const fetchSavedArticle = async (id: number) => {
   const res = await fetch(
-    `http://localhost:3000/api/articles/article/${id}/saved-articles`
+    `http://localhost:3000/api/articles/article/saved-articles/${id}`
   );
   if (!res) {
     throw new Error("Network response was not ok");
@@ -28,7 +28,7 @@ const toggleReadList = async ({
   articleId: number;
 }) => {
   const res = await fetch(
-    `http://localhost:3000/api/articles/article/${articleId}/saved-articles`,
+    `http://localhost:3000/api/articles/article/saved-articles/${articleId}`,
     {
       method: "PUT",
       headers: { "Content-Type": "application/json" },

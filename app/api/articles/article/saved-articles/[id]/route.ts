@@ -52,6 +52,4 @@ export async function PUT(
       .where(eq(readList.articleId, id));
     return NextResponse.json(response);
   }
-
-  //   await db.select()
 }

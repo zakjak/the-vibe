@@ -5,7 +5,6 @@ const ProfilePage = () => {
   return (
     <div>
       <ProfileAbout />
-      <SavedArticles />
     </div>
   );
 };
