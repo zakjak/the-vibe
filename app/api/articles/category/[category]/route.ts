@@ -7,7 +7,7 @@ export async function GET(
   req: Request,
   { params }: { params: { category: string } }
 ) {
-  const category = params.category;
+  const { category } = await params;
 
   try {
     const response = await db

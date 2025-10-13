@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/theme-provider";
 import AuthProvider from "@/components/providers";
 import QueryClientProvider from "@/components/QueryClientProvider";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,7 +42,8 @@ export default function RootLayout({
           <AuthProvider>
             <Navbar />
             <QueryClientProvider>
-              <main className="gow">{children}</main>
+              {children}
+              <ReactQueryDevtools />
             </QueryClientProvider>
           </AuthProvider>
           <Footer />

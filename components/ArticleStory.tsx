@@ -3,16 +3,37 @@ import { calculateTime } from "@/lib/utils/helpers";
 import { Separator } from "@radix-ui/react-separator";
 import Image from "next/image";
 import { FaShareAlt } from "react-icons/fa";
-import { FaSave } from "react-icons/fa";
+import { FaBookmark } from "react-icons/fa";
+import { FaRegBookmark } from "react-icons/fa6";
 import { plateToHtml } from "@/lib/utils/plateToHtml";
 import { Article } from "@/lib/types/article";
+import { useSavedArticle, useToggleBookmark } from "@/hooks/useBookmarks";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
+
+type SavedArticleProp = {
+  id: number;
+  ownerId: string;
+  articleId: number;
+};
 
 const ArticleStory = ({ article }: { article: Article }) => {
-  // const html = plateToHtml(JSON.parse(article.story));
+  const { data: session } = useSession();
+
+  const { data: savedArticle, isSuccess } = useSavedArticle(article?.id);
+  const { mutate, data } = useToggleBookmark(session?.user?.id as string);
+
+  const isSaving =
+    data?.some((item) => item.ownerId === session?.user?.id) ?? false;
+
+  const isSavedData =
+    savedArticle?.some((item) => item.ownerId === session?.user?.id) ?? false;
+
+  console.log(isSaving);
 
   return (
-    <div className="col-span-2 lg:w-[40rem] md:w-[29rem]">
-      <div>
+    <div className="lg:col-span-4 md:col-span-3">
+      <div className="">
         <h1>{article?.title}</h1>
         <div className="flex items-center gap-1 mb-4">
           <span>{article?.category}</span>
@@ -36,13 +57,17 @@ const ArticleStory = ({ article }: { article: Article }) => {
           <span className="flex items-center gap-1">
             Share: <FaShareAlt />
           </span>
-          <span className="flex items-center gap-1">
-            Save: <FaSave />
+          <span
+            onClick={() => mutate(article?.id)}
+            className="flex items-center gap-1 cursor-pointer"
+          >
+            Saved:
+            {isSavedData | isSaving ? <FaBookmark /> : <FaRegBookmark />}
           </span>
         </div>
       </div>
       <div className="pt-6">
-        {/* <article>{article[0].story}</article> */}
+        <article>{article?.story}</article>
         <div
           className="prose max-w-none"
           // dangerouslySetInnerHTML={{ __html: html }}

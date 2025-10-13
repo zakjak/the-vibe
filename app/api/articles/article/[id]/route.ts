@@ -7,23 +7,23 @@ export async function GET(
   req: Request,
   { params }: { params: { id: number } }
 ) {
-  const id = params.id;
+  const param = await params;
+  const { id } = param;
 
   try {
-    // if (id) {
-    const article = await db.select().from(articles).where(eq(articles.id, id));
+    if (id) {
+      const article = await db
+        .select()
+        .from(articles)
+        .where(eq(articles.id, id));
 
-    if (!article.length) {
-      return NextResponse.json(
-        { message: "Article not found" },
-        { status: 404 }
-      );
+      return NextResponse.json(article);
+    } else {
+      return NextResponse.json("Article does not exist", { status: 404 });
     }
-    return NextResponse.json(article);
-    // }
   } catch (err) {
     console.log("Error fetching articles:", err);
-    Response.json({ error: "Failed fetching articles" });
+    return Response.json({ error: "Failed fetching articles" });
   }
 }
 
@@ -31,7 +31,7 @@ export async function POST(
   req: Request,
   { params }: { params: { id: number } }
 ) {
-  const id = params.id;
+  const { id } = await params;
 
   try {
     await db

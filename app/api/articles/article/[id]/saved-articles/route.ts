@@ -1,0 +1,55 @@
+import { readList } from "@/lib/schema/articles";
+import { db } from "@/lib/schema/schema";
+import { eq } from "drizzle-orm";
+import { NextResponse } from "next/server";
+
+export async function GET(
+  req: Request,
+  { params }: { params: { id: number } }
+) {
+  const param = await params;
+  const { id } = param;
+  try {
+    if (id) {
+      const savedArticle = await db
+        .select()
+        .from(readList)
+        .where(eq(readList.articleId, id));
+
+      return NextResponse.json(savedArticle);
+    } else {
+      return NextResponse.json("Article does not exist", { status: 404 });
+    }
+  } catch (err) {
+    console.log("Error fetching articles:", err);
+    return Response.json({ error: "Failed fetching articles" });
+  }
+}
+
+export async function PUT(
+  req: Request,
+  { params }: { params: { id: number } }
+) {
+  const { id } = await params;
+  const res = await req.json();
+
+  const exists = await db
+    .select({ exists: readList.articleId })
+    .from(readList)
+    .where(eq(readList.ownerId, res.ownerId));
+
+  if (!exists.length) {
+    const response = await db
+      .insert(readList)
+      .values({ ownerId: res.ownerId, articleId: id })
+      .returning({ ownerId: readList.ownerId });
+    return NextResponse.json(response);
+  } else {
+    const response = await db
+      .delete(readList)
+      .where(eq(readList.articleId, id));
+    return NextResponse.json(response);
+  }
+
+  //   await db.select()
+}

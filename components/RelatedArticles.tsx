@@ -9,19 +9,19 @@ import { Articles } from "@/lib/types/article";
 
 const RelatedArticles = ({ articles }: Articles) => {
   return (
-    <div className="w-full col-span-3 md:col-span-1">
-      <h2 className="text-xl font-bold leading-2 tracking-wide">
+    <div className="md:col-span-2 col-span-3">
+      <h2 className="text-xl font-bold leading-2 tracking-wide ">
         Top Related Articles
       </h2>
-      <div className="grid grid-cols-2 gap-2 md:gap- md:grid-cols-1">
+      <div className="grid gap-3 grid-cols-2 md:grid-cols-1">
         {articles?.map((article) => (
           <Card key={article.id} className="mt-6">
-            <div className="lg:w-32 lg:h-22 md:h-[15rem] h-[13rem]">
+            <div className=" ">
               <Link
                 href={`/${article.category}/${
                   article.id
                 }/${article.title.replaceAll(" ", "-")}`}
-                className=""
+                className="w-full"
               >
                 <Image
                   src={article.image}

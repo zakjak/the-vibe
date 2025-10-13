@@ -6,17 +6,16 @@ import RelatedArticles from "./RelatedArticles";
 
 const ArticleComponent = ({ id }: { id: number }) => {
   const { data: article } = useArticle(id);
-  console.log(article);
   const { data: relatedArticles } = useRelatedArticles(
-    article && article[0].category
+    article && article[0]?.category
   );
 
   return (
-    <div className="grid md:grid-cols-3 p-10 gap-8">
+    <div className="grid lg:gap-6 gap-4 lg:grid-cols-6 md:grid-cols-5 mx-auto max-w-[80%]">
       {/* Left Section */}
       {article && <ArticleStory article={article[0]} />}
       {/* Right Section */}
-      <RelatedArticles articles={relatedArticles} />
+      {article && <RelatedArticles articles={relatedArticles} />}
     </div>
   );
 };
