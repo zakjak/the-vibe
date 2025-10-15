@@ -10,16 +10,20 @@ export async function GET(
   const param = await params;
   const { id } = param;
 
+  // console.log(id);
+
   try {
     if (id) {
       const article = await db
         .select()
         .from(articles)
         .where(eq(articles.id, id));
-
       return NextResponse.json(article);
     } else {
-      return NextResponse.json("Article does not exist", { status: 404 });
+      return NextResponse.json(
+        { error: "Article does not exists" },
+        { status: 404 }
+      );
     }
   } catch (err) {
     console.log("Error fetching articles:", err);

@@ -28,7 +28,8 @@ const ArticleStory = ({ article }: { article: Article }) => {
   const isSavedData =
     savedArticle?.some((item) => item.ownerId === session?.user?.id) ?? false;
 
-  console.log(isSaving);
+  console.log("article", article);
+  console.log("saved-article", savedArticle);
 
   return (
     <div className="lg:col-span-4 md:col-span-3">
@@ -40,8 +41,8 @@ const ArticleStory = ({ article }: { article: Article }) => {
           <span>{calculateTime(article?.date)}</span>
         </div>
         <Image
-          src={article?.image}
-          alt={`${article?.title}`}
+          src={article?.image || ""}
+          alt={`${article?.title}` || "image"}
           className="w-full h-full object-cover rounded-2xl"
           width={250}
           height={250}

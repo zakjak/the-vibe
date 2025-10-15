@@ -9,24 +9,39 @@ import { calculateTime } from "@/lib/utils/helpers";
 import { Separator } from "@radix-ui/react-separator";
 import PaginationComponent from "./PaginationComponent";
 import TopCategoryStory from "./TopCategoryStory";
+import { InView, useInView } from "react-intersection-observer";
 
 const SavedArticlesComponent = ({ userId }: { userId: string }) => {
+  const { ref, inView, entry } = useInView({ threshold: 0 });
   const { data } = useSavedArticles(userId);
 
-  const { countRows, pageNumber, userSavedArticles: savedArticles } = data;
+  console.log(data);
+
+  //   const { countRows, pageNumber, userSavedArticles: savedArticles } = data;
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4">
-      {savedArticles?.map(({ articles }: { articles: Article }) => (
-        <TopCategoryStory key={articles.id} topStory={articles} />
-      ))}
-      <div className="mt-8">
+    <InView
+      as="div"
+      onChange={(inView, entry) => console.log("Inview", inView)}
+    >
+      <div
+        ref={ref}
+        className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4"
+      >
+        {/* {savedArticles?.map(({ articles }: { articles: Article }) => (
+          <TopCategoryStory key={articles.id} topStory={articles} />
+        ))} */}
+      </div>
+    </InView>
+  );
+};
+
+{
+  /* <div className="mt-8">
         {data?.pageNumber > 1 && (
           <PaginationComponent pageNumber={data?.pageNumber} />
         )}
-      </div>
-    </div>
-  );
-};
+      </div> */
+}
 
 export default SavedArticlesComponent;

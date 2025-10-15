@@ -13,7 +13,8 @@ const fetchArticle = async (id: number) => {
 export const useArticle = (id: number) => {
   return useQuery({
     queryKey: ["article", id],
-    queryFn: () => fetchArticle(id),
+    queryFn: () => fetchArticle(id!),
+    enabled: !!id,
     placeholderData: keepPreviousData,
   });
 };
@@ -30,7 +31,7 @@ const fetchRelatedArticle = async (category: string) => {
 
 export const useRelatedArticles = (category: string) => {
   return useQuery({
-    queryKey: ["relatedArticles", category],
+    queryKey: ["related-articles", category],
     queryFn: () => fetchRelatedArticle(category),
     placeholderData: keepPreviousData,
   });

@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, foreignKey, integer, unique, boolean, varchar } from "drizzle-orm/pg-core"
+import { pgTable, text, timestamp, foreignKey, integer, unique, boolean, serial, varchar } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
 
@@ -64,7 +64,26 @@ export const users = pgTable("users", {
 	name: text(),
 	email: text(),
 	emailVerified: timestamp({ mode: 'string' }),
+	isAdmin: boolean().default(false),
+	profilePicture: text(),
 });
+
+export const readlist = pgTable("readlist", {
+	id: serial().primaryKey().notNull(),
+	articleId: integer(),
+	ownerId: text("owner_id"),
+}, (table) => [
+	foreignKey({
+			columns: [table.articleId],
+			foreignColumns: [articles.id],
+			name: "readlist_articleId_articles_id_fk"
+		}).onDelete("cascade"),
+	foreignKey({
+			columns: [table.ownerId],
+			foreignColumns: [users.id],
+			name: "readlist_owner_id_users_id_fk"
+		}),
+]);
 
 export const articles = pgTable("articles", {
 	id: integer().primaryKey().generatedAlwaysAsIdentity({ name: "articles_id_seq", startWith: 1, increment: 1, minValue: 1, maxValue: 2147483647, cache: 1 }),
@@ -78,6 +97,7 @@ export const articles = pgTable("articles", {
 	images: text().array().default([""]),
 	author: varchar({ length: 250 }),
 	ownerId: text("owner_id"),
+	views: integer().default(0),
 }, (table) => [
 	foreignKey({
 			columns: [table.ownerId],
@@ -91,7 +111,13 @@ export const replies = pgTable("replies", {
 	reply: text(),
 	commentId: integer("comment_id"),
 	ownerId: integer("owner_id"),
-});
+}, (table) => [
+	foreignKey({
+			columns: [table.commentId],
+			foreignColumns: [comments.id],
+			name: "replies_comment_id_comments_id_fk"
+		}),
+]);
 
 export const comments = pgTable("comments", {
 	id: integer().primaryKey().generatedAlwaysAsIdentity({ name: "comments_id_seq", startWith: 1, increment: 1, minValue: 1, maxValue: 2147483647, cache: 1 }),

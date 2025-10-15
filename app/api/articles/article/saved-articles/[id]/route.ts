@@ -10,18 +10,13 @@ export async function GET(
   const param = await params;
   const { id } = param;
   try {
-    if (id) {
-      const savedArticle = await db
-        .select()
-        .from(readList)
-        .where(eq(readList.articleId, id));
+    const savedArticle = await db
+      .select()
+      .from(readList)
+      .where(eq(readList.articleId, id));
 
-      return NextResponse.json(savedArticle);
-    } else {
-      return NextResponse.json("Article does not exist", { status: 404 });
-    }
+    return NextResponse.json(savedArticle);
   } catch (err) {
-    console.log("Error fetching articles:", err);
     return Response.json({ error: "Failed fetching articles" });
   }
 }
