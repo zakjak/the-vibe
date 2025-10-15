@@ -28,9 +28,6 @@ const ArticleStory = ({ article }: { article: Article }) => {
   const isSavedData =
     savedArticle?.some((item) => item.ownerId === session?.user?.id) ?? false;
 
-  console.log("article", article);
-  console.log("saved-article", savedArticle);
-
   return (
     <div className="lg:col-span-4 md:col-span-3">
       <div className="">
