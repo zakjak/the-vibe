@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  keepPreviousData,
-  useInfiniteQuery,
-  useQuery,
-} from "@tanstack/react-query";
+import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
 
 const fetchSavedArticles = async ({
   id,
@@ -25,7 +21,11 @@ const fetchSavedArticles = async ({
 export const useSavedArticles = (id: string) => {
   return useInfiniteQuery({
     queryKey: ["user-saved-articles", id],
-    queryFn: fetchSavedArticles,
+    queryFn: ({ pageParam = 1, queryKey }) => {
+      const [, id] = queryKey;
+      return fetchSavedArticles({ id: id as string, pageParam });
+    },
+    enabled: !!id,
     initialPageParam: 1,
     getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
     getPreviousPageParam: (firsPage, pages) => firsPage.prevCursor,

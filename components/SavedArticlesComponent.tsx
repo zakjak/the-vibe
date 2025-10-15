@@ -13,10 +13,9 @@ import { InView, useInView } from "react-intersection-observer";
 
 const SavedArticlesComponent = ({ userId }: { userId: string }) => {
   const { ref, inView, entry } = useInView({ threshold: 0 });
-  const { data } = useSavedArticles(userId);
+  const { data, fetchNextPage, hasNextPage } = useSavedArticles(userId);
 
-  console.log(data);
-
+  const { userSavedArticles: savedArticles } = data?.pages[0] ?? [];
   //   const { countRows, pageNumber, userSavedArticles: savedArticles } = data;
 
   return (
@@ -28,9 +27,9 @@ const SavedArticlesComponent = ({ userId }: { userId: string }) => {
         ref={ref}
         className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4"
       >
-        {/* {savedArticles?.map(({ articles }: { articles: Article }) => (
+        {savedArticles?.map(({ articles }: { articles: Article }) => (
           <TopCategoryStory key={articles.id} topStory={articles} />
-        ))} */}
+        ))}
       </div>
     </InView>
   );
