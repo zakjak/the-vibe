@@ -9,21 +9,23 @@ import { plateToHtml } from "@/lib/utils/plateToHtml";
 import { Article } from "@/lib/types/article";
 import { useSavedArticle, useToggleBookmark } from "@/hooks/useBookmarks";
 import { useSession } from "next-auth/react";
-
-type SavedArticleProp = {
-  id: number;
-  ownerId: string;
-  articleId: number;
-};
+import ArticleComponentSkeleton from "./ArticleComponentSkeleton";
+import CategoriesPageSkeleton from "./CategoriesPageSkeleton";
 
 const ArticleStory = ({ article }: { article: Article }) => {
   const { data: session } = useSession();
 
-  const { data: savedArticle, isSuccess } = useSavedArticle(article?.id);
-  const { mutate, data } = useToggleBookmark(session?.user?.id as string);
+  const {
+    data: savedArticle,
+    isSuccess,
+    isLoading,
+  } = useSavedArticle(article?.id);
+  const { mutate, data: toggleMark } = useToggleBookmark(
+    session?.user?.id as string
+  );
 
   const isSaving =
-    data?.some((item) => item.ownerId === session?.user?.id) ?? false;
+    toggleMark?.some((item) => item.ownerId === session?.user?.id) ?? false;
 
   const isSavedData =
     savedArticle?.some((item) => item.ownerId === session?.user?.id) ?? false;
@@ -58,18 +60,13 @@ const ArticleStory = ({ article }: { article: Article }) => {
             onClick={() => mutate(article?.id)}
             className="flex items-center gap-1 cursor-pointer"
           >
-            Saved:
-            {isSavedData | isSaving ? <FaBookmark /> : <FaRegBookmark />}
+            {isSavedData || isSaving ? "Saved:" : "Save:"}
+            {isSavedData || isSaving ? <FaBookmark /> : <FaRegBookmark />}
           </span>
         </div>
       </div>
-      <div className="pt-6">
-        <article>{article?.story}</article>
-        <div
-          className="prose max-w-none"
-          // dangerouslySetInnerHTML={{ __html: html }}
-        />
-        <p>{article?.story}</p>
+      <div className="prose mx-auto">
+        {plateToHtml(JSON.parse(article?.story), article?.images)}
       </div>
     </div>
   );

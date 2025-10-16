@@ -25,8 +25,10 @@ const AllTechnology = () => {
             <TopCategoryStory key={story.id} topStory={story} />
           ))}
       </div>
-      <div>
-        <PaginationComponent pageNumber={technology?.pageNumber} />
+      <div className="mt-8">
+        {technology?.pageNumber > 1 && (
+          <PaginationComponent pageNumber={technology?.pageNumber} />
+        )}
       </div>
     </div>
   );

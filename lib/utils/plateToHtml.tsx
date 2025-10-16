@@ -1,4 +1,5 @@
-import React, { JSX } from "react";
+import Image from "next/image";
+import React from "react";
 
 type SlateNode = {
   type?: string;
@@ -14,43 +15,95 @@ type SlateNode = {
   lineHeight?: string;
 };
 
-export const plateToHtml = (nodes: SlateNode[]): string => {
-  return nodes
-    .map((node) => {
-      if (node.text !== undefined) {
-        let text = node.text;
-        if (node.bold) text = `<strong>${text}</strong>`;
-        if (node.italic) text = `<em>${text}</em>`;
-        if (node.underline) text = `<u>${text}</u>`;
-        return text;
-      }
+export const plateToHtml = (nodes: SlateNode[], images?: string[]) => {
+  const components: React.ReactNode[] = [];
+  let paragraphCount = 0;
+  let imageIndex = 0;
 
-      const children = plateToHtml(node.children || []);
+  nodes.forEach((node, index) => {
+    if (node.text !== undefined) {
+      let text: React.ReactNode = node.text;
+      if (node.bold) text = <strong>{text}</strong>;
+      if (node.italic) text = <em>{text}</em>;
+      if (node.underline) text = <u>{text}</u>;
+      components.push(
+        <React.Fragment key={`text-${index}`}>{text}</React.Fragment>
+      );
+      return;
+    }
 
-      switch (node.type) {
-        case "p":
-          return `<p style="line-height:${
-            node.lineHeight || "normal"
-          }; text-align:${
-            node.align || "start"
-          }; margin-top: 0.6rem">${children}</p>`;
-        case "blockquote":
-          return `<blockquote style="font-family:${
-            node.fontFamily || "inherit"
-          }; font-size:${node.fontSize || "inherit"}; color:${
-            node.color || "inherit"
-          };">${children}</blockquote>`;
-        case "h1":
-          return `<h1>${children}</h1>`;
-        case "h2":
-          return `<h2>${children}</h2>`;
-        case "ul":
-          return `<ul>${children}</ul>`;
-        case "li":
-          return `<li>${children}</li>`;
-        default:
-          return children;
-      }
-    })
-    .join("");
+    const children = plateToHtml(node.children || [], images);
+
+    switch (node.type) {
+      case "p":
+        paragraphCount++;
+        components.push(
+          <p
+            key={`p-${index}`}
+            style={{
+              lineHeight: node.lineHeight || "normal",
+              textAlign: node.align || "start",
+              marginTop: "0.6rem",
+            }}
+          >
+            {children}
+          </p>
+        );
+
+        // 🖼️ Add an image after every 2nd paragraph
+        if (paragraphCount % 2 === 0 && imageIndex < images.length) {
+          components.push(
+            <div
+              key={`img-${imageIndex}`}
+              className="relative w-full max-w-3xl mx-auto my-6"
+            >
+              <Image
+                src={images[imageIndex]}
+                alt={`Article image ${imageIndex + 1}`}
+                width={800}
+                height={500}
+                className="rounded-lg object-cover"
+              />
+            </div>
+          );
+          imageIndex++;
+        }
+        break;
+
+      case "blockquote":
+        components.push(
+          <blockquote
+            key={`bq-${index}`}
+            style={{
+              fontFamily: node.fontFamily || "inherit",
+              fontSize: node.fontSize || "inherit",
+              color: node.color || "inherit",
+            }}
+          >
+            {children}
+          </blockquote>
+        );
+        break;
+
+      case "h1":
+        components.push(<h1 key={`h1-${index}`}>{children}</h1>);
+        break;
+      case "h2":
+        components.push(<h2 key={`h2-${index}`}>{children}</h2>);
+        break;
+      case "ul":
+        components.push(<ul key={`ul-${index}`}>{children}</ul>);
+        break;
+      case "li":
+        components.push(<li key={`li-${index}`}>{children}</li>);
+        break;
+      default:
+        components.push(
+          <React.Fragment key={`frag-${index}`}>{children}</React.Fragment>
+        );
+        break;
+    }
+  });
+
+  return components;
 };

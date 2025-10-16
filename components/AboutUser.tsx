@@ -112,7 +112,6 @@ const AboutUser = ({ session }: { session: Session }) => {
         </h1>
       </div>
       <div className="mt-2 gap-2 flex">
-        <Button variant="outline">Saved Articles</Button>
         {session?.user?.isAdmin && <ArticleForm userInfo={session} />}
       </div>
     </>

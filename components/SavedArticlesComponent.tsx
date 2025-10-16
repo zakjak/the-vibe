@@ -7,7 +7,7 @@ import CategoriesPageSkeleton from "./CategoriesPageSkeleton";
 
 const SavedArticlesComponent = ({ userId }: { userId: string }) => {
   const { ref, inView, entry } = useInView({ threshold: 0 });
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useSavedArticles(userId);
 
   const { userSavedArticles: savedArticles } = data?.pages[0] ?? [];
@@ -17,6 +17,8 @@ const SavedArticlesComponent = ({ userId }: { userId: string }) => {
       fetchNextPage();
     }
   }, [inView, hasNextPage, fetchNextPage]);
+
+  if (isLoading) return <CategoriesPageSkeleton />;
 
   return (
     <div>

@@ -24,8 +24,10 @@ const AllEntertainment = () => {
           <TopCategoryStory key={story.id} topStory={story} />
         ))}
       </div>
-      <div>
-        <PaginationComponent pageNumber={entertainment?.pageNumber} />
+      <div className="mt-8">
+        {entertainment?.pageNumber > 1 && (
+          <PaginationComponent pageNumber={entertainment?.pageNumber} />
+        )}
       </div>
     </div>
   );

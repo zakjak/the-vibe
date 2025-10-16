@@ -2,7 +2,17 @@
 
 import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
 
-const fetchSavedArticle = async (id: number) => {
+export type SavedArticleProp = {
+  id: number;
+  ownerId: string;
+  articleId: number;
+};
+
+type SavedOwner = {
+  ownerId: string;
+};
+
+const fetchSavedArticle = async (id: number): Promise<SavedArticle[]> => {
   const res = await fetch(
     `http://localhost:3000/api/articles/article/saved-articles/${id}`
   );
@@ -13,7 +23,7 @@ const fetchSavedArticle = async (id: number) => {
 };
 
 export const useSavedArticle = (articleId: number) => {
-  return useQuery({
+  return useQuery<SavedArticleProp[]>({
     queryKey: ["saved_article", articleId],
     queryFn: () => fetchSavedArticle(articleId),
     placeholderData: keepPreviousData,
@@ -26,7 +36,7 @@ const toggleReadList = async ({
 }: {
   ownerId: string;
   articleId: number;
-}) => {
+}): Promise<SavedOwner[]> => {
   const res = await fetch(
     `http://localhost:3000/api/articles/article/saved-articles/${articleId}`,
     {

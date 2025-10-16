@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen m-0`}
       >
         <ThemeProvider
           attribute="class"
@@ -42,12 +42,12 @@ export default function RootLayout({
           <AuthProvider>
             <Navbar />
             <QueryClientProvider>
-              {children}
+              <main className="grow">{children}</main>
               <ReactQueryDevtools />
             </QueryClientProvider>
           </AuthProvider>
-          <Footer />
         </ThemeProvider>
+        <Footer />
       </body>
     </html>
   );

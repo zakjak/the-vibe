@@ -11,9 +11,9 @@ const AllBusiness = () => {
   const searchParams = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
 
-  const { data: politics, isLoading } = useBusiness(page);
+  const { data: business, isLoading } = useBusiness(page);
 
-  const articles: Article[] = politics?.response;
+  const articles: Article[] = business?.response;
 
   if (isLoading) return <CategoriesPageSkeleton />;
 
@@ -24,8 +24,10 @@ const AllBusiness = () => {
           <TopCategoryStory key={story.id} topStory={story} />
         ))}
       </div>
-      <div>
-        <PaginationComponent pageNumber={politics?.pageNumber} />
+      <div className="mt-8">
+        {business?.pageNumber > 1 && (
+          <PaginationComponent pageNumber={business?.pageNumber} />
+        )}
       </div>
     </div>
   );

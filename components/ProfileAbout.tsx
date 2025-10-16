@@ -2,7 +2,6 @@
 
 import { useSession } from "next-auth/react";
 import AboutUser from "./AboutUser";
-import SavedArticlesComponent from "./SavedArticlesComponent";
 import SavedArticles from "./SavedArticles";
 
 const ProfileAbout = () => {

@@ -226,8 +226,6 @@ const ArticleForm = ({
 
       const result = await responseArticle.json();
 
-      console.log(result);
-
       form.reset({
         title: "",
         imageCredit: "",
@@ -249,7 +247,7 @@ const ArticleForm = ({
       </DialogTrigger>
       <DialogContent
         aria-describedby={undefined}
-        className="overflow-y-scroll h-[40rem] w-[25rem]"
+        className="overflow-y-scroll h-[40rem] lg:w-[50rem] md:w-[40rem] w-[25rem] z-[999]"
       >
         <DialogHeader>
           <DialogTitle>Create article</DialogTitle>

@@ -23,8 +23,10 @@ const AllInnovation = () => {
           <TopCategoryStory key={story.id} topStory={story} />
         ))}
       </div>
-      <div>
-        <PaginationComponent pageNumber={innovation?.pageNumber} />
+      <div className="my-8">
+        {innovation?.pageNumber > 1 && (
+          <PaginationComponent pageNumber={innovation?.pageNumber} />
+        )}
       </div>
     </div>
   );
