@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { HiOutlinePencilAlt } from "react-icons/hi";
 import { Input } from "./ui/input";
+import { Session } from "@/lib/types/users";
 
 const formSchema = z.object({
   profilePicture: z.union([
@@ -17,7 +18,7 @@ const formSchema = z.object({
   ]),
 });
 
-const AboutUser = ({ session }) => {
+const AboutUser = ({ session }: { session: Session }) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -112,7 +113,7 @@ const AboutUser = ({ session }) => {
       </div>
       <div className="mt-2 gap-2 flex">
         <Button variant="outline">Saved Articles</Button>
-        <ArticleForm userInfo={session} />
+        {session?.user?.isAdmin && <ArticleForm userInfo={session} />}
       </div>
     </>
   );
