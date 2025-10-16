@@ -27,7 +27,8 @@ export const useSavedArticles = (id: string) => {
     },
     enabled: !!id,
     initialPageParam: 1,
-    getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
-    getPreviousPageParam: (firsPage, pages) => firsPage.prevCursor,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.nextPage ?? undefined;
+    },
   });
 };

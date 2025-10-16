@@ -17,6 +17,7 @@ const UserComponent = () => {
   const handleSignIn = async () => {
     await signIn("google");
   };
+  console.log(session);
 
   return (
     <div>

@@ -1,28 +1,25 @@
 import { useSavedArticles } from "@/hooks/useSavedArticles";
 import { Article } from "@/lib/types/article";
-import Image from "next/image";
-import React from "react";
-import { Card } from "./ui/card";
-import Link from "next/link";
-import { Clock } from "lucide-react";
-import { calculateTime } from "@/lib/utils/helpers";
-import { Separator } from "@radix-ui/react-separator";
-import PaginationComponent from "./PaginationComponent";
+import React, { useEffect } from "react";
 import TopCategoryStory from "./TopCategoryStory";
-import { InView, useInView } from "react-intersection-observer";
+import { useInView } from "react-intersection-observer";
+import CategoriesPageSkeleton from "./CategoriesPageSkeleton";
 
 const SavedArticlesComponent = ({ userId }: { userId: string }) => {
   const { ref, inView, entry } = useInView({ threshold: 0 });
-  const { data, fetchNextPage, hasNextPage } = useSavedArticles(userId);
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useSavedArticles(userId);
 
   const { userSavedArticles: savedArticles } = data?.pages[0] ?? [];
-  //   const { countRows, pageNumber, userSavedArticles: savedArticles } = data;
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
 
   return (
-    <InView
-      as="div"
-      onChange={(inView, entry) => console.log("Inview", inView)}
-    >
+    <div>
       <div
         ref={ref}
         className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4"
@@ -31,16 +28,20 @@ const SavedArticlesComponent = ({ userId }: { userId: string }) => {
           <TopCategoryStory key={articles.id} topStory={articles} />
         ))}
       </div>
-    </InView>
+      <div
+        ref={ref}
+        className="bg-red flex justify-center my-4 font-bold text-2xl"
+      >
+        {isFetchingNextPage ? (
+          <CategoriesPageSkeleton />
+        ) : hasNextPage ? (
+          "Scroll to load more"
+        ) : (
+          "No more articles"
+        )}
+      </div>
+    </div>
   );
 };
-
-{
-  /* <div className="mt-8">
-        {data?.pageNumber > 1 && (
-          <PaginationComponent pageNumber={data?.pageNumber} />
-        )}
-      </div> */
-}
 
 export default SavedArticlesComponent;
