@@ -34,6 +34,7 @@ import {
   SelectValue,
 } from "./ui/select";
 import Image from "next/image";
+import { User } from "@/lib/types/users";
 
 const formSchema = z.object({
   title: z
@@ -78,11 +79,7 @@ const EditorComponent = dynamic(
   }
 );
 
-const ArticleForm = ({
-  userInfo,
-}: {
-  userInfo: { userId: string; user: { name: string } };
-}) => {
+const ArticleForm = ({ user }: User) => {
   const [open, setOpen] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
   const inputTagRef = useRef<HTMLInputElement | null>(null);

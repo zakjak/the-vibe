@@ -9,11 +9,29 @@ import { plateToHtml } from "@/lib/utils/plateToHtml";
 import { Article } from "@/lib/types/article";
 import { useSavedArticle, useToggleBookmark } from "@/hooks/useBookmarks";
 import { useSession } from "next-auth/react";
-import ArticleComponentSkeleton from "./ArticleComponentSkeleton";
-import CategoriesPageSkeleton from "./CategoriesPageSkeleton";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Button } from "./ui/button";
+import { FaRegCopy, FaXTwitter } from "react-icons/fa6";
+import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
+import { useState } from "react";
+import { TiTick } from "react-icons/ti";
+import Link from "next/link";
 
 const ArticleStory = ({ article }: { article: Article }) => {
   const { data: session } = useSession();
+  const [copied, setCopied] = useState(false);
+
+  const articleUrl = `http://localhost:3000//${article?.category}/${
+    article?.id
+  }/${article?.title.replaceAll(" ", "-")}`;
+
+  const encodedTitle = encodeURIComponent(article?.title);
+
+  const shareLinks = {
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${articleUrl}`,
+    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${articleUrl}`,
+    twitter: `https://twitter.com/intent/tweet?url=${articleUrl}&text=${encodedTitle}`,
+  };
 
   const {
     data: savedArticle,
@@ -29,6 +47,16 @@ const ArticleStory = ({ article }: { article: Article }) => {
 
   const isSavedData =
     savedArticle?.some((item) => item.ownerId === session?.user?.id) ?? false;
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(articleUrl);
+      setCopied(true);
+    } catch (err) {
+      console.error("Failed to copy", err);
+      setCopied(false);
+    }
+  };
 
   return (
     <div className="lg:col-span-4 md:col-span-3">
@@ -53,9 +81,53 @@ const ArticleStory = ({ article }: { article: Article }) => {
           <h2>Author: {article?.author}</h2>
         </div>
         <div>
-          <span className="flex items-center gap-1">
-            Share: <FaShareAlt />
-          </span>
+          <Popover>
+            <PopoverTrigger asChild>
+              <span className="flex items-center gap-1 cursor-pointer">
+                <span className="hover:underline">Share:</span> <FaShareAlt />
+              </span>
+            </PopoverTrigger>
+            <PopoverContent className="flex flex-col gap-2">
+              <div className="">
+                {copied ? (
+                  <div className="flex items-center gap-1">
+                    <TiTick /> Copied
+                  </div>
+                ) : (
+                  <Button variant="link" onClick={copyToClipboard}>
+                    <FaRegCopy /> Copy
+                  </Button>
+                )}
+              </div>
+              <Link
+                className="flex items-center gap-1"
+                href={shareLinks.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Share on Facebook"
+              >
+                <FaFacebookF /> Facebook
+              </Link>
+              <Link
+                className="flex items-center gap-1"
+                href={shareLinks.twitter}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Share on X"
+              >
+                <FaXTwitter /> Twitter
+              </Link>
+              <Link
+                className="flex items-center gap-1"
+                href={shareLinks.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Share on LinkedIn"
+              >
+                <FaLinkedinIn /> LinkedIn
+              </Link>
+            </PopoverContent>
+          </Popover>
           <span
             onClick={() => mutate(article?.id)}
             className="flex items-center gap-1 cursor-pointer"
@@ -66,7 +138,7 @@ const ArticleStory = ({ article }: { article: Article }) => {
         </div>
       </div>
       <div className="prose mx-auto">
-        {plateToHtml(JSON.parse(article?.story), article?.images)}
+        {/* {plateToHtml(JSON.parse(article?.story), article?.images)} */}
       </div>
     </div>
   );

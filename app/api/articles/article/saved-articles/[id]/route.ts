@@ -1,6 +1,6 @@
 import { readList } from "@/lib/schema/articles";
 import { db } from "@/lib/schema/schema";
-import { eq, exists } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function GET(

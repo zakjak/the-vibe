@@ -1,18 +1,18 @@
-import { useSavedArticles } from "@/hooks/useSavedArticles";
-import { Article } from "@/lib/types/article";
-import React, { useEffect, useState } from "react";
+import { useCreatedArticles } from "@/hooks/useCreatedArticles";
 import TopCategoryStory from "./TopCategoryStory";
+import { Article } from "@/lib/types/article";
 import { useInView } from "react-intersection-observer";
+import { useEffect, useState } from "react";
 import CategoriesPageSkeleton from "./CategoriesPageSkeleton";
 
-const SavedArticlesComponent = ({ userId }: { userId: string }) => {
+const CreatedArticles = ({ ownerId }: { ownerId: string }) => {
   const [visiblePageCount, setVisiblePageCount] = useState(2);
   const { ref, inView, entry } = useInView({ threshold: 0 });
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    useSavedArticles(userId);
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    useCreatedArticles(ownerId);
 
-  const visiblePages = data?.pages?.slice(-visiblePageCount);
-  const savedArticles = visiblePages?.flat();
+  const visiblePages = data?.pages.slice(-visiblePageCount);
+  const createdArticles = visiblePages?.flat();
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
@@ -21,16 +21,11 @@ const SavedArticlesComponent = ({ userId }: { userId: string }) => {
     }
   }, [inView, hasNextPage, fetchNextPage, isFetchingNextPage]);
 
-  if (isLoading) return <CategoriesPageSkeleton />;
-
   return (
-    <div>
-      <div
-        ref={ref}
-        className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4"
-      >
-        {savedArticles?.map(({ articles }) => (
-          <TopCategoryStory key={articles?.id} topStory={articles} />
+    <div className="">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-3">
+        {createdArticles?.map((article) => (
+          <TopCategoryStory key={article?.id} topStory={article} />
         ))}
       </div>
       <div
@@ -51,4 +46,4 @@ const SavedArticlesComponent = ({ userId }: { userId: string }) => {
   );
 };
 
-export default SavedArticlesComponent;
+export default CreatedArticles;

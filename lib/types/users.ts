@@ -1,9 +1,11 @@
-type User = {
+export type User = {
   id: string;
-  email: string;
-  isAdmin: boolean;
-  name: string;
-  profilePicture: string;
+  email?: string;
+  name?: string;
+  image?: string | null;
+  isAdmin?: boolean;
+  profilePicture?: string;
+  emailVerified?: boolean;
 };
 
 export type Session = {

@@ -15,14 +15,6 @@ export async function GET(
     const page = Number(searchParams.get("page")) || 1;
     const calculatePageNumber = (page - 1) * 10;
 
-    const countRows = await db
-      .select({ count: count() })
-      .from(articles)
-      .innerJoin(readList, eq(readList.articleId, articles.id))
-      .where(eq(readList.ownerId, userId));
-
-    const pageNumber = Math.ceil(countRows[0].count / 10);
-
     const userSavedArticles = await db
       .select()
       .from(articles)
@@ -31,7 +23,7 @@ export async function GET(
       .limit(10)
       .offset(calculatePageNumber);
 
-    return NextResponse.json({ userSavedArticles, pageNumber, countRows });
+    return NextResponse.json(userSavedArticles);
   } catch (err) {
     return NextResponse.json(
       { error: "Error fetchong saved article" },

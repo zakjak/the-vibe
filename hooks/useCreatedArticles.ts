@@ -2,12 +2,12 @@
 
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-export const useSavedArticles = (id: string) => {
+export const useCreatedArticles = (id: string) => {
   return useInfiniteQuery({
-    queryKey: ["user-saved-articles", id],
+    queryKey: ["created-articles", id],
     queryFn: ({ pageParam }) =>
       fetch(
-        `http://localhost:3000/api/articles/article/saved-articles/user-articles/${id}?page=${pageParam}`
+        `http://localhost:3000/api/articles/article/saved-articles/created-articles/${id}?page=${pageParam}`
       ).then((res) => res.json()),
     enabled: !!id,
     initialPageParam: 1,

@@ -10,7 +10,8 @@ const Footer = () => {
     <footer className="w-full p-14 bg-black text-white flex justify-center">
       <div className="flex items-center w-[70rem]">
         <div className="mr-10 text-3xl">
-          <span>NewsAfrika</span>
+          <span className="hidden md:block">TheVybeNews</span>
+          <span className="block md:hidden">TheVybe</span>
         </div>
         <div className="flex flex-col items-center">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">

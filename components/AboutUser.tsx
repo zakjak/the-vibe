@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { nameFallback } from "@/lib/utils/helpers";
+import { nameFallback, slugify } from "@/lib/utils/helpers";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import ArticleForm from "./ArticleForm";
@@ -10,6 +10,7 @@ import { useState } from "react";
 import { HiOutlinePencilAlt } from "react-icons/hi";
 import { Input } from "./ui/input";
 import { Session } from "@/lib/types/users";
+import Link from "next/link";
 
 const formSchema = z.object({
   profilePicture: z.union([
@@ -36,6 +37,7 @@ const AboutUser = ({ session }: { session: Session }) => {
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     const formData = new FormData();
+
     if (file) {
       form.setValue("profilePicture", file, { shouldValidate: true });
       setImagePreview(URL.createObjectURL(file));
@@ -110,9 +112,6 @@ const AboutUser = ({ session }: { session: Session }) => {
         <h1 className="font-semibold tracking-wider mt-2">
           {session?.user?.name}
         </h1>
-      </div>
-      <div className="mt-2 gap-2 flex">
-        {session?.user?.isAdmin && <ArticleForm userInfo={session} />}
       </div>
     </>
   );
