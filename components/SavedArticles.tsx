@@ -8,33 +8,34 @@ import { useState } from "react";
 import CreatedArticles from "./CreatedArticles";
 
 const SavedArticles = ({ user }: { user: User }) => {
-  const [activeTab, setActiveTab] = useState<"created" | "saved">("created");
+  const [activeTab, setActiveTab] = useState<"created" | "saved">("saved");
 
   return (
     <div className="m-6">
       <div className="mt-2 gap-2 flex">
-        {}
         {user?.isAdmin && (
-          <div className="flex gap-2">
-            {/* <ArticleForm user={user} /> */}
-            <Button
-              variant={`${activeTab === "created" ? "default" : "outline"}`}
-              onClick={() => setActiveTab("created")}
-            >
-              Created Articles
-            </Button>
+          <div className="flex gap-2 w-full justify-between">
+            <div className="flex gap-2">
+              <Button
+                variant={`${activeTab === "saved" ? "default" : "outline"}`}
+                onClick={() => setActiveTab("saved")}
+              >
+                Saved Articles
+              </Button>
+              <Button
+                variant={`${activeTab === "created" ? "default" : "outline"}`}
+                onClick={() => setActiveTab("created")}
+              >
+                Created Articles
+              </Button>
+            </div>
 
-            <Button
-              variant={`${activeTab === "saved" ? "default" : "outline"}`}
-              onClick={() => setActiveTab("saved")}
-            >
-              Saved Articles
-            </Button>
+            <ArticleForm user={user} />
           </div>
         )}
       </div>
       <div className="">
-        <h1 className="text-3xl font-bold tracking-wide my-4b">
+        <h1 className="text-3xl font-bold tracking-wide my-4">
           {activeTab === "saved" ? "Saved Articles" : "Created Articles"}
         </h1>
         {activeTab === "saved" ? (

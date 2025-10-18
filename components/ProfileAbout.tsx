@@ -3,14 +3,15 @@
 import { useSession } from "next-auth/react";
 import AboutUser from "./AboutUser";
 import SavedArticles from "./SavedArticles";
-import { User } from "@/lib/types/users";
+import { Session, User } from "@/lib/types/users";
 
 const ProfileAbout = () => {
   const { data: session } = useSession();
+  console.log(session);
 
   return (
     <div className="flex justify-center items-center flex-col">
-      <AboutUser session={session} />
+      <AboutUser user={session?.user as User} />
       <SavedArticles user={session?.user as User} />
     </div>
   );

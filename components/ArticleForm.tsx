@@ -79,7 +79,7 @@ const EditorComponent = dynamic(
   }
 );
 
-const ArticleForm = ({ user }: User) => {
+const ArticleForm = ({ user }: { user: User }) => {
   const [open, setOpen] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
   const inputTagRef = useRef<HTMLInputElement | null>(null);
@@ -110,13 +110,13 @@ const ArticleForm = ({ user }: User) => {
   });
 
   useEffect(() => {
-    if (userInfo?.user) {
+    if (user) {
       form.reset({
         ...form.getValues(),
-        author: userInfo?.user.name,
+        author: user.name,
       });
     }
-  }, [userInfo, form]);
+  }, [user, form]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -210,7 +210,7 @@ const ArticleForm = ({ user }: User) => {
         story: story,
         image: image,
         images: imagesUrl,
-        ownerId: userInfo?.userId,
+        ownerId: user?.id,
       };
 
       const responseArticle = await fetch(
@@ -436,7 +436,7 @@ const ArticleForm = ({ user }: User) => {
                       <Input
                         {...form.register("author")}
                         {...field}
-                        value={userInfo?.user?.name}
+                        value={user?.name}
                         readOnly
                       />
                     </FormControl>

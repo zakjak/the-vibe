@@ -9,8 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { HiOutlinePencilAlt } from "react-icons/hi";
 import { Input } from "./ui/input";
-import { Session } from "@/lib/types/users";
-import Link from "next/link";
+import { Session, User } from "@/lib/types/users";
 
 const formSchema = z.object({
   profilePicture: z.union([
@@ -19,7 +18,11 @@ const formSchema = z.object({
   ]),
 });
 
-const AboutUser = ({ session }: { session: Session }) => {
+type AboutUserProps = {
+  session: Session | null;
+};
+
+const AboutUser = ({ user }: { user: User }) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -62,7 +65,7 @@ const AboutUser = ({ session }: { session: Session }) => {
         };
 
         const responseProfile = await fetch(
-          `http://localhost:3000/api/user/${session?.userId}`,
+          `http://localhost:3000/api/user/${user?.id}`,
           {
             method: "POST",
             body: JSON.stringify(image),
@@ -88,14 +91,12 @@ const AboutUser = ({ session }: { session: Session }) => {
           <Avatar className="w-[8rem] h-[8rem]  flex items-center justify-center">
             <AvatarImage
               src={
-                imagePreview
-                  ? imagePreview
-                  : (session?.user?.profilePicture as string)
+                imagePreview ? imagePreview : (user?.profilePicture as string)
               }
               className="object-cover w-full h-full rounded-full"
             />
             <AvatarFallback className="font-bold">
-              {session && <p>{nameFallback(session?.user?.name)}</p>}
+              {user && <p>{nameFallback(user?.name as string)}</p>}
             </AvatarFallback>
           </Avatar>
           <div className="absolute bottom-0 right-2 cursor-pointer bg-black p-2 rounded-full hover:opacity-90">
@@ -109,9 +110,7 @@ const AboutUser = ({ session }: { session: Session }) => {
             />
           </div>
         </div>
-        <h1 className="font-semibold tracking-wider mt-2">
-          {session?.user?.name}
-        </h1>
+        <h1 className="font-semibold tracking-wider mt-2">{user?.name}</h1>
       </div>
     </>
   );
