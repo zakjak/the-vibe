@@ -19,10 +19,18 @@ import Link from "next/link";
 import CommentSection from "./CommentSection";
 import { useComments } from "@/hooks/useArticle";
 
-const ArticleStory = ({ article }: { article: Article }) => {
+const ArticleStory = ({
+  article,
+  isComments,
+  setIsComments,
+}: {
+  article: Article;
+  isComments: number;
+  setIsComments: () => void;
+}) => {
   const { data: session } = useSession();
   const [copied, setCopied] = useState(false);
-  const { data } = useComments(article?.id);
+  const { data } = useComments(article?.id, isComments);
 
   const articleUrl = `http://localhost:3000//${article?.category}/${
     article?.id
@@ -60,8 +68,6 @@ const ArticleStory = ({ article }: { article: Article }) => {
       setCopied(false);
     }
   };
-
-  console.log(data);
 
   return (
     <div className="lg:col-span-4 md:col-span-3">
@@ -153,6 +159,8 @@ const ArticleStory = ({ article }: { article: Article }) => {
             postId={article?.id}
             ownerId={session?.user?.id}
             comments={data}
+            isComments={isComments}
+            setIsComments={setIsComments}
           />
         </div>
       ) : (

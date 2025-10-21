@@ -5,44 +5,48 @@ import ArticleStory from "./ArticleStory";
 import RelatedArticles from "./RelatedArticles";
 import ArticleComponentSkeleton from "./ArticleComponentSkeleton";
 import Head from "next/head";
+import { useState } from "react";
 
 const ArticleComponent = ({ id }: { id: number }) => {
-  const { data, isFetching } = useArticle(id);
-
-  console.log(data);
+  const [isComments, setIsComments] = useState(1);
+  const { data, isFetching } = useArticle(id, isComments);
 
   console.log(data?.articleComments);
 
   // const article = data?.article[0];
 
-  // const articleUrl =
-  //   data &&
-  //   `http://localhost:3000/${article?.category}/${
-  //     data?.article[0]?.id
-  //   }/${data?.article[0]?.title?.replaceAll(" ", "-")}`;
-  // const { data: relatedArticles } = useRelatedArticles(
-  //   data && article?.category
-  // );
+  const articleUrl =
+    data &&
+    `http://localhost:3000/${data?.category}/${
+      data?.id
+    }/${data?.title?.replaceAll(" ", "-")}`;
+  const { data: relatedArticles } = useRelatedArticles(data && data?.category);
 
-  // if (isFetching) {
-  //   return <ArticleComponentSkeleton />;
-  // }
+  if (isFetching) {
+    return <ArticleComponentSkeleton />;
+  }
 
   return (
     <>
-      {/* <Head>
-        <title>{article?.title}</title>
-        <meta name="description" content={article[0]?.title} />
+      <Head>
+        <title>{data?.title}</title>
+        <meta name="description" content={data?.title} />
 
-        <meta property="og:title" content={article?.title} />
-        <meta property="og:image" content={article?.image} />
+        <meta property="og:title" content={data?.title} />
+        <meta property="og:image" content={data?.image} />
         <meta property="og:url" content={articleUrl} />
         <meta property="og:type" content="article" />
-      </Head> */}
+      </Head>
 
       <div className="grid lg:gap-6 gap-4 lg:grid-cols-6 md:grid-cols-5 mx-auto max-w-[80%]">
         {/* Left Section */}
-        {data && <ArticleStory article={data} />}
+        {data && (
+          <ArticleStory
+            article={data}
+            isComments={isComments}
+            setIsComments={setIsComments}
+          />
+        )}
         {/* Right Section */}
         {/* {data && <RelatedArticles articles={relatedArticles} />} */}
       </div>

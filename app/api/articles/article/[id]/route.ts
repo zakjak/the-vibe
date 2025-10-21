@@ -7,8 +7,13 @@ export async function GET(
   req: Request,
   { params }: { params: { id: number } }
 ) {
+  const { searchParams } = new URL(req.url);
   const param = await params;
   const { id } = param;
+
+  const page = Number(searchParams.get("page")) || 1;
+
+  const nextPage = page * 5;
 
   try {
     if (id) {
@@ -21,7 +26,8 @@ export async function GET(
         .select()
         .from(comments)
         .where(eq(comments.postId, id))
-        .leftJoin(users, eq(comments.ownerId, users.id));
+        .leftJoin(users, eq(comments.ownerId, users.id))
+        .limit(nextPage);
 
       return NextResponse.json({ article, articleComments });
     } else {

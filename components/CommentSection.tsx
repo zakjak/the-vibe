@@ -1,4 +1,3 @@
-import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -10,7 +9,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { Comment, Comments } from "@/lib/types/article";
+import { Comments } from "@/lib/types/article";
 import { CiMenuKebab } from "react-icons/ci";
 import Image from "next/image";
 import { calculateTime } from "@/lib/utils/helpers";
@@ -19,7 +18,6 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -27,16 +25,11 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Popover } from "./ui/popover";
 import { PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
-import { DialogDescription } from "@radix-ui/react-dialog";
-import { DialogHeader } from "./ui/dialog";
 import { Textarea } from "./ui/textarea";
 import { IoIosSend } from "react-icons/io";
-import {
-  QueryClient,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { FaChevronDown } from "react-icons/fa";
 import { useAddComment } from "@/hooks/useComments";
+import { useState } from "react";
 
 const commentSchema = z.object({
   comment: z.string().min(2, {
@@ -50,10 +43,14 @@ const CommentSection = ({
   postId,
   ownerId,
   comments,
+  isComments,
+  setIsComments,
 }: {
   postId: number;
   ownerId: string;
   comments: Comments[];
+  isComments: number;
+  setIsComments: (page: number) => void;
 }) => {
   const { mutate, isPending } = useAddComment();
 
@@ -74,6 +71,8 @@ const CommentSection = ({
     mutate(commentSection);
     form.reset();
   };
+
+  console.log(comments);
 
   return (
     <div>
@@ -98,67 +97,81 @@ const CommentSection = ({
             )}
           />
           <Button
-            className="absolute bottom-3 right-5 rounded-full cursor-pointer"
+            className="absolute bottom-2 right-2 rounded-full cursor-pointer"
+            size="icon"
             type="submit"
           >
             {isPending ? "Loading" : <IoIosSend />}
           </Button>
         </form>
       </Form>
-      <div className="my-2 border-b pb-5">
-        <h2 className="text-xl font-semibold my-2">Comments</h2>
-        {comments?.map(({ comments, users }) => (
-          <article key={comments?.id} className="mb-2 border-b pb-4">
-            <div className="">
-              <header className="flex gap-2">
-                <Image
-                  className="w-8 h-8 object-cover rounded-full"
-                  src={users?.profilePicture}
-                  alt={`Image of ${users?.name}`}
-                  height={200}
-                  width={2000}
-                />
-                <div className="flex justify-between w-full">
-                  <div className="w-[90%]">
-                    <div className="flex gap-2 text-sm">
-                      <span className="font-semibold">{users?.name}</span>
-                      <span className="text-zinc-400">
-                        {calculateTime(comments?.date)}
-                      </span>
+      {comments?.length >= 1 ? (
+        <div className="my-2 pb-5">
+          <h2 className="text-xl font-semibold my-2">Comments</h2>
+          {comments?.map(({ comments, users }) => (
+            <article key={comments?.id} className="mb-2 border-b pb-4">
+              <div className="">
+                <header className="flex gap-2">
+                  <Image
+                    className="w-8 h-8 object-cover rounded-full"
+                    src={users?.profilePicture || ""}
+                    alt={`Image of ${users?.name}`}
+                    height={200}
+                    width={2000}
+                  />
+                  <div className="flex justify-between w-full">
+                    <div className="w-[90%]">
+                      <div className="flex gap-2 text-sm">
+                        <span className="font-semibold">{users?.name}</span>
+                        <span className="text-zinc-400">
+                          {calculateTime(comments?.date)}
+                        </span>
+                      </div>
+                      <p className="text-sm">{comments?.comment}</p>
                     </div>
-                    <p className="text-sm">{comments?.comment}</p>
+                    <div className="bg-zinc-200 text-blaxk hover:bg-zinc-500 cursor-pointer w-6 h-6 text-black flex items-center rounded-full justify-center">
+                      <Popover>
+                        <PopoverTrigger>
+                          <CiMenuKebab />
+                        </PopoverTrigger>
+                        <PopoverContent className="mt-2">
+                          <AlertDialog>
+                            <AlertDialogTrigger>
+                              <Button>Delete</Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                  Are you sure you want to delete this comment?
+                                </AlertDialogTitle>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction>Continue</AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        </PopoverContent>
+                      </Popover>
+                    </div>
                   </div>
-                  <div className="bg-zinc-200 text-blaxk hover:bg-zinc-500 cursor-pointer w-6 h-6 text-black flex items-center rounded-full justify-center">
-                    <Popover>
-                      <PopoverTrigger>
-                        <CiMenuKebab />
-                      </PopoverTrigger>
-                      <PopoverContent className="mt-2">
-                        <AlertDialog>
-                          <AlertDialogTrigger>
-                            <Button>Delete</Button>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>
-                                Are you sure you want to delete this comment?
-                              </AlertDialogTitle>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
-                              <AlertDialogAction>Continue</AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
-                      </PopoverContent>
-                    </Popover>
-                  </div>
-                </div>
-              </header>
+                </header>
+              </div>
+            </article>
+          ))}
+          <div className="flex items-center gap-1 justify-center text-sm">
+            <div
+              onClick={() => setIsComments(isComments + 1)}
+              className="cursor-pointer flex items-center gap-1"
+            >
+              <span>Load more</span>
+              <FaChevronDown className="" />
             </div>
-          </article>
-        ))}
-      </div>
+          </div>
+        </div>
+      ) : (
+        <h1 className="text-center font-bold my-4">No More Comments</h1>
+      )}
     </div>
   );
 };
