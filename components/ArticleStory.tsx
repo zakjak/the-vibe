@@ -6,7 +6,7 @@ import { FaShareAlt } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa6";
 import { plateToHtml } from "@/lib/utils/plateToHtml";
-import { Article } from "@/lib/types/article";
+import { Article, Comments } from "@/lib/types/article";
 import { useSavedArticle, useToggleBookmark } from "@/hooks/useBookmarks";
 import { useSession } from "next-auth/react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
@@ -16,14 +16,17 @@ import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 import { useState } from "react";
 import { TiTick } from "react-icons/ti";
 import Link from "next/link";
+import CommentSection from "./CommentSection";
+import { useComments } from "@/hooks/useArticle";
 
 const ArticleStory = ({ article }: { article: Article }) => {
   const { data: session } = useSession();
   const [copied, setCopied] = useState(false);
+  const { data } = useComments(article?.id);
 
   const articleUrl = `http://localhost:3000//${article?.category}/${
     article?.id
-  }/${article?.title.replaceAll(" ", "-")}`;
+  }/${article?.title?.replaceAll(" ", "-")}`;
 
   const encodedTitle = encodeURIComponent(article?.title);
 
@@ -58,10 +61,14 @@ const ArticleStory = ({ article }: { article: Article }) => {
     }
   };
 
+  console.log(data);
+
   return (
     <div className="lg:col-span-4 md:col-span-3">
       <div className="">
-        <h1>{article?.title}</h1>
+        <h1 className="lg:text-3xl lg:font-semibold font-bold md:text-2xl text-3xl my-2">
+          {article?.title}
+        </h1>
         <div className="flex items-center gap-1 mb-4">
           <span>{article?.category}</span>
           <Separator className="bg-gray-400 h-4 w-0.5" />
@@ -138,8 +145,19 @@ const ArticleStory = ({ article }: { article: Article }) => {
         </div>
       </div>
       <div className="prose mx-auto">
-        {/* {plateToHtml(JSON.parse(article?.story), article?.images)} */}
+        {plateToHtml(JSON.parse(article?.story), article?.images)}
       </div>
+      {session ? (
+        <div className="">
+          <CommentSection
+            postId={article?.id}
+            ownerId={session?.user?.id}
+            comments={data}
+          />
+        </div>
+      ) : (
+        <h1>Login to view and comment on articles</h1>
+      )}
     </div>
   );
 };

@@ -12,7 +12,7 @@ const SavedArticles = ({ user }: { user: User }) => {
 
   return (
     <div className="m-6">
-      <div className="mt-2 gap-2 flex">
+      <div className="mt-2 gap-2 flex w-full">
         {user?.isAdmin && (
           <div className="flex gap-2 w-full justify-between">
             <div className="flex gap-2">

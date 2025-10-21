@@ -120,14 +120,20 @@ export const replies = pgTable("replies", {
 ]);
 
 export const comments = pgTable("comments", {
-	id: integer().primaryKey().generatedAlwaysAsIdentity({ name: "comments_id_seq", startWith: 1, increment: 1, minValue: 1, maxValue: 2147483647, cache: 1 }),
+	id: serial().primaryKey().notNull(),
 	comment: text(),
 	postId: integer("post_id"),
-	ownerId: integer("owner_id"),
+	ownerId: text("owner_id"),
+	date: timestamp({ mode: 'string' }).defaultNow().notNull(),
 }, (table) => [
 	foreignKey({
 			columns: [table.postId],
 			foreignColumns: [articles.id],
 			name: "comments_post_id_articles_id_fk"
+		}),
+	foreignKey({
+			columns: [table.ownerId],
+			foreignColumns: [users.id],
+			name: "comments_owner_id_users_id_fk"
 		}),
 ]);

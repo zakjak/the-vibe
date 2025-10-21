@@ -17,8 +17,6 @@ export async function POST(req: Request) {
     ownerId,
   } = body;
 
-  console.log(body);
-
   const response = await db
     .insert(articles)
     .values({

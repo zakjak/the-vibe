@@ -2,19 +2,21 @@ import moment from "moment";
 
 export const calculateTime = (date: Date) => {
   const now = moment();
-  const past = moment(date);
+  const then = moment(date, "YYYY-MM-DD HH:mm:ss.SSSSSS");
 
-  const diffMinutes = now.diff(past, "minutes");
-  const diffHours = now.diff(past, "hours");
+  const diff = now.diff(then);
+  const duration = moment.duration(diff);
 
-  if (diffHours < 24) {
-    if (diffHours >= 1) {
-      return `${diffHours} hours ago`;
-    } else {
-      return `${diffMinutes} minutes ago`;
-    }
+  if (duration.asSeconds() < 60) {
+    return `${Math.floor(duration.asSeconds())} seconds ago`;
+  } else if (duration.asMinutes() < 60) {
+    return `${Math.floor(duration.asMinutes())} minutes ago`;
+  } else if (duration.asHours() < 24) {
+    return `${Math.floor(duration.asHours())} hours ago`;
+  } else if (duration.asDays() < 30) {
+    return `${Math.floor(duration.asDays())} days ago`;
   } else {
-    return past.format("ll");
+    return then.format("D MMM YYYY");
   }
 };
 

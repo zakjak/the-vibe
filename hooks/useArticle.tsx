@@ -19,8 +19,16 @@ export const useArticle = (id: number) => {
   return useQuery({
     queryKey: ["article", id],
     queryFn: () => fetchArticle(id!),
+    select: (data) => data.article[0],
     enabled: !!id,
     placeholderData: keepPreviousData,
+  });
+};
+
+export const useComments = (id: number) => {
+  return useQuery({
+    queryKey: ["comments", id],
+    queryFn: () => fetchArticle(id).then((data) => data.articleComments),
   });
 };
 

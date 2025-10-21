@@ -14,6 +14,7 @@ export const usersRelations = relations(users, ({many}) => ({
 	sessions: many(session),
 	readlists: many(readlist),
 	articles: many(articles),
+	comments: many(comments),
 }));
 
 export const authenticatorRelations = relations(authenticator, ({one}) => ({
@@ -62,5 +63,9 @@ export const commentsRelations = relations(comments, ({one, many}) => ({
 	article: one(articles, {
 		fields: [comments.postId],
 		references: [articles.id]
+	}),
+	user: one(users, {
+		fields: [comments.ownerId],
+		references: [users.id]
 	}),
 }));

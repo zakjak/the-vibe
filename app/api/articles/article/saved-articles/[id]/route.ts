@@ -1,11 +1,11 @@
 import { readList } from "@/lib/schema/articles";
 import { db } from "@/lib/schema/schema";
-import { eq } from "drizzle-orm";
+import { eq, exists } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: number } }
+  { params }: { params: { id: string } }
 ) {
   const param = await params;
   const { id } = param;
@@ -13,7 +13,7 @@ export async function GET(
     const savedArticle = await db
       .select()
       .from(readList)
-      .where(eq(readList.articleId, id));
+      .where(eq(readList.ownerId, id));
 
     return NextResponse.json(savedArticle);
   } catch (err) {

@@ -1,5 +1,5 @@
-import { articles } from "@/lib/schema/articles";
-import { db } from "@/lib/schema/schema";
+import { articles, comments } from "@/lib/schema/articles";
+import { db, users } from "@/lib/schema/schema";
 import { eq, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
@@ -10,15 +10,20 @@ export async function GET(
   const param = await params;
   const { id } = param;
 
-  // console.log(id);
-
   try {
     if (id) {
       const article = await db
         .select()
         .from(articles)
         .where(eq(articles.id, id));
-      return NextResponse.json(article);
+
+      const articleComments = await db
+        .select()
+        .from(comments)
+        .where(eq(comments.postId, id))
+        .leftJoin(users, eq(comments.ownerId, users.id));
+
+      return NextResponse.json({ article, articleComments });
     } else {
       return NextResponse.json(
         { error: "Article does not exists" },

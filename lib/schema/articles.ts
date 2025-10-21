@@ -58,10 +58,11 @@ export const readListRelations = relations(readList, ({ one }) => ({
 }));
 
 export const comments = table("comments", {
-  id: t.integer().primaryKey().generatedAlwaysAsIdentity(),
+  id: t.serial("id").primaryKey(),
   comment: t.text(),
   postId: t.integer("post_id").references(() => articles.id),
-  ownerId: t.integer("owner_id").references(() => users.id),
+  ownerId: t.text("owner_id").references(() => users.id),
+  date: t.timestamp().notNull().defaultNow(),
 });
 
 export const replies = table("replies", {
