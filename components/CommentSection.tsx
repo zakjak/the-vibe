@@ -28,10 +28,11 @@ import { PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import { Textarea } from "./ui/textarea";
 import { IoIosSend } from "react-icons/io";
 import { FaChevronDown } from "react-icons/fa";
-import { useAddComment } from "@/hooks/useComments";
+import { useAddComment, useDeleteComment } from "@/hooks/useComments";
 import { useAddMoreComments } from "@/hooks/useArticle";
 import { User } from "@/lib/types/users";
 import { useState } from "react";
+import { AlertDialogDescription } from "@radix-ui/react-alert-dialog";
 
 const commentSchema = z.object({
   comment: z.string().min(2, {
@@ -55,6 +56,7 @@ const CommentSection = ({
   setIsComments: (page: number) => void;
 }) => {
   const [expanded, setExpanded] = useState(false);
+  const { mutate: deleteComment } = useDeleteComment();
   const { mutate, isPending } = useAddComment();
   const { fetchNextPage, hasNextPage, isFetchingNextPage, data } =
     useAddMoreComments(postId);
@@ -157,29 +159,38 @@ const CommentSection = ({
                       )}
                     </div>
                     <div className="bg-zinc-200 text-blaxk hover:bg-zinc-500 cursor-pointer w-6 h-6 text-black flex items-center rounded-full justify-center">
-                      <Popover>
-                        <PopoverTrigger>
-                          <CiMenuKebab />
-                        </PopoverTrigger>
-                        <PopoverContent className="mt-2">
-                          <AlertDialog>
-                            <AlertDialogTrigger>
-                              <Button>Delete</Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                              <AlertDialogHeader>
-                                <AlertDialogTitle>
-                                  Are you sure you want to delete this comment?
-                                </AlertDialogTitle>
-                              </AlertDialogHeader>
-                              <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction>Continue</AlertDialogAction>
-                              </AlertDialogFooter>
-                            </AlertDialogContent>
-                          </AlertDialog>
-                        </PopoverContent>
-                      </Popover>
+                      {comments.ownerId === ownerId && (
+                        <Popover>
+                          <PopoverTrigger>
+                            <CiMenuKebab />
+                          </PopoverTrigger>
+                          <PopoverContent className="mt-2">
+                            <AlertDialog>
+                              <AlertDialogTrigger>Delete</AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle>
+                                    Are you sure you want to delete this
+                                    comment?
+                                  </AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                    Are you sure you want to delete this
+                                    comment?
+                                  </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                  <AlertDialogAction
+                                    onClick={() => deleteComment(comments?.id)}
+                                  >
+                                    Continue
+                                  </AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
+                          </PopoverContent>
+                        </Popover>
+                      )}
                     </div>
                   </div>
                 </header>

@@ -26,3 +26,14 @@ export const useAddComment = () => {
     onSettled: () => queryClient.invalidateQueries({ queryKey: ["comments"] }),
   });
 };
+
+export const useDeleteComment = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: number) =>
+      fetch(`http://localhost:3000/api/comment/${id}`, {
+        method: "DELETE",
+      }).then((data) => data.json()),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["comments"] }),
+  });
+};
