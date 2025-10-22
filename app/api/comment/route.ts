@@ -16,7 +16,7 @@ export async function POST(req: Request) {
         ownerId,
       })
       .returning();
-    console.log(response);
+
     return NextResponse.json(response);
   } catch (err) {
     return NextResponse.json("Server error", { status: 500 });

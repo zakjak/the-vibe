@@ -9,7 +9,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { Comments } from "@/lib/types/article";
+import { Comment, Comments } from "@/lib/types/article";
 import { CiMenuKebab } from "react-icons/ci";
 import Image from "next/image";
 import { calculateTime } from "@/lib/utils/helpers";
@@ -29,7 +29,8 @@ import { Textarea } from "./ui/textarea";
 import { IoIosSend } from "react-icons/io";
 import { FaChevronDown } from "react-icons/fa";
 import { useAddComment } from "@/hooks/useComments";
-import { useState } from "react";
+import { useAddMoreComments } from "@/hooks/useArticle";
+import { User } from "@/lib/types/users";
 
 const commentSchema = z.object({
   comment: z.string().min(2, {
@@ -53,6 +54,8 @@ const CommentSection = ({
   setIsComments: (page: number) => void;
 }) => {
   const { mutate, isPending } = useAddComment();
+  const { fetchNextPage, hasNextPage, isFetchingNextPage, data } =
+    useAddMoreComments(postId);
 
   const form = useForm<z.infer<typeof commentSchema>>({
     resolver: zodResolver(commentSchema),
@@ -72,7 +75,14 @@ const CommentSection = ({
     form.reset();
   };
 
-  console.log(comments);
+  const moreComments = data && data[data?.length - 1]?.comments;
+
+  const isExisting =
+    data &&
+    data[data?.length - 1]?.comments?.some(
+      ({ comments }: { comments: Comment }) =>
+        comments?.id === data[data?.length - 1]?.lastComment[0]?.id
+    );
 
   return (
     <div>
@@ -88,7 +98,7 @@ const CommentSection = ({
               <FormItem className="w-full">
                 <FormControl>
                   <Textarea
-                    className="min-h-[6rem] max-h-[6rem] w-[90%] bg-transparent! border-none"
+                    className="min-h-[6rem] max-h-[6rem] w-[90%] bg-transparent! border-none no-scrollbar"
                     placeholder="Enter comment..."
                     {...field}
                   />
@@ -97,7 +107,7 @@ const CommentSection = ({
             )}
           />
           <Button
-            className="absolute bottom-2 right-2 rounded-full cursor-pointer"
+            className="absolute bottom-2 right-4 rounded-full cursor-pointer"
             size="icon"
             type="submit"
           >
@@ -105,10 +115,10 @@ const CommentSection = ({
           </Button>
         </form>
       </Form>
-      {comments?.length >= 1 ? (
-        <div className="my-2 pb-5">
-          <h2 className="text-xl font-semibold my-2">Comments</h2>
-          {comments?.map(({ comments, users }) => (
+      <div className="my-2 pb-5">
+        <h2 className="text-xl font-semibold my-2">Comments</h2>
+        {moreComments?.map(
+          ({ comments, users }: { comments: Comment; users: User }) => (
             <article key={comments?.id} className="mb-2 border-b pb-4">
               <div className="">
                 <header className="flex gap-2">
@@ -158,20 +168,24 @@ const CommentSection = ({
                 </header>
               </div>
             </article>
-          ))}
-          <div className="flex items-center gap-1 justify-center text-sm">
+          )
+        )}
+        <div className="flex items-center gap-1 justify-center text-sm">
+          {isFetchingNextPage ? (
+            "Loading More..."
+          ) : !isExisting ? (
             <div
-              onClick={() => setIsComments(isComments + 1)}
+              onClick={() => fetchNextPage()}
               className="cursor-pointer flex items-center gap-1"
             >
               <span>Load more</span>
               <FaChevronDown className="" />
             </div>
-          </div>
+          ) : (
+            <h1 className="text-center font-bold my-4">No More Comments</h1>
+          )}
         </div>
-      ) : (
-        <h1 className="text-center font-bold my-4">No More Comments</h1>
-      )}
+      </div>
     </div>
   );
 };

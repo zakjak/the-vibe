@@ -29,7 +29,13 @@ export async function GET(
         .leftJoin(users, eq(comments.ownerId, users.id))
         .limit(nextPage);
 
-      return NextResponse.json({ article, articleComments });
+      const lastComment = await db
+        .select()
+        .from(comments)
+        .orderBy(sql`${comments.id}`)
+        .limit(1);
+
+      return NextResponse.json({ article, articleComments, lastComment });
     } else {
       return NextResponse.json(
         { error: "Article does not exists" },

@@ -11,10 +11,6 @@ const ArticleComponent = ({ id }: { id: number }) => {
   const [isComments, setIsComments] = useState(1);
   const { data, isFetching } = useArticle(id, isComments);
 
-  console.log(data?.articleComments);
-
-  // const article = data?.article[0];
-
   const articleUrl =
     data &&
     `http://localhost:3000/${data?.category}/${
@@ -38,7 +34,7 @@ const ArticleComponent = ({ id }: { id: number }) => {
         <meta property="og:type" content="article" />
       </Head>
 
-      <div className="grid lg:gap-6 gap-4 lg:grid-cols-6 md:grid-cols-5 mx-auto max-w-[80%]">
+      <div className="grid lg:gap-6 gap-4 lg:grid-cols-6 md:grid-cols-5 mx-auto max-w-[80%] lg:w-[60rem]">
         {/* Left Section */}
         {data && (
           <ArticleStory
@@ -48,7 +44,7 @@ const ArticleComponent = ({ id }: { id: number }) => {
           />
         )}
         {/* Right Section */}
-        {/* {data && <RelatedArticles articles={relatedArticles} />} */}
+        {data && <RelatedArticles articles={relatedArticles} />}
       </div>
     </>
   );
