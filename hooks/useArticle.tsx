@@ -60,6 +60,18 @@ export const useAddMoreComments = (id: number) => {
   });
 };
 
+export const useDeleteArticle = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: number) =>
+      fetch(`http://localhost:3000/api/articles/article/${id}`, {
+        method: "DELETE",
+      }).then((data) => data.json()),
+    onSettled: () =>
+      queryClient.invalidateQueries({ queryKey: ["created-articles"] }),
+  });
+};
+
 const fetchRelatedArticle = async (category: string) => {
   const res = await fetch(
     `http://localhost:3000/api/articles/category/${category}`

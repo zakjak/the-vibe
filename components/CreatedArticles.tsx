@@ -1,13 +1,13 @@
 import { useCreatedArticles } from "@/hooks/useCreatedArticles";
 import TopCategoryStory from "./TopCategoryStory";
-import { Article } from "@/lib/types/article";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react";
 import CategoriesPageSkeleton from "./CategoriesPageSkeleton";
 
 const CreatedArticles = ({ ownerId }: { ownerId: string }) => {
   const [visiblePageCount, setVisiblePageCount] = useState(2);
-  const { ref, inView, entry } = useInView({ threshold: 0 });
+
+  const { ref, inView } = useInView({ threshold: 0 });
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useCreatedArticles(ownerId);
 

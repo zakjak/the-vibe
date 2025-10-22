@@ -5,7 +5,13 @@ import TopCategoryStory from "./TopCategoryStory";
 import { useInView } from "react-intersection-observer";
 import CategoriesPageSkeleton from "./CategoriesPageSkeleton";
 
-const SavedArticlesComponent = ({ userId }: { userId: string }) => {
+const SavedArticlesComponent = ({
+  userId,
+  activeTab,
+}: {
+  userId: string;
+  activeTab: string;
+}) => {
   const [visiblePageCount, setVisiblePageCount] = useState(2);
   const { ref, inView, entry } = useInView({ threshold: 0 });
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
@@ -30,7 +36,11 @@ const SavedArticlesComponent = ({ userId }: { userId: string }) => {
         className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4"
       >
         {savedArticles?.map(({ articles }) => (
-          <TopCategoryStory key={articles?.id} topStory={articles} />
+          <TopCategoryStory
+            key={articles?.id}
+            topStory={articles}
+            activeTab={activeTab}
+          />
         ))}
       </div>
       <div

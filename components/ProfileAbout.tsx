@@ -7,7 +7,6 @@ import { Session, User } from "@/lib/types/users";
 
 const ProfileAbout = () => {
   const { data: session } = useSession();
-  console.log(session);
 
   return (
     <div className="flex justify-center items-center flex-col">

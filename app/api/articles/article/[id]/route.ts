@@ -64,3 +64,21 @@ export async function POST(
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
+
+export async function DELETE(
+  req: Request,
+  { params }: { params: { id: number } }
+) {
+  const param = await params;
+  const { id } = param;
+
+  try {
+    await db.delete(comments).where(eq(comments.postId, id));
+    const res = await db.delete(articles).where(eq(articles.id, id));
+
+    return NextResponse.json("Successfully deleted article");
+  } catch (err) {
+    console.log(err);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  }
+}

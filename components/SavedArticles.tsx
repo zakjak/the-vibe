@@ -17,13 +17,13 @@ const SavedArticles = ({ user }: { user: User }) => {
           <div className="flex gap-2 w-full justify-between">
             <div className="flex gap-2">
               <Button
-                variant={`${activeTab === "saved" ? "default" : "outline"}`}
+                variant={activeTab === "saved" ? "default" : "outline"}
                 onClick={() => setActiveTab("saved")}
               >
                 Saved Articles
               </Button>
               <Button
-                variant={`${activeTab === "created" ? "default" : "outline"}`}
+                variant={activeTab === "created" ? "default" : "outline"}
                 onClick={() => setActiveTab("created")}
               >
                 Created Articles
@@ -39,7 +39,10 @@ const SavedArticles = ({ user }: { user: User }) => {
           {activeTab === "saved" ? "Saved Articles" : "Created Articles"}
         </h1>
         {activeTab === "saved" ? (
-          <SavedArticlesComponent userId={user?.id as string} />
+          <SavedArticlesComponent
+            userId={user?.id as string}
+            activeTab={activeTab}
+          />
         ) : (
           <CreatedArticles ownerId={user?.id as string} />
         )}

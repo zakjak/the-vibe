@@ -10,7 +10,7 @@ export type Article = {
   image: string;
   imageCredit: string;
   images: string[];
-  authorId: number;
+  ownerId: string;
   tags: string[];
 };
 
