@@ -31,6 +31,7 @@ import { FaChevronDown } from "react-icons/fa";
 import { useAddComment } from "@/hooks/useComments";
 import { useAddMoreComments } from "@/hooks/useArticle";
 import { User } from "@/lib/types/users";
+import { useState } from "react";
 
 const commentSchema = z.object({
   comment: z.string().min(2, {
@@ -53,6 +54,7 @@ const CommentSection = ({
   isComments: number;
   setIsComments: (page: number) => void;
 }) => {
+  const [expanded, setExpanded] = useState(false);
   const { mutate, isPending } = useAddComment();
   const { fetchNextPage, hasNextPage, isFetchingNextPage, data } =
     useAddMoreComments(postId);
@@ -83,6 +85,12 @@ const CommentSection = ({
       ({ comments }: { comments: Comment }) =>
         comments?.id === data[data?.length - 1]?.lastComment[0]?.id
     );
+
+  const readMore = (text: string) => {
+    const visibleText = expanded ? text : text.slice(0, 80) + "...";
+
+    return visibleText;
+  };
 
   return (
     <div>
@@ -137,7 +145,16 @@ const CommentSection = ({
                           {calculateTime(comments?.date)}
                         </span>
                       </div>
-                      <p className="text-sm">{comments?.comment}</p>
+
+                      <p>{readMore(comments?.comment)}</p>
+                      {comments?.comment?.length > 80 && (
+                        <button
+                          className="cursor-pointer text-zinc-500"
+                          onClick={() => setExpanded(!expanded)}
+                        >
+                          {expanded ? "Show less" : "Read more..."}
+                        </button>
+                      )}
                     </div>
                     <div className="bg-zinc-200 text-blaxk hover:bg-zinc-500 cursor-pointer w-6 h-6 text-black flex items-center rounded-full justify-center">
                       <Popover>
