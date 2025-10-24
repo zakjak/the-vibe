@@ -7,9 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const TopSmallCards = ({ item }: { item: Article }) => {
-  // console.log(JSON.parse(item.story));
   const texts = JSON.parse(item.story);
-  console.log(texts[0]?.children);
 
   return (
     <Card className="flex items-center gap-4">

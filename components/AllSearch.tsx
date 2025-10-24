@@ -39,23 +39,24 @@ const AllSearch = () => {
                 ${data?.countRows[0]?.count} for ${q.replaceAll("+", " ")}`;
     }
   };
-
+  // const texts = JSON.parse(item.story);
   return (
-    <div className="m-8">
+    <div className="p-8 mx-auto lg:w-[60%] md:w-[80%]">
       <div className="">
         <h2 className="text-lg font-bold">{totalArticles(page)}</h2>
       </div>
       {articles && (
-        <div className="">
+        <div className="w-[90%]">
           {articles?.map((article) => (
             <div key={article?.id} className="border-b pb-6 pt-4">
-              <Card className="mt-2 flex gap-2 md:h-[11rem] h-[6rem]">
+              <Card className="mt-2 flex gap-2">
                 <Link
                   href={`/${article?.category}/${article?.id}/${
                     article && article?.title?.replaceAll(" ", "-")
                   }`}
+                  className="h-full"
                 >
-                  <div className="h-full">
+                  <div className="md:h-[10rem] md:w-[15rem] w-[10rem] h-[8rem]">
                     <Image
                       src={article?.image}
                       width={240}
@@ -65,13 +66,13 @@ const AllSearch = () => {
                     />
                   </div>
                 </Link>
-                <div className="mt-4 leading-8 w-[70%]">
+                <div className="mt-4 leading-8 max-w-[70%]">
                   <Link
                     href={`/${article?.category}/${
                       article?.id
                     }/${article?.title?.replaceAll(" ", "-")}`}
                   >
-                    <h2 className="text-md">{article.title}</h2>
+                    <h2 className="md:text-md text-sm">{article.title}</h2>
                   </Link>
                   <div className="text-xs text-gray-400">
                     <div className="flex items-center gap-2">
@@ -80,7 +81,10 @@ const AllSearch = () => {
                       <span>{calculateTime(article?.date)}</span>
                     </div>
                     <span className="text-black md:line-clamp-2 my-2 lg:line-clamp-3 dark:text-zinc-400 font-semibold text-[.9rem] hidden">
-                      {article.story}
+                      {JSON.parse(article.story)[0]?.children[0]?.text +
+                        " " +
+                        JSON.parse(article.story)[1]?.children[0]?.text +
+                        JSON.parse(article.story)[2]?.children[0]?.text}
                     </span>
                   </div>
                 </div>
