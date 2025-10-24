@@ -7,6 +7,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 const TopSmallCards = ({ item }: { item: Article }) => {
+  // console.log(JSON.parse(item.story));
+  const texts = JSON.parse(item.story);
+  console.log(texts[0]?.children);
+
   return (
     <Card className="flex items-center gap-4">
       <Link
@@ -32,8 +36,9 @@ const TopSmallCards = ({ item }: { item: Article }) => {
           <h3 className="md:text-xs text-md line-clamp-2">{item.title}</h3>
         </Link>
         <span className="text-zinc-500 text-[.7rem] line-clamp-2 my-1">
-          {item.story}
+          {texts[0]?.children[0]?.text + " " + texts[0]?.children[2]?.text}
         </span>
+
         <div className="flex gap-2 items-center text-zinc-400 text-[.7rem]">
           <span>
             <Clock width={13} />

@@ -18,10 +18,6 @@ const formSchema = z.object({
   ]),
 });
 
-type AboutUserProps = {
-  session: Session | null;
-};
-
 const AboutUser = ({ user }: { user: User }) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -79,11 +75,6 @@ const AboutUser = ({ user }: { user: User }) => {
     }
   };
 
-  const removeImagePreview = () => {
-    form.setValue("profilePicture", null);
-    setImagePreview(null);
-  };
-
   return (
     <>
       <div className="flex flex-col items-center mt-8">
@@ -100,7 +91,11 @@ const AboutUser = ({ user }: { user: User }) => {
             </AvatarFallback>
           </Avatar>
           <div className="absolute bottom-0 right-2 cursor-pointer bg-black p-2 rounded-full hover:opacity-90">
-            <HiOutlinePencilAlt onClick={handleIconClick} size={25} />
+            <HiOutlinePencilAlt
+              onClick={handleIconClick}
+              size={25}
+              className="text-white"
+            />
             <Input
               type="file"
               ref={fileInputRef}

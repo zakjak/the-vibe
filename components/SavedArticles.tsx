@@ -4,10 +4,16 @@ import { User } from "@/lib/types/users";
 import SavedArticlesComponent from "./SavedArticlesComponent";
 import ArticleForm from "./ArticleForm";
 import { Button } from "./ui/button";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import CreatedArticles from "./CreatedArticles";
 
-const SavedArticles = ({ user }: { user: User }) => {
+const SavedArticles = ({
+  user,
+  setError,
+}: {
+  user: User;
+  setError: Dispatch<SetStateAction<boolean>>;
+}) => {
   const [activeTab, setActiveTab] = useState<"created" | "saved">("saved");
 
   return (
@@ -30,7 +36,7 @@ const SavedArticles = ({ user }: { user: User }) => {
               </Button>
             </div>
 
-            <ArticleForm user={user} />
+            <ArticleForm user={user} setError={setError} />
           </div>
         )}
       </div>

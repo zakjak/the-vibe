@@ -72,9 +72,9 @@ export const useDeleteArticle = () => {
   });
 };
 
-const fetchRelatedArticle = async (category: string) => {
+const fetchRelatedArticle = async (category: string, id: number) => {
   const res = await fetch(
-    `http://localhost:3000/api/articles/category/${category}`
+    `http://localhost:3000/api/articles/category/${id}/${category}`
   );
   if (!res.ok) {
     throw new Error("Network response was not ok");
@@ -82,10 +82,10 @@ const fetchRelatedArticle = async (category: string) => {
   return res.json();
 };
 
-export const useRelatedArticles = (category: string) => {
+export const useRelatedArticles = (category: string, id: number) => {
   return useQuery({
-    queryKey: ["related-articles", category],
-    queryFn: () => fetchRelatedArticle(category),
+    queryKey: ["related-articles", category, id],
+    queryFn: () => fetchRelatedArticle(category, id),
     placeholderData: keepPreviousData,
   });
 };

@@ -17,20 +17,26 @@ export async function POST(req: Request) {
     ownerId,
   } = body;
 
-  const response = await db
-    .insert(articles)
-    .values({
-      title,
-      story,
-      image,
-      category,
-      tags,
-      author,
-      images,
-      imageCredit,
-      ownerId,
-    })
-    .returning();
+  console.log(body);
 
-  return NextResponse.json(response);
+  try {
+    const response = await db
+      .insert(articles)
+      .values({
+        title,
+        story,
+        image,
+        category,
+        tags,
+        author,
+        images,
+        imageCredit,
+        ownerId,
+      })
+      .returning();
+
+    return NextResponse.json(response);
+  } catch (err) {
+    return NextResponse.json("Server error, try again");
+  }
 }

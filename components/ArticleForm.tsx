@@ -12,7 +12,13 @@ import {
   DialogTrigger,
 } from "./ui/dialog";
 import { Input } from "./ui/input";
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
@@ -35,6 +41,7 @@ import {
 } from "./ui/select";
 import Image from "next/image";
 import { User } from "@/lib/types/users";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   title: z
@@ -79,8 +86,15 @@ const EditorComponent = dynamic(
   }
 );
 
-const ArticleForm = ({ user }: { user: User }) => {
+const ArticleForm = ({
+  user,
+  setError,
+}: {
+  user: User;
+  setError: Dispatch<SetStateAction<boolean>>;
+}) => {
   const [open, setOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
   const inputTagRef = useRef<HTMLInputElement | null>(null);
   const [inputTagValue, setInputTagValue] = useState("");
@@ -93,6 +107,7 @@ const ArticleForm = ({ user }: { user: User }) => {
     "entertainment",
     "business",
     "technology",
+    "culture",
   ];
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -171,6 +186,7 @@ const ArticleForm = ({ user }: { user: User }) => {
   };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setIsSubmitting(true);
     const formData = new FormData();
 
     if (values.image) {
@@ -179,61 +195,69 @@ const ArticleForm = ({ user }: { user: User }) => {
 
     values?.images?.forEach((file) => formData.append("images", file));
 
-    const responseUpload = await fetch(
-      "http://localhost:3000/api/uploadImages",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-
-    if (responseUpload) {
-      const resultUploads = await responseUpload.json();
-
-      const image = resultUploads[0].result.variants[1];
-      const images = resultUploads.slice(1);
-
-      const imagesUrl: string[] = [];
-
-      for (let i = 0; i < images.length; i++) {
-        imagesUrl.push(images[i].result.variants[1]);
-      }
-
-      const { title, imageCredit, category, tags, author, story } = values;
-
-      const article = {
-        title,
-        imageCredit,
-        category,
-        tags,
-        author,
-        story: story,
-        image: image,
-        images: imagesUrl,
-        ownerId: user?.id,
-      };
-
-      const responseArticle = await fetch(
-        "http://localhost:3000/api/createArticle",
+    try {
+      const responseUpload = await fetch(
+        "http://localhost:3000/api/uploadImages",
         {
           method: "POST",
-          body: JSON.stringify(article),
+          body: formData,
         }
       );
 
-      const result = await responseArticle.json();
+      if (responseUpload) {
+        const resultUploads = await responseUpload.json();
 
-      form.reset({
-        title: "",
-        imageCredit: "",
-        category: "",
-        tags: [],
-        story: "",
-        image: "",
-        images: [],
-      });
+        const image = resultUploads[0].result.variants[1];
+        const images = resultUploads.slice(1);
 
-      setOpen(false);
+        const imagesUrl: string[] = [];
+
+        for (let i = 0; i < images.length; i++) {
+          imagesUrl.push(images[i].result.variants[1]);
+        }
+
+        const { title, imageCredit, category, tags, author, story } = values;
+
+        const article = {
+          title,
+          imageCredit,
+          category,
+          tags,
+          author,
+          story: story,
+          image: image,
+          images: imagesUrl,
+          ownerId: user?.id,
+        };
+
+        const responseArticle = await fetch(
+          "http://localhost:3000/api/createArticle",
+          {
+            method: "POST",
+            body: JSON.stringify(article),
+          }
+        );
+
+        const result = await responseArticle.json();
+
+        form.reset({
+          title: "",
+          imageCredit: "",
+          category: "",
+          tags: [],
+          story: "",
+          image: "",
+          images: [],
+        });
+
+        setOpen(false);
+        setError(false);
+      }
+    } catch (error) {
+      setError(true);
+    } finally {
+      setIsSubmitting(false);
+      setError(false);
     }
   };
 
@@ -244,7 +268,7 @@ const ArticleForm = ({ user }: { user: User }) => {
       </DialogTrigger>
       <DialogContent
         aria-describedby={undefined}
-        className="overflow-y-scroll h-[40rem] lg:w-[50rem] md:w-[40rem] w-[25rem] z-[999]"
+        className="overflow-y-scroll h-[40rem] lg:w-[60rem] md:w-[40rem] w-[25rem] z-[999]"
       >
         <DialogHeader>
           <DialogTitle>Create article</DialogTitle>
@@ -317,12 +341,10 @@ const ArticleForm = ({ user }: { user: User }) => {
                       defaultValue={field.value}
                       {...form.register("category")}
                     >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a cateogory" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a cateogory" />
+                      </SelectTrigger>
+                      <SelectContent className="z-[999]">
                         <SelectGroup>
                           <SelectLabel>Categories</SelectLabel>
                           {categories.map((category) => (
@@ -357,7 +379,6 @@ const ArticleForm = ({ user }: { user: User }) => {
                   <FormItem>
                     <FormLabel>Story:</FormLabel>
                     <EditorComponent
-                      // {...form.register("story")}
                       value={field.value}
                       setValue={form.setValue}
                     />
@@ -445,7 +466,9 @@ const ArticleForm = ({ user }: { user: User }) => {
                 )}
               />
             </div>
-            <Button type="submit">Submit</Button>
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Submitting..." : "Submit"}
+            </Button>
             <DialogFooter>
               <DialogClose asChild>
                 <Button variant="outline">Cancel</Button>

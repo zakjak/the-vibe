@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           url: article[0]?.image,
           width: 1200,
           height: 630,
-          alt: article[0].title,
+          alt: article[0]?.title,
         },
       ],
       locale: "en_US",
@@ -60,7 +60,7 @@ const ArticlePage = async ({ params }: { params: Promise<{ id: number }> }) => {
   const { id } = await params;
 
   return (
-    <div className="grid md:grid-cols-3 p-10 gap-8">
+    <div>
       <ArticleComponent id={id} />
     </div>
   );

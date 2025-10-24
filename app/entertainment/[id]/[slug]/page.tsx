@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           url: article[0]?.image,
           width: 1200,
           height: 630,
-          alt: article[0].title,
+          alt: article[0]?.title,
         },
       ],
       locale: "en_US",

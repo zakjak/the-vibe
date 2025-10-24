@@ -1,19 +1,19 @@
 import { articles } from "@/drizzle/schema";
 import { db } from "@/lib/schema/schema";
-import { eq } from "drizzle-orm";
+import { and, eq, ne } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function GET(
   req: Request,
-  { params }: { params: { category: string } }
+  { params }: { params: { category: string; id: number } }
 ) {
-  const { category } = await params;
+  const { category, id } = await params;
 
   try {
     const response = await db
       .select()
       .from(articles)
-      .where(eq(articles.category, category))
+      .where(and(eq(articles.category, category), ne(articles.id, id)))
       .limit(3);
     return NextResponse.json(response);
   } catch (err) {

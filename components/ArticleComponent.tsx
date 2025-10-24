@@ -16,7 +16,11 @@ const ArticleComponent = ({ id }: { id: number }) => {
     `http://localhost:3000/${data?.category}/${
       data?.id
     }/${data?.title?.replaceAll(" ", "-")}`;
-  const { data: relatedArticles } = useRelatedArticles(data && data?.category);
+
+  const { data: relatedArticles } = useRelatedArticles(
+    data && data?.category,
+    id
+  );
 
   if (isFetching) {
     return <ArticleComponentSkeleton />;
