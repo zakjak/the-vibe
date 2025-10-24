@@ -19,9 +19,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NewsAfrika",
+  title: "TheVybe",
   description:
-    "NewsAfrika brings you the latest headlines, insightful reports, and global coverage in real time. Stay ahead with stories that inform, inspire, and connect the world.",
+    "TheVybe brings you the latest headlines, insightful reports, and global coverage in real time. Stay ahead with stories that inform, inspire, and connect the world.",
 };
 
 export default function RootLayout({

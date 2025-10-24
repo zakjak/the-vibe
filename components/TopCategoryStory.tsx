@@ -43,7 +43,7 @@ const TopCategoryStory = ({
             width={240}
             height={240}
             alt={`${topStory?.title}`}
-            className="w-full"
+            className="w-full h-[12rem] object-cover"
           />
         </Link>
         {id == topStory?.ownerId && activeTab !== "saved" && (
@@ -77,7 +77,7 @@ const TopCategoryStory = ({
             topStory?.id
           }/${topStory?.title?.replaceAll(" ", "-")}`}
         >
-          <h2 className="text-md">{topStory?.title}</h2>
+          <h2 className="text-md line-clamp-2">{topStory?.title}</h2>
         </Link>
         <div className="flex items-center gap-2 text-xs text-gray-400">
           <span>{topStory?.category}</span>

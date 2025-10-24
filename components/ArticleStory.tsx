@@ -104,11 +104,11 @@ const ArticleStory = ({
               <div className="">
                 {copied ? (
                   <div className="flex items-center gap-1">
-                    <TiTick /> Copied
+                    <TiTick /> Copied Link
                   </div>
                 ) : (
                   <Button variant="link" onClick={copyToClipboard}>
-                    <FaRegCopy /> Copy
+                    <FaRegCopy /> Copy Link
                   </Button>
                 )}
               </div>

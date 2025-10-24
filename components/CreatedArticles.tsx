@@ -23,7 +23,7 @@ const CreatedArticles = ({ ownerId }: { ownerId: string }) => {
 
   return (
     <div className="">
-      <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-3">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-3 w-[30rem] md:w-[50rem] px-8">
         {createdArticles?.map((article) => (
           <TopCategoryStory key={article?.id} topStory={article} />
         ))}

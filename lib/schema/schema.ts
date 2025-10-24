@@ -4,15 +4,12 @@ import {
   pgTable,
   text,
   primaryKey,
-  serial,
   integer,
 } from "drizzle-orm/pg-core";
 import postgres from "postgres";
 
 import { drizzle, PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import type { AdapterAccountType } from "@auth/core/adapters";
-import { relations } from "drizzle-orm";
-import { articles } from "./articles";
 
 const pool = postgres(process.env.AUTH_DRIZZLE_URL as string, { max: 1 });
 
