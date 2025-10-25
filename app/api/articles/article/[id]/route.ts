@@ -5,11 +5,13 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: number } }
+  { params }: { params: { id: string } }
 ) {
   const { searchParams } = new URL(req.url);
   const param = await params;
   const { id } = param;
+
+  const numericId = Number(id);
 
   const page = Number(searchParams.get("page")) || 1;
 
@@ -20,12 +22,12 @@ export async function GET(
       const article = await db
         .select()
         .from(articles)
-        .where(eq(articles.id, id));
+        .where(eq(articles.id, numericId));
 
       const articleComments = await db
         .select()
         .from(comments)
-        .where(eq(comments.postId, id))
+        .where(eq(comments.postId, numericId))
         .leftJoin(users, eq(comments.ownerId, users.id))
         .limit(nextPage);
 
@@ -61,6 +63,7 @@ export async function POST(
       .where(eq(articles.id, id));
     return NextResponse.json({ message: "View count incremented" });
   } catch (err) {
+    console.log(err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
