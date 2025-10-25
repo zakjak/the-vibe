@@ -57,7 +57,6 @@ export function AIMenu() {
   const toolName = usePluginOption(AIChatPlugin, "toolName");
 
   const streaming = usePluginOption(AIChatPlugin, "streaming");
-  const isSelecting = useIsSelecting();
   const isFocusedLast = useFocusedLast();
   const open = usePluginOption(AIChatPlugin, "open") && isFocusedLast;
 
@@ -69,10 +68,6 @@ export function AIMenu() {
   const [anchorElement, setAnchorElement] = React.useState<HTMLElement | null>(
     null
   );
-
-  const content = useLastAssistantMessage()?.parts.find(
-    (part) => part.type === "text"
-  )?.text;
 
   React.useEffect(() => {
     if (streaming) {
@@ -270,7 +265,7 @@ Start writing a new paragraph AFTER <Document> ONLY ONE SENTENCE`
     label: "Discard",
     shortcut: "Escape",
     value: "discard",
-    onSelect: ({ editor, input }) => {
+    onSelect: ({ editor }) => {
       editor.getTransforms(AIPlugin).ai.undo();
       editor.getApi(AIChatPlugin).aiChat.hide();
     },
@@ -415,7 +410,7 @@ Start writing a new paragraph AFTER <Document> ONLY ONE SENTENCE`
     icon: <CornerUpLeft />,
     label: "Try again",
     value: "tryAgain",
-    onSelect: ({ editor, input }) => {
+    onSelect: ({ editor }) => {
       void editor.getApi(AIChatPlugin).aiChat.reload();
     },
   },
@@ -491,17 +486,13 @@ const menuStateItems: Record<
 };
 
 export const AIMenuItems = ({
-  input,
-  setInput,
   setValue,
 }: {
   input: string;
   setInput: (value: string) => void;
   setValue: (value: string) => void;
 }) => {
-  const editor = useEditorRef();
   const { messages } = usePluginOption(AIChatPlugin, "chat");
-  const aiEditor = usePluginOption(AIChatPlugin, "aiEditor")!;
   const isSelecting = useIsSelecting();
 
   const menuState = React.useMemo(() => {

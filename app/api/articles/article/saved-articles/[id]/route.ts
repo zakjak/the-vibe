@@ -1,6 +1,6 @@
 import { readList } from "@/lib/schema/articles";
 import { db } from "@/lib/schema/schema";
-import { eq, exists } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -17,6 +17,7 @@ export async function GET(
 
     return NextResponse.json(savedArticle);
   } catch (err) {
+    console.log(err);
     return Response.json({ error: "Failed fetching articles" });
   }
 }

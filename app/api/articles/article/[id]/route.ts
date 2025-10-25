@@ -77,7 +77,7 @@ export async function DELETE(
 
   try {
     await db.delete(comments).where(eq(comments.postId, id));
-    const res = await db.delete(articles).where(eq(articles.id, id));
+    await db.delete(articles).where(eq(articles.id, id));
 
     return NextResponse.json("Successfully deleted article");
   } catch (err) {
