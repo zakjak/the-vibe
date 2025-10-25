@@ -1,11 +1,11 @@
 import { articles, readList } from "@/lib/schema/articles";
 import { db } from "@/lib/schema/schema";
-import { count, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function GET(
   req: Request,
-  { params }: { params: { userId: string } }
+  { params }: { params: Promise<{ userId: string }> }
 ) {
   const param = await params;
   const { userId } = param;
@@ -25,6 +25,7 @@ export async function GET(
 
     return NextResponse.json(userSavedArticles);
   } catch (err) {
+    console.log(err);
     return NextResponse.json(
       { error: "Error fetchong saved article" },
       { status: 404 }

@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
   const body = await req.json();
@@ -13,10 +13,11 @@ export async function POST(
   try {
     const userProfile = await db
       .update(users)
-      .set({ profilePicture: profileImage })
+      .set({ image: profileImage })
       .where(eq(users.id, id));
     return NextResponse.json(userProfile);
   } catch (err) {
+    console.log(err);
     return NextResponse.json("Server Error", { status: 500 });
   }
 }

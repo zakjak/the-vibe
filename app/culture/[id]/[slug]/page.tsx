@@ -1,11 +1,11 @@
 import ArticleComponent from "@/components/ArticleComponent";
 import { Metadata } from "next";
 
-type Props = {
-  params: { id: string };
-};
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
   const { id } = await params;
 
   const res = await fetch(`http://localhost:3000/api/articles/article/${id}`, {
