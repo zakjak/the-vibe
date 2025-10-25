@@ -5,11 +5,11 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   req: Request,
-  context: { params: Record<string, string> }
+  { params }: { params: { id: string } }
 ) {
   const { searchParams } = new URL(req.url);
 
-  const { id } = context.params;
+  const { id } = params;
 
   const numericId = Number(id);
 
