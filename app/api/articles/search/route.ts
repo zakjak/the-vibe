@@ -41,5 +41,6 @@ export async function GET(req: Request) {
     return NextResponse.json({ search, pageNumber, countRows });
   } catch (err) {
     console.log(err);
+    return NextResponse.json("Server failed. Try again!!!");
   }
 }
