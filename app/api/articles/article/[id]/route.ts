@@ -52,7 +52,7 @@ export async function GET(
 
 export async function POST(
   req: Request,
-  { params }: { params: { id: number } }
+  { params }: { params: Promise<{ id: number }> }
 ) {
   const { id } = await params;
 
