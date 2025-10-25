@@ -1,6 +1,7 @@
 import { articles } from "@/drizzle/schema";
 import { db } from "@/lib/schema/schema";
 import { count, eq } from "drizzle-orm";
+import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -21,9 +22,9 @@ export async function GET(req: Request) {
       .limit(10)
       .offset(calculatePageNumber);
 
-    return Response.json({ response, pageNumber });
+    return NextResponse.json({ response, pageNumber });
   } catch (err) {
     console.log("Error fetching articles:", err);
-    Response.json({ error: "Failed fetching articles" });
+    return NextResponse.json({ error: "Failed fetching articles" });
   }
 }

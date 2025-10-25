@@ -20,6 +20,6 @@ export async function GET(
     return NextResponse.json(response);
   } catch (err) {
     console.log(err);
-    Response.json({ error: "Failed fetching articles" });
+    return NextResponse.json({ error: "Failed fetching articles" });
   }
 }

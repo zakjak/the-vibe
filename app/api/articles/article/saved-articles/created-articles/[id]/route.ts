@@ -25,9 +25,10 @@ export async function GET(
       return NextResponse.json(createdArticles);
     } catch (err) {
       console.log("Error fetching articles:", err);
-      Response.json({ error: "Failed fetching articles" });
+      NextResponse.json({ error: "Failed fetching articles" });
     }
   } catch (err) {
-    return Response.json({ error: "Failed fetching articles" });
+    console.log(err);
+    return NextResponse.json({ error: "Failed fetching articles" });
   }
 }

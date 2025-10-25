@@ -7,7 +7,7 @@ export const config = {
   },
 };
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request) {
   const formData = await req.formData();
 
   try {
@@ -28,8 +28,6 @@ export async function POST(req: Request, res: Response) {
     }
 
     const results = await Promise.all(uploadPromises);
-
-    // console.log(results[1].result.variants);
 
     return NextResponse.json(results);
   } catch (error) {

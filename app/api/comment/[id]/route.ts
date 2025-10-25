@@ -13,10 +13,11 @@ export async function DELETE(
   const numericId = Number(id);
 
   try {
-    const res = await db.delete(comments).where(eq(comments.id, numericId));
+    await db.delete(comments).where(eq(comments.id, numericId));
 
     return NextResponse.json("Successfully deleted comment");
   } catch (err) {
+    console.log(err);
     return NextResponse.json({ error: "Try again, Failed to delete" });
   }
 }
