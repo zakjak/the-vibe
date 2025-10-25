@@ -52,15 +52,17 @@ export async function GET(
 
 export async function POST(
   req: Request,
-  { params }: { params: { id: number } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
+
+  const numericId = Number(id);
 
   try {
     await db
       .update(articles)
       .set({ views: sql`${articles.views} + 1` })
-      .where(eq(articles.id, id));
+      .where(eq(articles.id, numericId));
     return NextResponse.json({ message: "View count incremented" });
   } catch (err) {
     console.log(err);
