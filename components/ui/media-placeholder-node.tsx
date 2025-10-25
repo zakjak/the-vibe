@@ -17,6 +17,7 @@ import { useFilePicker } from "use-file-picker";
 
 import { cn } from "@/lib/utils/utils";
 import { useUploadFile } from "@/hooks/use-upload-file";
+import Image from "next/image";
 
 const CONTENT: Record<
   string,
@@ -69,7 +70,8 @@ export const PlaceholderElement = withHOC(
     const { openFilePicker } = useFilePicker({
       accept: currentContent.accept,
       multiple: true,
-      onFilesSelected: ({ plainFiles: updatedFiles }) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      onFilesSelected: ({ plainFiles: updatedFiles }: any) => {
         const firstFile = updatedFiles[0];
         const restFiles = updatedFiles.slice(1);
 
@@ -210,7 +212,7 @@ export function ImageProgress({
 
   return (
     <div className={cn("relative", className)} contentEditable={false}>
-      <img
+      <Image
         ref={imageRef}
         className="h-auto w-full rounded-sm object-cover"
         alt={file.name}

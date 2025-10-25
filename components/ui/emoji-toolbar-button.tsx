@@ -252,6 +252,7 @@ function EmojiPickerContent({
   const getRowWidth = settings.perLine.value * settings.buttonSize.value;
 
   const isCategoryVisible = React.useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (categoryId: any) => {
       return visibleCategories.has(categoryId)
         ? visibleCategories.get(categoryId)

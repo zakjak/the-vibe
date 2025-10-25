@@ -368,7 +368,9 @@ export const useResolveSuggestion = (
 
       let newText = "";
       let text = "";
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let properties: any = {};
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let newProperties: any = {};
 
       // overlapping suggestion

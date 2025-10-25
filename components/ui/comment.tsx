@@ -390,6 +390,7 @@ function CommentMoreDropdown(props: {
 
 const useCommentEditor = (
   options: Omit<CreatePlateEditorOptions, "plugins"> = {},
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   deps: any[] = []
 ) => {
   const commentEditor = usePlateEditor(

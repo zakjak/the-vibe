@@ -66,7 +66,7 @@ export const BlockDraggable: RenderNodeWrapper = (props) => {
   }, [editor, element, path]);
 
   if (!enabled) return;
-
+  // eslint-disable-next-line react/display-name
   return (props) => <Draggable {...props} />;
 };
 

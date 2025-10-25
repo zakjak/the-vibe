@@ -26,7 +26,7 @@ const config: Record<
 
 export const BlockListStatic: RenderStaticNodeWrapper = (props) => {
   if (!props.element.listStyleType) return;
-
+  // eslint-disable-next-line react/display-name
   return (props) => <List {...props} />;
 };
 

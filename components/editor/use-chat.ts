@@ -31,7 +31,7 @@ export type MessageDataPart = {
 
 export type Chat = UseChatHelpers<ChatMessage>;
 
-export type ChatMessage = UIMessage<{}, MessageDataPart>;
+export type ChatMessage = UIMessage<Record<string, never>, MessageDataPart>;
 
 export const useChat = () => {
   const editor = useEditorRef();
@@ -60,6 +60,7 @@ export const useChat = () => {
           try {
             const content = JSON.parse(init?.body as string)
               .messages.at(-1)
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               .parts.find((p: any) => p.type === "text")?.text;
 
             if (content.includes("Generate a markdown sample")) {

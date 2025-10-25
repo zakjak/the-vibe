@@ -83,6 +83,7 @@ export const suggestionPlugin = toTPlatePlugin<SuggestionConfig>(
     },
   },
   render: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     belowNodes: SuggestionLineBreak as any,
     node: SuggestionLeaf,
     belowRootNodes: ({ api, element }) => {

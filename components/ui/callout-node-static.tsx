@@ -15,6 +15,7 @@ export function CalloutElementStatic({
     <SlateElement
       className={cn("my-1 flex rounded-sm bg-muted p-4 pl-3", className)}
       style={{
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         backgroundColor: props.element.backgroundColor as any,
       }}
       {...props}
@@ -28,7 +29,7 @@ export function CalloutElementStatic({
           }}
         >
           <span data-plate-prevent-deserialization>
-            {(props.element.icon as any) || "💡"}
+            {(props.element.icon as string | React.ReactNode) || "💡"}
           </span>
         </div>
         <div className="w-full">{children}</div>

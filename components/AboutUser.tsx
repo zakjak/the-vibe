@@ -1,15 +1,13 @@
 import { useRef } from "react";
-import { nameFallback, slugify } from "@/lib/utils/helpers";
+import { nameFallback } from "@/lib/utils/helpers";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Button } from "./ui/button";
-import ArticleForm from "./ArticleForm";
 import z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { HiOutlinePencilAlt } from "react-icons/hi";
 import { Input } from "./ui/input";
-import { Session, User } from "@/lib/types/users";
+import { User } from "@/lib/types/users";
 
 const formSchema = z.object({
   profilePicture: z.union([
@@ -81,9 +79,7 @@ const AboutUser = ({ user }: { user: User }) => {
         <div className="relative">
           <Avatar className="w-[8rem] h-[8rem]  flex items-center justify-center">
             <AvatarImage
-              src={
-                imagePreview ? imagePreview : (user?.profilePicture as string)
-              }
+              src={imagePreview ? imagePreview : (user?.image as string)}
               className="object-cover w-full h-full rounded-full"
             />
             <AvatarFallback className="font-bold">
