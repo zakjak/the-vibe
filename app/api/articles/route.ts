@@ -1,8 +1,9 @@
 import { articles } from "@/drizzle/schema";
 import { db } from "@/lib/schema/schema";
-import { eq, sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
+import { NextResponse } from "next/server";
 
-export async function GET(req: Request, res: Response) {
+export async function GET(req: Request) {
   try {
     const [latestPolitics, latestSports, latestBusiness, latestEntertainment] =
       await Promise.all([
@@ -79,7 +80,7 @@ export async function GET(req: Request, res: Response) {
       ...latestBusiness,
       ...latestEntertainment,
     ];
-    return Response.json({
+    return NextResponse.json({
       latestPolitics,
       topOtherStories,
       topBusiness,
@@ -92,6 +93,6 @@ export async function GET(req: Request, res: Response) {
     });
   } catch (err) {
     console.log("Error fetching articles:", err);
-    Response.json({ error: "Failed fetching articles" });
+    return NextResponse.json({ error: "Failed fetching articles" });
   }
 }
