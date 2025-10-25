@@ -72,14 +72,16 @@ export async function POST(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: number } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const param = await params;
   const { id } = param;
 
+  const numericId = Number(id);
+
   try {
-    await db.delete(comments).where(eq(comments.postId, id));
-    await db.delete(articles).where(eq(articles.id, id));
+    await db.delete(comments).where(eq(comments.postId, numericId));
+    await db.delete(articles).where(eq(articles.id, numericId));
 
     return NextResponse.json("Successfully deleted article");
   } catch (err) {
