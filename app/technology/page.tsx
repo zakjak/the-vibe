@@ -1,9 +1,14 @@
 import AllTechnology from "@/components/AllTechnology";
 
-const TechnologyPage = () => {
+const TechnologyPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) => {
+  const { page } = await searchParams;
   return (
     <div>
-      <AllTechnology />
+      <AllTechnology page={page as string} />
     </div>
   );
 };

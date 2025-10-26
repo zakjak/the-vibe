@@ -3,15 +3,13 @@
 import TopCategoryStory from "./TopCategoryStory";
 import PaginationComponent from "./PaginationComponent";
 import { useBusiness } from "@/hooks/useBusiness";
-import { useSearchParams } from "next/navigation";
 import { Article } from "@/lib/types/article";
 import CategoriesPageSkeleton from "./CategoriesPageSkeleton";
 
-const AllBusiness = () => {
-  const searchParams = useSearchParams();
-  const page = Number(searchParams.get("page")) || 1;
+const AllBusiness = ({ page }: { page: string }) => {
+  const pageNumber = Number(page) || 1;
 
-  const { data: business, isLoading } = useBusiness(page);
+  const { data: business, isLoading } = useBusiness(pageNumber);
 
   const articles: Article[] = business?.response;
 

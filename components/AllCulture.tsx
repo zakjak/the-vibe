@@ -3,15 +3,13 @@
 import { useCulture } from "@/hooks/useCulture";
 import PaginationComponent from "./PaginationComponent";
 import TopCategoryStory from "./TopCategoryStory";
-import { useSearchParams } from "next/navigation";
 import { Article } from "@/lib/types/article";
 import CategoriesPageSkeleton from "./CategoriesPageSkeleton";
 
-const AllCulture = () => {
-  const searchParams = useSearchParams();
-  const page = Number(searchParams.get("page")) || 1;
+const AllCulture = ({ page }: { page: string }) => {
+  const pageNumber = Number(page) || 1;
 
-  const { data: culture, isLoading } = useCulture(page);
+  const { data: culture, isLoading } = useCulture(pageNumber);
 
   const articles: Article[] = culture?.response;
 

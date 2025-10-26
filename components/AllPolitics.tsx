@@ -3,15 +3,13 @@
 import TopCategoryStory from "./TopCategoryStory";
 import PaginationComponent from "./PaginationComponent";
 import { usePolitics } from "@/hooks/usePolitics";
-import { useSearchParams } from "next/navigation";
 import { Article } from "@/lib/types/article";
 import CategoriesPageSkeleton from "./CategoriesPageSkeleton";
 
-const AllPolitics = () => {
-  const searchParams = useSearchParams();
-  const page = Number(searchParams.get("page")) || 1;
+const AllPolitics = ({ page }: { page: string }) => {
+  const pageNumber = Number(page) || 1;
 
-  const { data: politics, isLoading } = usePolitics(page);
+  const { data: politics, isLoading } = usePolitics(pageNumber);
 
   const articles: Article[] = politics?.response;
 

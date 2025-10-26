@@ -8,14 +8,19 @@ import UserComponent from "./UserComponent";
 import NavbarLargeLinks from "./NavbarLargeLinks";
 import SearchInput from "./SearchInput";
 import NavbarSmallLinks from "./NavbarSmallLinks";
-import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const searchParams = useSearchParams();
-  const page = Number(searchParams.get("page")) || 1;
+  const [page, setPage] = useState(1);
   const router = useRouter();
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const currentPage = Number(params.get("page")) || 1;
+    setPage(currentPage);
+  }, []);
 
   const navLinks = [
     {

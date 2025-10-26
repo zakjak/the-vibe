@@ -1,9 +1,15 @@
 import AllSports from "@/components/AllSports";
 
-const SportsPage = () => {
+const SportsPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) => {
+  const { page } = await searchParams;
+
   return (
     <div>
-      <AllSports />
+      <AllSports page={page as string} />
     </div>
   );
 };

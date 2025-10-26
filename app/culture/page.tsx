@@ -1,11 +1,16 @@
 import AllCulture from "@/components/AllCulture";
 
-const page = () => {
+const CulturePage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) => {
+  const { page } = await searchParams;
   return (
     <div>
-      <AllCulture />
+      <AllCulture page={page as string} />
     </div>
   );
 };
 
-export default page;
+export default CulturePage;

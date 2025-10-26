@@ -24,10 +24,6 @@ const PaginationComponent = ({
 
   const paginationRange = getPaginationRange(currentPage, pageNumber);
 
-  console.log("page number", pageNumber);
-
-  console.log(paginationRange);
-
   return (
     <Pagination>
       <PaginationContent>

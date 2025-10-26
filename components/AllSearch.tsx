@@ -2,7 +2,6 @@
 
 import { useSearch } from "@/hooks/useSearch";
 import { Article } from "@/lib/types/article";
-import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Card } from "./ui/card";
 import { Separator } from "@radix-ui/react-separator";
@@ -11,13 +10,11 @@ import Image from "next/image";
 import { calculateTime } from "@/lib/utils/helpers";
 import PaginationComponent from "./PaginationComponent";
 
-const AllSearch = () => {
+const AllSearch = ({ page, q }: { page: string; q: string }) => {
   const [] = useState(1);
-  const searchParams = useSearchParams();
-  const page = Number(searchParams.get("page")) || 1;
-  const q = String(searchParams.get("q"));
+  const pageNumber = Number(page) || 1;
 
-  const { data } = useSearch(q, page);
+  const { data } = useSearch(q, pageNumber);
 
   const articles: Article[] = data?.search;
 
@@ -25,25 +22,25 @@ const AllSearch = () => {
     if (page * 10 < data?.countRows[0]?.count) {
       if (page <= 1) {
         return `Displaying ${page}-${page * 10} results out of ${" "}
-                ${data?.countRows[0]?.count} for ${q.replaceAll("+", " ")}`;
+                ${data?.countRows[0]?.count} for ${q?.replaceAll("+", " ")}`;
       } else {
         return `Displaying ${(page - 1) * 10 + 1}-${
           data?.countRows[0]?.count
         } results out of ${" "}
-                ${data?.countRows[0]?.count} for ${q.replaceAll("+", " ")}`;
+                ${data?.countRows[0]?.count} for ${q?.replaceAll("+", " ")}`;
       }
     } else {
       return `Displaying ${(page - 1) * 10 + 1}-${
         data?.countRows[0]?.count
       } results out of ${" "}
-                ${data?.countRows[0]?.count} for ${q.replaceAll("+", " ")}`;
+                ${data?.countRows[0]?.count} for ${q?.replaceAll("+", " ")}`;
     }
   };
   // const texts = JSON.parse(item.story);
   return (
     <div className="p-8 mx-auto lg:w-[60%] md:w-[80%]">
       <div className="">
-        <h2 className="text-lg font-bold">{totalArticles(page)}</h2>
+        <h2 className="text-lg font-bold">{totalArticles(pageNumber)}</h2>
       </div>
       {articles && (
         <div className="w-[90%]">

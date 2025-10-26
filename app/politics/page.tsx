@@ -1,9 +1,15 @@
 import AllPolitics from "@/components/AllPolitics";
 
-const PoliticsPage = () => {
+const PoliticsPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) => {
+  const { page } = await searchParams;
+
   return (
     <div className="mb-4">
-      <AllPolitics />
+      <AllPolitics page={page as string} />
     </div>
   );
 };

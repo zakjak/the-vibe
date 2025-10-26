@@ -1,9 +1,15 @@
 import AllInnovation from "@/components/AllInnovation";
 
-const InnovationPage = () => {
+const InnovationPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) => {
+  const { page } = await searchParams;
+
   return (
     <div>
-      <AllInnovation />
+      <AllInnovation page={page as string} />
     </div>
   );
 };

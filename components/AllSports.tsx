@@ -3,16 +3,14 @@
 import React from "react";
 import PaginationComponent from "./PaginationComponent";
 import TopCategoryStory from "./TopCategoryStory";
-import { useSearchParams } from "next/navigation";
 import { useSports } from "@/hooks/useSports";
 import { Article } from "@/lib/types/article";
 import CategoriesPageSkeleton from "./CategoriesPageSkeleton";
 
-const AllSports = () => {
-  const searchParams = useSearchParams();
-  const page = Number(searchParams.get("page")) || 1;
+const AllSports = ({ page }: { page: string }) => {
+  const pageNumber = Number(page) || 1;
 
-  const { data: sports, isLoading } = useSports(page);
+  const { data: sports, isLoading } = useSports(pageNumber);
 
   const articles: Article[] = sports?.response;
 

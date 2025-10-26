@@ -3,15 +3,13 @@
 import { useEntertainment } from "@/hooks/useEntertainment";
 import PaginationComponent from "./PaginationComponent";
 import TopCategoryStory from "./TopCategoryStory";
-import { useSearchParams } from "next/navigation";
 import { Article } from "@/lib/types/article";
 import CategoriesPageSkeleton from "./CategoriesPageSkeleton";
 
-const AllEntertainment = () => {
-  const searchParams = useSearchParams();
-  const page = Number(searchParams.get("page")) || 1;
+const AllEntertainment = ({ page }: { page: string }) => {
+  const pageNumber = Number(page) || 1;
 
-  const { data: entertainment, isLoading } = useEntertainment(page);
+  const { data: entertainment, isLoading } = useEntertainment(pageNumber);
 
   const articles: Article[] = entertainment?.response;
 

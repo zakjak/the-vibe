@@ -3,15 +3,13 @@
 import TopCategoryStory from "./TopCategoryStory";
 import PaginationComponent from "./PaginationComponent";
 import { useTechnology } from "@/hooks/useTechnology";
-import { useSearchParams } from "next/navigation";
 import { Article } from "@/lib/types/article";
 import CategoriesPageSkeleton from "./CategoriesPageSkeleton";
 
-const AllTechnology = () => {
-  const searchParams = useSearchParams();
-  const page = Number(searchParams.get("page")) || 1;
+const AllTechnology = ({ page }: { page: string }) => {
+  const pageNumber = Number(page) || 1;
 
-  const { data: technology, isLoading } = useTechnology(page);
+  const { data: technology, isLoading } = useTechnology(pageNumber);
 
   const articles: Article[] = technology?.response;
 

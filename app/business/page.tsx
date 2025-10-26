@@ -1,9 +1,15 @@
 import AllBusiness from "@/components/AllBusiness";
 
-const BusinessPage = () => {
+const BusinessPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) => {
+  const { page } = await searchParams;
+
   return (
     <div>
-      <AllBusiness />
+      <AllBusiness page={page as string} />
     </div>
   );
 };
