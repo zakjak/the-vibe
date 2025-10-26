@@ -4,7 +4,7 @@ import * as React from "react";
 
 import type { DropdownMenuProps } from "@radix-ui/react-dropdown-menu";
 
-import { PlaceholderPlugin } from "@platejs/media/react";
+// import { PlaceholderPlugin } from "@platejs/media/react";
 import {
   AudioLinesIcon,
   FileUpIcon,
@@ -83,16 +83,16 @@ export function MediaToolbarButton({
 }: DropdownMenuProps & { nodeType: string }) {
   const currentConfig = MEDIA_CONFIG[nodeType];
 
-  const editor = useEditorRef();
+  // const editor = useEditorRef();
   const [open, setOpen] = React.useState(false);
   const [dialogOpen, setDialogOpen] = React.useState(false);
 
   const { openFilePicker } = useFilePicker({
     accept: currentConfig.accept,
     multiple: true,
-    onFilesSelected: ({ plainFiles: updatedFiles }) => {
-      editor.getTransforms(PlaceholderPlugin).insert.media(updatedFiles);
-    },
+    // onFilesSelected: ({ plainFiles: updatedFiles }) => {
+    //   editor.getTransforms(PlaceholderPlugin).insert.media(updatedFiles);
+    // },
   });
 
   return (

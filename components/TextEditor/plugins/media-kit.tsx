@@ -15,7 +15,6 @@ import { AudioElement } from "@/components/ui/media-audio-node";
 import { MediaEmbedElement } from "@/components/ui/media-embed-node";
 import { FileElement } from "@/components/ui/media-file-node";
 import { ImageElement } from "@/components/ui/media-image-node";
-import { PlaceholderElement } from "@/components/ui/media-placeholder-node";
 import { MediaPreviewDialog } from "@/components/ui/media-preview-dialog";
 import { MediaUploadToast } from "@/components/ui/media-upload-toast";
 import { VideoElement } from "@/components/ui/media-video-node";
@@ -31,7 +30,7 @@ export const MediaKit = [
   FilePlugin.withComponent(FileElement),
   PlaceholderPlugin.configure({
     options: { disableEmptyPlaceholder: true },
-    render: { afterEditable: MediaUploadToast, node: PlaceholderElement },
+    render: { afterEditable: MediaUploadToast },
   }),
   CaptionPlugin.configure({
     options: {

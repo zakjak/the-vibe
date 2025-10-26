@@ -6,8 +6,8 @@ import type { DropdownMenuProps } from "@radix-ui/react-dropdown-menu";
 
 import { MarkdownPlugin } from "@platejs/markdown";
 import { ArrowUpToLineIcon } from "lucide-react";
-import { getEditorDOMFromHtmlString } from "platejs";
 import { useEditorRef } from "platejs/react";
+// import { getEditorDOMFromHtmlString } from "platejs/static";
 import { useFilePicker } from "use-file-picker";
 
 import {
@@ -28,12 +28,11 @@ export function ImportToolbarButton(props: DropdownMenuProps) {
 
   const getFileNodes = (text: string, type: ImportType) => {
     if (type === "html") {
-      const editorNode = getEditorDOMFromHtmlString(text);
-      const nodes = editor.api.html.deserialize({
-        element: editorNode,
-      });
-
-      return nodes;
+      // const editorNode = getEditorDOMFromHtmlString(text);
+      // const nodes = editor.api.html.deserialize({
+      //   element: editorNode,
+      // });
+      // return nodes;
     }
 
     if (type === "markdown") {
@@ -46,25 +45,25 @@ export function ImportToolbarButton(props: DropdownMenuProps) {
   const { openFilePicker: openMdFilePicker } = useFilePicker({
     accept: [".md", ".mdx"],
     multiple: false,
-    onFilesSelected: async ({ plainFiles }) => {
-      const text = await plainFiles[0].text();
+    // onFilesSelected: async ({ plainFiles }) => {
+    //   const text = await plainFiles[0].text();
 
-      const nodes = getFileNodes(text, "markdown");
+    //   const nodes = getFileNodes(text, "markdown");
 
-      editor.tf.insertNodes(nodes);
-    },
+    //   editor.tf.insertNodes(nodes);
+    // },
   });
 
   const { openFilePicker: openHtmlFilePicker } = useFilePicker({
     accept: ["text/html"],
     multiple: false,
-    onFilesSelected: async ({ plainFiles }) => {
-      const text = await plainFiles[0].text();
+    // onFilesSelected: async ({ plainFiles }) => {
+    //   const text = await plainFiles[0].text();
 
-      const nodes = getFileNodes(text, "html");
+    //   const nodes = getFileNodes(text, "html");
 
-      editor.tf.insertNodes(nodes);
-    },
+    //   editor.tf.insertNodes(nodes);
+    // },
   });
 
   return (

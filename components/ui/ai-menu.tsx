@@ -2,12 +2,7 @@
 
 import * as React from "react";
 
-import {
-  AIChatPlugin,
-  AIPlugin,
-  useEditorChat,
-  useLastAssistantMessage,
-} from "@platejs/ai/react";
+import { AIChatPlugin, AIPlugin, useEditorChat } from "@platejs/ai/react";
 import { getTransientCommentKey } from "@platejs/comment";
 import { BlockSelectionPlugin, useIsSelecting } from "@platejs/selection/react";
 import { getTransientSuggestionKey } from "@platejs/suggestion";
