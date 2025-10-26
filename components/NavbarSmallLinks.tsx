@@ -1,7 +1,16 @@
 import Link from "next/link";
 import React from "react";
 
-const NavbarSmallLinks = ({ navLinks }) => {
+type NavLink = {
+  name: "";
+  href: "";
+};
+
+type NavbarLargeLinksProps = {
+  navLinks: NavLink[];
+};
+
+const NavbarSmallLinks = ({ navLinks }: NavbarLargeLinksProps) => {
   return (
     <div className="text-sm flex justify-center lg:hidden bg-black text-white h-8 w-full">
       <div className="flex items-center justify-center ">

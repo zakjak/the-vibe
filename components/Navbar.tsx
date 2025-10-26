@@ -74,7 +74,7 @@ const Navbar = () => {
             <div className="block lg:hidden w-full mx-2">
               <SearchInput onSearch={handleSearch} />
             </div>
-            <NavbarLargeLinks navLinks={navLinks} />
+            <NavbarLargeLinks navLinks={navLinks as []} />
           </div>
           <div className="flex gap-4 items-center">
             <UserComponent />
@@ -87,7 +87,7 @@ const Navbar = () => {
         </div>
       </section>
       <section className="flex items-center justify-center">
-        <NavbarSmallLinks navLinks={navLinks} />
+        <NavbarSmallLinks navLinks={navLinks as []} />
       </section>
       {isSearchOpen && (
         <section className="hidden lg:block w-[70%] mx-auto py-2">

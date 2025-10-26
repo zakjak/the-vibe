@@ -1,7 +1,16 @@
 import Link from "next/link";
 import React from "react";
 
-const NavbarLargeLinks = ({ navLinks }) => {
+type NavLink = {
+  name: "";
+  href: "";
+};
+
+type NavbarLargeLinksProps = {
+  navLinks: NavLink[];
+};
+
+const NavbarLargeLinks = ({ navLinks }: NavbarLargeLinksProps) => {
   return (
     <div className="text-sm lg:flex gap-2 items-center hidden">
       {navLinks.map((link) => (
