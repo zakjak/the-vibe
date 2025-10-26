@@ -7,7 +7,6 @@ import { ThemeProvider } from "@/theme-provider";
 import AuthProvider from "@/components/providers";
 import QueryClientProvider from "@/components/QueryClientProvider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,9 +43,7 @@ export default function RootLayout({
           <AuthProvider>
             <Navbar />
             <QueryClientProvider>
-              <Suspense>
-                <main className="grow">{children}</main>
-              </Suspense>
+              <main className="grow">{children}</main>
               <ReactQueryDevtools />
             </QueryClientProvider>
           </AuthProvider>
