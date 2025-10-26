@@ -4,18 +4,14 @@ import { Plate, usePlateEditor } from "platejs/react";
 import { Editor, EditorContainer } from "@/components/ui/editor";
 import { EditorKit } from "@/components/editor/editor-kit";
 import { UseFormSetValue } from "react-hook-form";
+import { ArticleFormData } from "../ArticleForm";
 
-type FormValue = {
-  story: string;
-};
-
-const SlateEditor = ({
-  value,
-  setValue,
-}: {
+interface EditorProps {
+  setValue: UseFormSetValue<ArticleFormData>;
   value: string;
-  setValue: UseFormSetValue<FormValue>;
-}) => {
+}
+
+const SlateEditor = ({ value, setValue }: EditorProps) => {
   const editor = usePlateEditor({ plugins: EditorKit });
 
   return (

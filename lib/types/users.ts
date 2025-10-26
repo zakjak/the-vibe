@@ -2,9 +2,8 @@ export type User = {
   id: string;
   email?: string;
   name?: string;
-  image?: string | null;
   isAdmin?: boolean;
-  profilePicture?: string;
+  image?: string;
   emailVerified?: boolean;
 };
 

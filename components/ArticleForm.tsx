@@ -41,7 +41,6 @@ import {
 } from "./ui/select";
 import Image from "next/image";
 import { User } from "@/lib/types/users";
-import { toast } from "sonner";
 
 const formSchema = z.object({
   title: z
@@ -79,6 +78,8 @@ const formSchema = z.object({
   author: z.string().min(1, { message: "Author is required" }),
 });
 
+export type ArticleFormData = z.infer<typeof formSchema>;
+
 const EditorComponent = dynamic(
   () => import("../components/TextEditor/SlateEditor"),
   {
@@ -110,7 +111,7 @@ const ArticleForm = ({
     "culture",
   ];
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<ArticleFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
@@ -238,7 +239,7 @@ const ArticleForm = ({
           }
         );
 
-        const result = await responseArticle.json();
+        await responseArticle.json();
 
         form.reset({
           title: "",
@@ -254,6 +255,7 @@ const ArticleForm = ({
         setError(false);
       }
     } catch (error) {
+      console.log(error);
       setError(true);
     } finally {
       setIsSubmitting(false);
