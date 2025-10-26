@@ -5,7 +5,6 @@ import TopCategoryCulture from "./TopCategoryCulture";
 import TopCategoryEntertainment from "./TopCategoryEntertainment";
 import TopCategoryPolitics from "./TopCategoryPolitics";
 import TopCategoryTechnology from "./TopCategoryTechnology";
-import TopCategoryInnovation from "./TopCategoryInnovation";
 import { useLatestStories } from "@/hooks/useLatestStories";
 import TopCategorySports from "./TopCategorySports";
 import TopStoriesSkeleton from "./TopStoriesSkeleton";
