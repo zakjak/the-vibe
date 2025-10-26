@@ -15,6 +15,8 @@ type SlateNode = {
   lineHeight?: string;
 };
 
+type TextAlign = "start" | "center" | "end" | "justify";
+
 export const plateToHtml = (nodes: SlateNode[], images?: string[]) => {
   const components: React.ReactNode[] = [];
   let paragraphCount = 0;
@@ -42,7 +44,7 @@ export const plateToHtml = (nodes: SlateNode[], images?: string[]) => {
             key={`p-${index}`}
             style={{
               lineHeight: node.lineHeight || "normal",
-              textAlign: node.align || "start",
+              textAlign: (node.align as TextAlign) || "start",
               marginTop: "0.6rem",
             }}
           >
@@ -51,7 +53,7 @@ export const plateToHtml = (nodes: SlateNode[], images?: string[]) => {
         );
 
         // 🖼️ Add an image after every 2nd paragraph
-        if (paragraphCount % 2 === 0 && imageIndex < images.length) {
+        if (images && paragraphCount % 2 === 0 && imageIndex < images.length) {
           components.push(
             <div
               key={`img-${imageIndex}`}
