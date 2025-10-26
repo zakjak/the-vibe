@@ -19,9 +19,12 @@ import { discussionPlugin } from "./plugins/discussion-kit";
 export type ToolName = "comment" | "edit" | "generate";
 
 export type TComment = {
-  blockId: string;
-  comment: string;
-  content: string;
+  comment: {
+    blockId: string;
+    comment: string;
+    content: string;
+  } | null;
+  status: "finished" | "streaming";
 };
 
 export type MessageDataPart = {
@@ -31,7 +34,7 @@ export type MessageDataPart = {
 
 export type Chat = UseChatHelpers<ChatMessage>;
 
-export type ChatMessage = UIMessage<Record<string, never>, MessageDataPart>;
+export type ChatMessage = UIMessage<object, MessageDataPart>;
 
 export const useChat = () => {
   const editor = useEditorRef();
@@ -52,7 +55,19 @@ export const useChat = () => {
       api: options.api || "/api/ai/command",
       // Mock the API response. Remove it when you implement the route /api/ai/command
       fetch: async (input, init) => {
-        const res = await fetch(input, init);
+        const bodyOptions = editor.getOptions(aiChatPlugin).chatOptions?.body;
+
+        const initBody = JSON.parse(init?.body as string);
+
+        const body = {
+          ...initBody,
+          ...bodyOptions,
+        };
+
+        const res = await fetch(input, {
+          ...init,
+          body: JSON.stringify(body),
+        });
 
         if (!res.ok) {
           let sample: "comment" | "markdown" | "mdx" | null = null;
@@ -103,7 +118,13 @@ export const useChat = () => {
       }
 
       if (data.type === "data-comment" && data.data) {
-        const aiComment = data.data;
+        if (data.data.status === "finished") {
+          editor.getApi(BlockSelectionPlugin).blockSelection.deselect();
+
+          return;
+        }
+
+        const aiComment = data.data.comment!;
         const range = aiCommentToRange(editor, aiComment);
 
         if (!range) return console.warn("No range found for AI comment");
@@ -167,7 +188,8 @@ export const useChat = () => {
   };
 
   React.useEffect(() => {
-    editor.setOption(AIChatPlugin, "chat", chat);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    editor.setOption(AIChatPlugin, "chat", chat as any);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chat.status, chat.messages, chat.error]);
 
@@ -201,6 +223,7 @@ const fakeStreamText = ({
 
         if (sample === "comment") {
           const commentChunks = createCommentChunks(editor);
+          console.log("🚀 ~ fakeStreamText ~ commentChunks:", commentChunks);
           return commentChunks;
         }
 
@@ -1468,7 +1491,7 @@ const createCommentChunks = (editor: PlateEditor) => {
   const indexes = Array.from(result).sort((a, b) => a - b);
 
   const chunks = indexes
-    .map((index) => {
+    .map((index, i) => {
       const block = blocks[index];
       if (!block) {
         return [];
@@ -1482,9 +1505,11 @@ const createCommentChunks = (editor: PlateEditor) => {
       return [
         {
           delay: faker.number.int({ max: 500, min: 200 }),
-          texts: `{"id":"${nanoid()}","data":{"blockId":"${
+          texts: `{"id":"${nanoid()}","data":{"comment":{"blockId":"${
             block.id
-          }","comment":"${faker.lorem.sentence()}","content":"${content}"},"type":"data-comment"}`,
+          }","comment":"${faker.lorem.sentence()}","content":"${content}"},"status":"${
+            i === indexes.length - 1 ? "finished" : "streaming"
+          }"},"type":"data-comment"}`,
         },
       ];
     })
