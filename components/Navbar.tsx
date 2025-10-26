@@ -91,7 +91,7 @@ const Navbar = () => {
           </div>
         </div>
       </section>
-      <section className="flex items-center justify-center">
+      <section className="flex items-center justify-center w-full">
         <NavbarSmallLinks navLinks={navLinks as []} />
       </section>
       {isSearchOpen && (
