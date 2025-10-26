@@ -67,7 +67,7 @@ const AboutUser = ({ user }: { user: User }) => {
         );
 
         if (responseProfile.ok) {
-          const response = await responseProfile.json();
+          await responseProfile.json();
         }
       }
     }

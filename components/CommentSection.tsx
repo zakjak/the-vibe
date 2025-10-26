@@ -45,9 +45,6 @@ export type CommentFormValues = z.infer<typeof commentSchema>;
 const CommentSection = ({
   postId,
   ownerId,
-  comments,
-  isComments,
-  setIsComments,
 }: {
   postId: number;
   ownerId: string;
@@ -58,7 +55,7 @@ const CommentSection = ({
   const [expanded, setExpanded] = useState(false);
   const { mutate: deleteComment } = useDeleteComment();
   const { mutate, isPending } = useAddComment();
-  const { fetchNextPage, hasNextPage, isFetchingNextPage, data } =
+  const { fetchNextPage, isFetchingNextPage, data } =
     useAddMoreComments(postId);
 
   const form = useForm<z.infer<typeof commentSchema>>({
@@ -113,6 +110,7 @@ const CommentSection = ({
                     {...field}
                   />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -134,7 +132,7 @@ const CommentSection = ({
                 <header className="flex gap-2">
                   <Image
                     className="w-8 h-8 object-cover rounded-full"
-                    src={users?.profilePicture || ""}
+                    src={users?.image || ""}
                     alt={`Image of ${users?.name}`}
                     height={200}
                     width={2000}
