@@ -32,7 +32,7 @@ const ArticleStory = ({
   const [copied, setCopied] = useState(false);
   const { data } = useComments(article?.id, isComments);
 
-  const articleUrl = `http://localhost:3000//${article?.category}/${
+  const articleUrl = `${process.env.NEXT_PUBLIC_API_URL}/${article?.category}/${
     article?.id
   }/${article?.title?.replaceAll(" ", "-")}`;
 
