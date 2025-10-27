@@ -11,13 +11,13 @@ import postgres from "postgres";
 import { drizzle, PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import type { AdapterAccountType } from "@auth/core/adapters";
 
-const isProd = process.env.NODE_ENV === "production";
+// const isProd = process.env.NODE_ENV === "";
 
-const connectionString = isProd
-  ? process.env.AUTH_DRIZZLE_URL
-  : process.env.DATABASE_URL_NEON;
+// const connectionString = isProd
+//   ? process.env.AUTH_DRIZZLE_URL
+//   : process.env.DATABASE_URL_NEON;
 
-const pool = postgres(connectionString as string, { max: 1 });
+const pool = postgres(process.env.DATABASE_URL_NEON as string, { max: 1 });
 
 export const db: PostgresJsDatabase = drizzle(pool);
 
