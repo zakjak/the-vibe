@@ -45,5 +45,8 @@ next-env.d.ts
 
 /app/generated/prisma
 
-/app/generated/prisma
+
+# SQL dumps
 newsafrika_dump.sql
+*.dump
+*.sql
