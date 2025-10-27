@@ -9,9 +9,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { id } = await params;
 
-  const res = await fetch(`http://localhost:3000/api/articles/article/${id}`, {
-    next: { revalidate: 60 },
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/articles/article/${id}`,
+    {
+      next: { revalidate: 60 },
+    }
+  );
   if (!res.ok) {
     return {
       title: "Article Not Found | NewsAfrika",

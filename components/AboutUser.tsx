@@ -42,7 +42,7 @@ const AboutUser = ({ user }: { user: User }) => {
       formData.append("profilePicture", file);
 
       const responseUpload = await fetch(
-        "http://localhost:3000/api/user/profile-image",
+        `${process.env.NEXT_PUBLIC_API_URL}/user/profile-image`,
         {
           method: "POST",
           body: formData,
@@ -59,7 +59,7 @@ const AboutUser = ({ user }: { user: User }) => {
         };
 
         const responseProfile = await fetch(
-          `http://localhost:3000/api/user/${user?.id}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/user/${user?.id}`,
           {
             method: "POST",
             body: JSON.stringify(image),

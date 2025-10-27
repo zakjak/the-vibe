@@ -2,12 +2,14 @@
 
 import { useInfiniteQuery } from "@tanstack/react-query";
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 export const useSavedArticles = (id: string) => {
   return useInfiniteQuery({
     queryKey: ["user-saved-articles", id],
     queryFn: ({ pageParam }) =>
       fetch(
-        `http://localhost:3000/api/articles/article/saved-articles/user-articles/${id}?page=${pageParam}`
+        `${apiUrl}/articles/article/saved-articles/user-articles/${id}?page=${pageParam}`
       ).then((res) => res.json()),
     enabled: !!id,
     initialPageParam: 1,

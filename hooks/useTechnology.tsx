@@ -2,10 +2,10 @@
 
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 const fetchTechnology = async (page: number) => {
-  const res = await fetch(
-    `http://localhost:3000/api/articles/technology?page=${page}`
-  );
+  const res = await fetch(`${apiUrl}/articles/technology?page=${page}`);
   if (!res.ok) {
     throw new Error("Network response was not ok");
   }

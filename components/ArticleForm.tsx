@@ -198,7 +198,7 @@ const ArticleForm = ({
 
     try {
       const responseUpload = await fetch(
-        "http://localhost:3000/api/uploadImages",
+        `${process.env.NEXT_PUBLIC_API_URL}/uploadImages`,
         {
           method: "POST",
           body: formData,
@@ -232,7 +232,7 @@ const ArticleForm = ({
         };
 
         const responseArticle = await fetch(
-          "http://localhost:3000/api/createArticle",
+          `${process.env.NEXT_PUBLIC_API_URL}/createArticle`,
           {
             method: "POST",
             body: JSON.stringify(article),
