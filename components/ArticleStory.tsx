@@ -48,9 +48,9 @@ const ArticleStory = ({
     data: savedArticle,
     isSuccess,
     isLoading,
-  } = useSavedArticle(article?.id);
+  } = useSavedArticle(article?.ownerId);
   const { mutate, data: toggleMark } = useToggleBookmark(
-    session?.user?.id as string
+    article?.ownerId as string
   );
 
   const isSaving =
@@ -68,6 +68,8 @@ const ArticleStory = ({
       setCopied(false);
     }
   };
+
+  console.log(savedArticle);
 
   return (
     <div className="lg:col-span-4 md:col-span-3">
