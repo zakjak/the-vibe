@@ -34,7 +34,7 @@ yarn-error.log*
 .env*
 
 # neon sql files
-.dump.sql
+dump.sql
 
 # vercel
 .vercel
