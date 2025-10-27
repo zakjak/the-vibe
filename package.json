@@ -72,6 +72,7 @@
     "date-fns": "^2.30.0",
     "dotenv": "^17.2.2",
     "drizzle-orm": "^0.44.5",
+    "git-filter-repo": "^0.0.30",
     "html2canvas-pro": "^1.5.11",
     "lexical": "^0.36.2",
     "lodash": "^4.17.21",
