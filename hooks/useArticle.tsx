@@ -11,7 +11,7 @@ import {
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const fetchArticle = async (id: number, page: number) => {
-  const res = await fetch(`${apiUrl}/articles/article/${id}?page=${page}`);
+  const res = await fetch(`${apiUrl}/api/articles/article/${id}?page=${page}`);
   if (!res.ok) {
     throw new Error("Network response was not ok");
   }
@@ -39,8 +39,8 @@ export const useAddMoreComments = (id: number) => {
   return useInfiniteQuery({
     queryKey: ["comments"],
     queryFn: ({ pageParam }: { pageParam: number }) =>
-      fetch(`${apiUrl}/articles/article/${id}?page=${pageParam}`).then((res) =>
-        res.json()
+      fetch(`${apiUrl}/api/articles/article/${id}?page=${pageParam}`).then(
+        (res) => res.json()
       ),
     select: (data) =>
       data?.pages?.map((comment) => ({
@@ -59,7 +59,7 @@ export const useDeleteArticle = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: number) =>
-      fetch(`${apiUrl}/articles/article/${id}`, {
+      fetch(`${apiUrl}/api/articles/article/${id}`, {
         method: "DELETE",
       }).then((data) => data.json()),
     onSettled: () =>

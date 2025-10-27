@@ -15,7 +15,7 @@ export const useAddComment = () => {
 
   return useMutation({
     mutationFn: async (data: CommentProps) => {
-      const res = await fetch(`${apiUrl}/comment`, {
+      const res = await fetch(`${apiUrl}/api/comment`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -32,7 +32,7 @@ export const useDeleteComment = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: number) =>
-      fetch(`${apiUrl}/comment/${id}`, {
+      fetch(`${apiUrl}/api/comment/${id}`, {
         method: "DELETE",
       }).then((data) => data.json()),
     onSettled: () => queryClient.invalidateQueries({ queryKey: ["comments"] }),

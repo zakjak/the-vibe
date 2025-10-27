@@ -9,7 +9,7 @@ export const useCreatedArticles = (id: string) => {
     queryKey: ["created-articles"],
     queryFn: ({ pageParam }) =>
       fetch(
-        `${apiUrl}/articles/article/saved-articles/created-articles/${id}?page=${pageParam}`
+        `${apiUrl}/api/articles/article/saved-articles/created-articles/${id}?page=${pageParam}`
       ).then((res) => res.json()),
     enabled: !!id,
     initialPageParam: 1,

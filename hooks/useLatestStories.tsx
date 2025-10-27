@@ -8,7 +8,7 @@ export const useLatestStories = () => {
   return useQuery({
     queryKey: ["latestArticles"],
     queryFn: async () => {
-      const res = await fetch(`${apiUrl}/articles`);
+      const res = await fetch(`${apiUrl}/api/articles`);
 
       if (!res.ok) {
         throw new Error("Failed to fetch posts");
