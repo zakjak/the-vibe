@@ -17,7 +17,7 @@ import type { AdapterAccountType } from "@auth/core/adapters";
 //   ? process.env.AUTH_DRIZZLE_URL
 //   : process.env.DATABASE_URL_NEON;
 
-const pool = postgres(process.env.DATABASE_URL_NEON as string, { max: 1 });
+const pool = postgres(process.env.DATABASE_URL_NEON! as string, { max: 1 });
 
 export const db: PostgresJsDatabase = drizzle(pool);
 

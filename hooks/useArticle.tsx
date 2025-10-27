@@ -68,7 +68,7 @@ export const useDeleteArticle = () => {
 };
 
 const fetchRelatedArticle = async (category: string, id: number) => {
-  const res = await fetch(`${apiUrl}/articles/category/${id}/${category}`);
+  const res = await fetch(`${apiUrl}/api/articles/category/${id}/${category}`);
   if (!res.ok) {
     throw new Error("Network response was not ok");
   }
