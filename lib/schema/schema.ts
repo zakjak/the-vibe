@@ -11,7 +11,7 @@ import postgres from "postgres";
 import { drizzle, PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import type { AdapterAccountType } from "@auth/core/adapters";
 
-const isProd = process.env.NODE_ENV === "development";
+const isProd = process.env.NODE_ENV === "test";
 
 const connectionString = isProd
   ? process.env.DATABASE_URL_NEON
