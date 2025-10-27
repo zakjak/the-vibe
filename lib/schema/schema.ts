@@ -14,8 +14,8 @@ import type { AdapterAccountType } from "@auth/core/adapters";
 const isProd = process.env.NODE_ENV === "production";
 
 const connectionString = isProd
-  ? process.env.AUTH_DRIZZLE_URL
-  : process.env.DATABASE_URL_NEON;
+  ? process.env.DATABASE_URL_NEON
+  : process.env.AUTH_DRIZZLE_URL;
 
 const pool = postgres(connectionString as string, { max: 1 });
 
