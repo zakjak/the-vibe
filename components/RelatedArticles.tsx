@@ -9,7 +9,7 @@ import { Articles } from "@/lib/types/article";
 
 const RelatedArticles = ({ articles }: Articles) => {
   return (
-    <div className="md:col-span-2 col-span-3 md:pt-5">
+    <div className="md:col-span-2 col-span-6 md:pt-5">
       <h2 className="text-lg font-bold leading-2 tracking-wide lg:text-3xl lg:font-semibold md:text-xl">
         Top Related Articles
       </h2>
