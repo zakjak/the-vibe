@@ -38,7 +38,7 @@ const RelatedArticles = ({ articles }: Articles) => {
                   article.id
                 }/${article.title.replaceAll(" ", "-")}`}
               >
-                <h2>{article.title}</h2>
+                <h2 className="line-clamp-2">{article.title}</h2>
               </Link>
               <div className="flex items-center gap-2 text-sm text-zinc-400">
                 <span>{article?.category}</span>

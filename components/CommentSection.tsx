@@ -204,8 +204,12 @@ const CommentSection = ({
               onClick={() => fetchNextPage()}
               className="cursor-pointer flex items-center gap-1"
             >
-              <span>Load more</span>
-              <FaChevronDown className="" />
+              {moreComments?.length > 5 && (
+                <div>
+                  <span>Load more</span>
+                  <FaChevronDown className="" />
+                </div>
+              )}
             </div>
           ) : (
             <h1 className="text-center font-bold my-4">No More Comments</h1>
