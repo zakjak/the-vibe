@@ -69,12 +69,10 @@ const ArticleStory = ({
     }
   };
 
-  console.log(savedArticle);
-
   return (
-    <div className="lg:col-span-4 md:col-span-3">
+    <div className="lg:col-span-4 md:col-span-3 w-full col-span-6">
       <div className="">
-        <h1 className="lg:text-3xl lg:font-semibold font-bold md:text-2xl text-3xl my-2">
+        <h1 className="lg:text-3xl lg:font-semibold font-bold md:text-xl text-lg my-2">
           {article?.title}
         </h1>
         <div className="flex items-center gap-1 mb-4">

@@ -43,7 +43,7 @@ const TopCategoryStory = ({
             width={240}
             height={240}
             alt={`${topStory?.title}`}
-            className="w-full h-[12rem] object-cover"
+            className=" w-full h-[12rem] object-cover"
           />
         </Link>
         {id == topStory?.ownerId && activeTab !== "saved" && (

@@ -63,7 +63,7 @@ const ArticlePage = async ({ params }: { params: Promise<{ id: number }> }) => {
   const { id } = await params;
 
   return (
-    <div>
+    <div className="">
       <ArticleComponent id={id} />
     </div>
   );

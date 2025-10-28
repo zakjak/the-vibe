@@ -29,8 +29,6 @@ export async function PUT(
   const { id } = await params;
   const res = await req.json();
 
-  console.log(res, id);
-
   const numericId = Number(res.articleId);
 
   const result = await db
@@ -45,8 +43,6 @@ export async function PUT(
       .insert(readList)
       .values({ ownerId: res.ownerId, articleId: numericId })
       .returning({ ownerId: readList.ownerId });
-
-    console.log(response);
 
     return NextResponse.json(response);
   } else {

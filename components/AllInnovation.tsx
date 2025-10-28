@@ -15,8 +15,8 @@ const AllInnovation = ({ page }: { page: string }) => {
   if (isLoading) return <CategoriesPageSkeleton />;
 
   return (
-    <div className="lg:w-[70rem] md:w-[40rem] w-[30rem] mx-auto">
-      <div className="grid lg:grid-cols-3 md:grid-cols-2 mx-12 mt-4 mb-6 gap-5">
+    <div className="w-full pt-6">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4 lg:gap-6 lg:w-[60rem] md:w-[40rem] w-[70%] mx-auto">
         {articles?.map((story) => (
           <TopCategoryStory key={story.id} topStory={story} />
         ))}
