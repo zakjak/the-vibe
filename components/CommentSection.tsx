@@ -93,6 +93,9 @@ const CommentSection = ({
 
   return (
     <div>
+      <h2 className="md:text-xl text-lg font-semibold my-2">
+        Comments Section
+      </h2>
       <Form {...form}>
         <form
           className="flex gap-2 border rounded-xl pb-5 relative"
@@ -124,7 +127,6 @@ const CommentSection = ({
         </form>
       </Form>
       <div className="my-2 pb-5">
-        <h2 className="text-xl font-semibold my-2">Comments</h2>
         {moreComments?.map(
           ({ comments, users }: { comments: Comment; users: User }) => (
             <article key={comments?.id} className="mb-2 border-b pb-4">

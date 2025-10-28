@@ -12,7 +12,7 @@ type NavbarLargeLinksProps = {
 
 const NavbarLargeLinks = ({ navLinks }: NavbarLargeLinksProps) => {
   return (
-    <div className="text-sm lg:flex gap-2 items-center hidden">
+    <div className="text-xs lg:text-sm md:flex gap-2 items-center hidden">
       {navLinks.map((link) => (
         <Link key={link.name} href={link.href}>
           {link.name}

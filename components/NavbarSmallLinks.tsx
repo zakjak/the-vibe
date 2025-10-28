@@ -12,9 +12,9 @@ type NavbarLargeLinksProps = {
 
 const NavbarSmallLinks = ({ navLinks }: NavbarLargeLinksProps) => {
   return (
-    <div className="text-sm flex justify-center lg:hidden bg-black text-white h-8 w-full">
+    <div className="text-sm flex md:hidden text-white h-8 w-full">
       <div className="flex items-center justify-center w-full">
-        <div className="w-[90%] flex gap-2 my-auto no-scrollbar overflow-x-auto">
+        <div className="w-[90%] flex gap-2 my-auto no-scrollbar overflow-x-auto justify-center">
           {navLinks.map((link) => (
             <Link key={link.name} href={link.href}>
               {link.name}

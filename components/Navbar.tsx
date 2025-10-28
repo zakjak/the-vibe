@@ -76,9 +76,6 @@ const Navbar = () => {
               </h1>
             </div>
             <Separator className="bg-gray-400 h-4 w-0.5 hidden lg:flex" />
-            <div className="block lg:hidden w-full mx-2">
-              <SearchInput onSearch={handleSearch} />
-            </div>
             <NavbarLargeLinks navLinks={navLinks as []} />
           </div>
           <div className="flex gap-4 items-center">
@@ -93,6 +90,9 @@ const Navbar = () => {
       </section>
       <section className="flex items-center justify-center w-full">
         <NavbarSmallLinks navLinks={navLinks as []} />
+      </section>
+      <section className="w-[90%] mx-auto py-2 lg:hidden block">
+        <SearchInput onSearch={handleSearch} />
       </section>
       {isSearchOpen && (
         <section className="hidden lg:block w-[70%] mx-auto py-2">
