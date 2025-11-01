@@ -16,6 +16,7 @@ export type Article = {
 
 export type Articles = {
   articles: Article[];
+  users: User;
 };
 
 export type Comment = {

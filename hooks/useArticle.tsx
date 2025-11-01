@@ -22,7 +22,7 @@ export const useArticle = (id: number, page: number) => {
   return useQuery({
     queryKey: ["article", id],
     queryFn: () => fetchArticle(id!, page),
-    select: (data) => data.article[0],
+    select: (data) => data.article,
     enabled: !!id,
     placeholderData: keepPreviousData,
   });

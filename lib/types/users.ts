@@ -1,9 +1,9 @@
 export type User = {
   id: string;
-  email?: string;
-  name?: string;
-  isAdmin?: boolean;
-  image?: string;
+  email?: string | null;
+  name?: string | null;
+  isAdmin?: boolean | null;
+  image?: string | null;
   emailVerified?: boolean;
 };
 

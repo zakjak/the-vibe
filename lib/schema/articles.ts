@@ -9,6 +9,7 @@ export const articles = table(
     id: t.integer().primaryKey().generatedAlwaysAsIdentity(),
     title: t.varchar({ length: 250 }),
     image: t.text().notNull(),
+    imageTitle: t.text("image_title"),
     category: t.varchar({ length: 100 }),
     date: t.timestamp().notNull().defaultNow(),
     imageCredit: t.varchar({ length: 250 }).notNull(),
@@ -21,9 +22,16 @@ export const articles = table(
       .text()
       .array()
       .default(sql`'{}'::text[]`),
-    author: t.varchar({ length: 250 }),
+    imagesTitle: t
+      .text("images_title")
+      .array()
+      .default(sql`'{}'::text[]`),
+    authors: t
+      .uuid("authors_id")
+      .array()
+      .default(sql`'{}'::uuid[]`)
+      .references(() => users.id),
     views: t.integer().default(0),
-    ownerId: t.text("owner_id").references(() => users.id),
   },
   (table) => [
     t.index("search_index").using(
@@ -31,7 +39,7 @@ export const articles = table(
       sql`(
           setweight(to_tsvector('english', ${table.title}), 'A') ||
           setweight(to_tsvector('english', ${table.story}), 'B') ||
-          setweight(to_tsvector('english', ${table.author}), 'C') ||
+          setweight(to_tsvector('english', ${table.authors}), 'C') ||
           setweight(to_tsvector('english', ${table.category}), 'D')
       )`
     ),
@@ -40,7 +48,7 @@ export const articles = table(
 
 export const readList = table("readlist", {
   id: t.serial("id").primaryKey(),
-  ownerId: t.text("owner_id").references(() => users.id),
+  ownerId: t.uuid("owner_id").references(() => users.id),
   articleId: t.integer("articleId").references(() => articles.id, {
     onDelete: "cascade",
   }),
@@ -69,5 +77,5 @@ export const replies = table("replies", {
   id: t.integer().primaryKey().generatedAlwaysAsIdentity(),
   reply: t.text(),
   commentId: t.integer("comment_id").references(() => comments.id),
-  ownerId: t.integer("owner_id").references(() => users.id),
+  ownerId: t.uuid("owner_id").references(() => users.id),
 });

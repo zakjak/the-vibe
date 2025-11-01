@@ -8,30 +8,32 @@ export async function POST(req: Request) {
   const {
     title,
     image,
+    imageTitle,
     images,
+    imagesTitle,
     imageCredit,
     story,
-    author,
+    authors,
     category,
     tags,
     ownerId,
   } = body;
-
-  console.log(body);
 
   try {
     const response = await db
       .insert(articles)
       .values({
         title,
-        story,
         image,
-        category,
-        tags,
-        author,
-        images,
         imageCredit,
-        ownerId,
+        category,
+        story,
+        tags,
+        images,
+        authorsId: authors,
+        ownersId: ownerId,
+        imageTitle,
+        imagesTitle,
       })
       .returning();
 

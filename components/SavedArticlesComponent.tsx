@@ -1,21 +1,18 @@
+"use client";
+
 import { useSavedArticles } from "@/hooks/useSavedArticles";
-import { Article } from "@/lib/types/article";
 import React, { useEffect, useState } from "react";
 import TopCategoryStory from "./TopCategoryStory";
 import { useInView } from "react-intersection-observer";
 import CategoriesPageSkeleton from "./CategoriesPageSkeleton";
+import { useSession } from "next-auth/react";
 
-const SavedArticlesComponent = ({
-  userId,
-  activeTab,
-}: {
-  userId: string;
-  activeTab: string;
-}) => {
+const SavedArticlesComponent = () => {
+  const { data: session } = useSession();
   const [visiblePageCount, setVisiblePageCount] = useState(2);
   const { ref, inView, entry } = useInView({ threshold: 0 });
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    useSavedArticles(userId);
+    useSavedArticles(session?.user?.id as string);
 
   const visiblePages = data?.pages?.slice(-visiblePageCount);
   const savedArticles = visiblePages?.flat();
@@ -36,11 +33,7 @@ const SavedArticlesComponent = ({
         className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4"
       >
         {savedArticles?.map(({ articles }) => (
-          <TopCategoryStory
-            key={articles?.id}
-            topStory={articles}
-            activeTab={activeTab}
-          />
+          <TopCategoryStory key={articles?.id} topStory={articles} />
         ))}
       </div>
       <div

@@ -19,13 +19,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-const TopCategoryStory = ({
-  topStory,
-  activeTab,
-}: {
-  topStory: Article;
-  activeTab?: string;
-}) => {
+const TopCategoryStory = ({ topStory }: { topStory: Article }) => {
   const { mutate } = useDeleteArticle();
   const params = useParams();
   const { id } = params;
@@ -46,30 +40,28 @@ const TopCategoryStory = ({
             className=" w-full h-[12rem] object-cover"
           />
         </Link>
-        {id == topStory?.ownerId && activeTab !== "saved" && (
-          <AlertDialog>
-            <AlertDialogTrigger className="absolute top-3 right-3 text-xl font-bold bg-red-400 p-2 rounded-md cursor-pointer">
-              <AiOutlineDelete />
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>
-                  Are you sure, you want to delete
-                </AlertDialogTitle>
-                <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  your article and remove your data from our servers.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={() => mutate(topStory?.id)}>
-                  Continue
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        )}
+        <AlertDialog>
+          <AlertDialogTrigger className="absolute top-3 right-3 text-xl font-bold bg-red-400 p-2 rounded-md cursor-pointer">
+            <AiOutlineDelete />
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                Are you sure, you want to delete
+              </AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete your
+                article and remove your data from our servers.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={() => mutate(topStory?.id)}>
+                Continue
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
       <div className="mt-4 leading-8">
         <Link

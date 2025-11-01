@@ -22,17 +22,17 @@ const fetchSavedArticle = async (id: string): Promise<SavedArticle[]> => {
   return await res.json();
 };
 
-export const useSavedArticle = (articleId: string) => {
+export const useSavedArticle = (ownerId: string) => {
   return useQuery<SavedArticleProp[]>({
-    queryKey: ["saved_article", articleId],
-    queryFn: () => fetchSavedArticle(articleId),
+    queryKey: ["saved_article", ownerId],
+    queryFn: () => fetchSavedArticle(ownerId),
     placeholderData: keepPreviousData,
   });
 };
 
 const toggleReadList = async ({
-  ownerId,
   articleId,
+  ownerId,
 }: {
   ownerId: string;
   articleId: number;
@@ -42,7 +42,7 @@ const toggleReadList = async ({
     {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ownerId, articleId }),
+      body: JSON.stringify({ ownerId }),
     }
   );
 

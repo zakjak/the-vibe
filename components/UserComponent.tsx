@@ -10,13 +10,22 @@ import {
 } from "@/components/ui/popover";
 import Link from "next/link";
 import { nameFallback, slugify } from "@/lib/utils/helpers";
+import { FaRegBookmark } from "react-icons/fa6";
+import { IoSettingsOutline } from "react-icons/io5";
+import { CgProfile } from "react-icons/cg";
+import { User } from "@/lib/types/users";
 
 const UserComponent = () => {
   const { data: session } = useSession();
 
+  if (!session?.user) return null;
+
+  const data: User = session?.user;
+
   const handleSignIn = async () => {
     await signIn("google");
   };
+
   return (
     <div>
       {session ? (
@@ -35,13 +44,31 @@ const UserComponent = () => {
             </PopoverTrigger>
             <PopoverContent className="z-[1000] mr-4">
               <div className="flex flex-col gap-2">
+                {data?.isAdmin && (
+                  <Link
+                    href={`/profile/${session?.user?.id}/${slugify(
+                      session?.user?.name as string
+                    )}`}
+                    className="flex items-center md:gap-2 gap-1 bg-blue-500 text-gray-100 hover:bg-blue-400 p-1 font-semibold rounded-sm"
+                  >
+                    <CgProfile />
+                    Profile
+                  </Link>
+                )}
+
                 <Link
-                  href={`/profile/${session?.user?.id}/${slugify(
-                    session?.user?.name as string
-                  )}`}
-                  className="bg-blue-500 text-gray-100 hover:bg-blue-400 p-1 font-semibold rounded-sm"
+                  href="/saved"
+                  className="flex items-center md:gap-2 gap-1 font-semibold cursor-pointer hover:bg-gray-200 py-2 px-1 rounded-sm"
                 >
-                  Profile
+                  <FaRegBookmark />
+                  Saved
+                </Link>
+                <Link
+                  href="/settings"
+                  className="flex items-center md:gap-2 gap-1 font-semibold cursor-pointer hover:bg-gray-200 py-2 px-1 rounded-sm"
+                >
+                  <IoSettingsOutline />
+                  Settings
                 </Link>
                 <Button onClick={() => signOut()}>Sign Out</Button>
               </div>

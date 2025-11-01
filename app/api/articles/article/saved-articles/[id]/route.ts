@@ -29,7 +29,9 @@ export async function PUT(
   const { id } = await params;
   const res = await req.json();
 
-  const numericId = Number(res.articleId);
+  console.log(id, res);
+
+  const numericId = Number(id);
 
   const result = await db
     .select({ count: readList.id })

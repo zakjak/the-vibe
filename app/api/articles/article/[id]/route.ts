@@ -1,6 +1,6 @@
 import { articles, comments } from "@/lib/schema/articles";
 import { db, users } from "@/lib/schema/schema";
-import { eq, sql } from "drizzle-orm";
+import { arrayContains, eq, inArray, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -19,10 +19,17 @@ export async function GET(
 
   try {
     if (id) {
-      const article = await db
+      const [singleArticle] = await db
         .select()
         .from(articles)
         .where(eq(articles.id, numericId));
+
+      if (!singleArticle) throw new Error("Article not found");
+
+      const authors = await db
+        .select()
+        .from(users)
+        .where(inArray(users.id, singleArticle.authors as string[]));
 
       const articleComments = await db
         .select()
@@ -37,7 +44,13 @@ export async function GET(
         .orderBy(sql`${comments.id}`)
         .limit(1);
 
-      return NextResponse.json({ article, articleComments, lastComment });
+      const article = [singleArticle, authors];
+
+      return NextResponse.json({
+        article,
+        articleComments,
+        lastComment,
+      });
     } else {
       return NextResponse.json(
         { error: "Article does not exists" },

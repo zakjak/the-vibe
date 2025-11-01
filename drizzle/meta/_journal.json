@@ -127,6 +127,90 @@
       "when": 1761357835813,
       "tag": "0017_lying_gorilla_man",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1761751237073,
+      "tag": "0018_clumsy_barracuda",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1761754604820,
+      "tag": "0019_flippant_betty_ross",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1761756962095,
+      "tag": "0020_huge_weapon_omega",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1761757149922,
+      "tag": "0021_empty_marten_broadcloak",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1761757265624,
+      "tag": "0022_pink_odin",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1761757455956,
+      "tag": "0023_windy_purple_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1761757635168,
+      "tag": "0024_solid_dexter_bennett",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1761841731698,
+      "tag": "0025_noisy_lord_tyger",
+      "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1761842520328,
+      "tag": "0026_legal_carnage",
+      "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "7",
+      "when": 1761852510865,
+      "tag": "0027_funny_thaddeus_ross",
+      "breakpoints": true
+    },
+    {
+      "idx": 28,
+      "version": "7",
+      "when": 1761947363773,
+      "tag": "0028_fast_triton",
+      "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "7",
+      "when": 1761947783737,
+      "tag": "0029_sleepy_edwin_jarvis",
+      "breakpoints": true
     }
   ]
 }

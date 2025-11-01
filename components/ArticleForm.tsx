@@ -2,25 +2,12 @@
 
 import { Button } from "./ui/button";
 import dynamic from "next/dynamic";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "./ui/dialog";
+
 import { Input } from "./ui/input";
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { Dispatch, SetStateAction, useRef, useState } from "react";
+// import {Command} from '@/components/ui/command'
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import { z } from "zod";
 import {
@@ -41,6 +28,22 @@ import {
 } from "./ui/select";
 import Image from "next/image";
 import { User } from "@/lib/types/users";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
+import { useUsers } from "@/hooks/useUsers";
+import { Command, CommandInput, CommandItem } from "./ui/command";
+
+export const imageSchema = z.object({
+  file: z.instanceof(File).refine((file) => file.size < 5 * 1024 * 1024),
+  title: z.string().min(1, "Title required"),
+});
 
 const formSchema = z.object({
   title: z
@@ -55,6 +58,9 @@ const formSchema = z.object({
       .nullable(),
     z.string(),
   ]),
+  imageTitle: z
+    .string()
+    .min(2, { message: "Image title must be at least 2 characters" }),
   category: z.string(),
   imageCredit: z
     .string()
@@ -72,10 +78,8 @@ const formSchema = z.object({
     { message: "Invalid content format" }
   ),
   tags: z.array(z.string()).nonempty(),
-  images: z
-    .union([z.array(z.instanceof(File)), z.array(z.string())])
-    .optional(),
-  author: z.string().min(1, { message: "Author is required" }),
+  images: z.array(imageSchema).min(1, "At least one image required"),
+  authors: z.array(z.string()).min(1, "Select at least one author"),
 });
 
 export type ArticleFormData = z.infer<typeof formSchema>;
@@ -100,7 +104,9 @@ const ArticleForm = ({
   const inputTagRef = useRef<HTMLInputElement | null>(null);
   const [inputTagValue, setInputTagValue] = useState("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [imagesPreview, setImagesPreview] = useState<string[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+
+  const { data: users, isLoading } = useUsers();
 
   const categories = [
     "politics",
@@ -116,23 +122,15 @@ const ArticleForm = ({
     defaultValues: {
       title: "",
       image: undefined,
+      imageTitle: "",
       category: "",
       imageCredit: "",
       story: "",
       tags: [],
       images: [],
-      author: "",
+      authors: [],
     },
   });
-
-  useEffect(() => {
-    if (user) {
-      form.reset({
-        ...form.getValues(),
-        author: user.name,
-      });
-    }
-  }, [user, form]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -164,41 +162,32 @@ const ArticleForm = ({
 
   const handleImagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      const filesArray = Array.from(e.target.files);
-      const currentImage = form.getValues("images");
-      const newImages = [...((currentImage as File[]) ?? []), ...filesArray];
-      form.setValue("images", newImages);
-      setImagesPreview(newImages.map((f) => URL.createObjectURL(f)));
+      const fileArray = Array.from(e.target.files);
+      fileArray.forEach((file) => append({ file, title: "" }));
     }
   };
 
-  const removeImagesPreview = (index: number) => {
-    const currentGallery = form.getValues("images") || [];
-    const newImages = currentGallery.filter((_, i) => i !== index);
-
-    if (newImages.length === 0 || newImages[0] instanceof File) {
-      form.setValue("images", newImages as File[]);
-    } else {
-      form.setValue("images", newImages as string[]);
-    }
-    setImagesPreview(
-      newImages.map((f) => (f instanceof File ? URL.createObjectURL(f) : f))
-    );
-  };
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "images",
+  });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setIsSubmitting(true);
+    // setIsSubmitting(true);
+
+    console.log(values);
+
     const formData = new FormData();
 
     if (values.image) {
       formData.append("image", values?.image);
     }
 
-    values?.images?.forEach((file) => formData.append("images", file));
+    values?.images?.forEach((file) => formData.append("images", file.file));
 
     try {
       const responseUpload = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/uploadImages`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/uploadImages`,
         {
           method: "POST",
           body: formData,
@@ -217,24 +206,39 @@ const ArticleForm = ({
           imagesUrl.push(images[i].result.variants[1]);
         }
 
-        const { title, imageCredit, category, tags, author, story } = values;
+        const {
+          title,
+          imageTitle,
+          imageCredit,
+          category,
+          tags,
+          authors,
+          story,
+        } = values;
+
+        const imagesTitle: string[] = [];
+
+        values?.images?.forEach((image) => imagesTitle.push(image.title));
 
         const article = {
           title,
           imageCredit,
           category,
           tags,
-          author,
+          authors,
           story: story,
           image: image,
+          imageTitle,
           images: imagesUrl,
           ownerId: user?.id,
+          imagesTitle,
         };
 
         const responseArticle = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/createArticle`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/createArticle`,
           {
             method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(article),
           }
         );
@@ -264,20 +268,21 @@ const ArticleForm = ({
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog modal={false} onOpenChange={setOpen} open={open}>
       <DialogTrigger asChild>
         <Button>Create Article</Button>
       </DialogTrigger>
       <DialogContent
         aria-describedby={undefined}
-        className="overflow-y-scroll h-[40rem] lg:w-[60rem] md:w-[40rem] w-[25rem] z-[999]"
+        onOpenAutoFocus={(e) => e.preventDefault()}
+        className="overflow-y-scroll h-[40rem] lg:w-[5000px] md:w-[40rem] w-[25rem] z-[999]"
       >
         <DialogHeader>
           <DialogTitle>Create article</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <div className="grid gap-4">
+            <div className="grid gap-4" autoFocus>
               <FormField
                 control={form.control}
                 name="title"
@@ -329,6 +334,23 @@ const ArticleForm = ({
                       </div>
                     )}
                     <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="imageTitle"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Image title:</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...form.register("imageTitle")}
+                        placeholder="Image title"
+                        {...field}
+                        className="w-full truncate"
+                      />
+                    </FormControl>
                   </FormItem>
                 )}
               />
@@ -417,7 +439,7 @@ const ArticleForm = ({
                 </div>
               </FormItem>
 
-              {/* Other Images */}
+              {/* IMAGES TITLE SECTION */}
               <FormItem>
                 <FormLabel>Images:</FormLabel>
                 <Input
@@ -426,45 +448,75 @@ const ArticleForm = ({
                   multiple
                   onChange={handleImagesChange}
                 />
-                <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
-                  {imagesPreview.map((src, index) => (
-                    <div className="relative w-32 mt-3 h-24" key={index}>
-                      <Image
-                        src={src}
-                        alt={`gallery-${index}`}
-                        fill
-                        className="object-cover rounded-lg"
-                      />
-                      <Button
-                        variant="secondary"
-                        onClick={() => removeImagesPreview(index)}
-                        className="text-lg cursor-pointer w-4 h-4 p-4 flex items-center 
+                <div className="">
+                  {fields.map((field, index) => {
+                    const file = form.watch(`images.${index}.file`);
+                    const preview = file ? URL.createObjectURL(file) : null;
+
+                    return (
+                      <div className="pb-4" key={field.id}>
+                        {preview && (
+                          <div className="relative w-[70%]" inert>
+                            <Image
+                              src={preview}
+                              alt="Preview"
+                              width={240}
+                              height={240}
+                              className="object-cover rounded-lg w-full h-full"
+                            />
+                            <Button
+                              variant="secondary"
+                              className="text-lg cursor-pointer w-4 h-4 p-4 flex items-center 
                             justify-center font-bold  absolute right-2 top-2 rounded-full shadow"
-                      >
-                        X
-                      </Button>
-                    </div>
-                  ))}
+                              onClick={() => remove(index)}
+                            >
+                              X
+                            </Button>
+                          </div>
+                        )}
+                        <FormField
+                          control={form.control}
+                          name={`images.${index}.title`}
+                          render={({ field }) => (
+                            <FormItem className="pt-2">
+                              <FormLabel>Title for Image {index + 1}</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder={`Enter image title ${index + 1}`}
+                                  {...field}
+                                />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
               </FormItem>
 
-              {/* Author */}
-              <FormField
+              {/* Authors */}
+              <Controller
+                name="authors"
                 control={form.control}
-                name="author"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Author:</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...form.register("author")}
-                        {...field}
-                        value={user?.name}
-                        readOnly
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+                  <Command>
+                    <CommandInput placeholder="Select authors" />
+                    {users?.map((user: User) => (
+                      <CommandItem
+                        key={user?.id}
+                        onSelect={() => {
+                          const newSelection = field.value.includes(user.id)
+                            ? field.value.filter((a) => a !== user.id)
+                            : [...field.value, user.id];
+                          field.onChange(newSelection);
+                        }}
+                      >
+                        <span>{user?.name}</span>
+                        {field.value.includes(user?.id) && <span>✅</span>}
+                      </CommandItem>
+                    ))}
+                  </Command>
                 )}
               />
             </div>

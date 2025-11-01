@@ -6,7 +6,7 @@ import { FaShareAlt } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa6";
 import { plateToHtml } from "@/lib/utils/plateToHtml";
-import { Article } from "@/lib/types/article";
+import { Article, Articles } from "@/lib/types/article";
 import { useSavedArticle, useToggleBookmark } from "@/hooks/useBookmarks";
 import { useSession } from "next-auth/react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
@@ -18,25 +18,26 @@ import { TiTick } from "react-icons/ti";
 import Link from "next/link";
 import CommentSection from "./CommentSection";
 import { useComments } from "@/hooks/useArticle";
+import { User } from "@/lib/types/users";
 
 const ArticleStory = ({
   article,
   isComments,
   setIsComments,
 }: {
-  article: Article;
+  article: [Article, User[]];
   isComments: number;
   setIsComments: (page: number) => void;
 }) => {
   const { data: session } = useSession();
   const [copied, setCopied] = useState(false);
-  const { data } = useComments(article?.id, isComments);
+  const { data } = useComments(article[0]?.id, isComments);
 
-  const articleUrl = `${process.env.NEXT_PUBLIC_API_URL}/${article?.category}/${
-    article?.id
-  }/${article?.title?.replaceAll(" ", "-")}`;
+  const articleUrl = `${process.env.NEXT_PUBLIC_API_URL}/${
+    article[0]?.category
+  }/${article[0]?.id}/${article[0]?.title?.replaceAll(" ", "-")}`;
 
-  const encodedTitle = encodeURIComponent(article?.title);
+  const encodedTitle = encodeURIComponent(article[0]?.title);
 
   const shareLinks = {
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${articleUrl}`,
@@ -48,9 +49,10 @@ const ArticleStory = ({
     data: savedArticle,
     isSuccess,
     isLoading,
-  } = useSavedArticle(article?.ownerId);
+  } = useSavedArticle(session?.user?.id as string);
+
   const { mutate, data: toggleMark } = useToggleBookmark(
-    article?.ownerId as string
+    session?.user?.id as string
   );
 
   const isSaving =
@@ -73,16 +75,16 @@ const ArticleStory = ({
     <div className="lg:col-span-4 md:col-span-3 w-full col-span-6">
       <div className="">
         <h1 className="lg:text-3xl lg:font-semibold font-bold md:text-xl text-lg my-2">
-          {article?.title}
+          {article[0]?.title}
         </h1>
         <div className="flex items-center gap-1 mb-4">
-          <span>{article?.category}</span>
+          <span>{article[0]?.category}</span>
           <Separator className="bg-gray-400 h-4 w-0.5" />
-          <span>{calculateTime(article?.date)}</span>
+          <span>{calculateTime(article[0]?.date)}</span>
         </div>
         <Image
-          src={article?.image || ""}
-          alt={`${article?.title}` || "image"}
+          src={article[0]?.image || ""}
+          alt={`${article[0]?.title}` || "image"}
           className="w-full h-full object-cover rounded-2xl"
           width={250}
           height={250}
@@ -90,8 +92,31 @@ const ArticleStory = ({
       </div>
       <div className="flex justify-between pt-6">
         <div className="">
-          <h2>Image Source: {article?.imageCredit}</h2>
-          <h2>Author: {article?.author}</h2>
+          <h2>Image Source: {article[0]?.imageCredit}</h2>
+
+          <div className="flex items-center gap-2">
+            <h2>By: </h2>
+            {article[1]?.map((user) => (
+              <div key={user?.id} className="flex items-center gap-2">
+                <Link href={`/profiles/${user?.id}/${user?.name}`}>
+                  <Image
+                    alt={`${user?.name} profile`}
+                    src={user?.image as string}
+                    width={240}
+                    height={240}
+                    className="rounded-full h-8 w-8 object-cover cursor-pointer hover:opacity-80 transition-opacity"
+                  />
+                </Link>
+
+                <Link
+                  href={`/profiles/${user?.name?.replaceAll(" ", "-")}`}
+                  className="cursor-pointer hover:underline text-sm"
+                >
+                  {user?.name}
+                </Link>
+              </div>
+            ))}
+          </div>
         </div>
         <div>
           <Popover>
@@ -142,7 +167,7 @@ const ArticleStory = ({
             </PopoverContent>
           </Popover>
           <span
-            onClick={() => mutate(article?.id)}
+            onClick={() => mutate(article[0]?.id)}
             className="flex items-center gap-1 cursor-pointer"
           >
             {isSavedData || isSaving ? "Saved:" : "Save:"}
@@ -151,12 +176,12 @@ const ArticleStory = ({
         </div>
       </div>
       <div className="prose mx-auto">
-        {plateToHtml(JSON.parse(article?.story), article?.images)}
+        {plateToHtml(JSON.parse(article[0]?.story), article[0]?.images)}
       </div>
       {session ? (
         <div className="">
           <CommentSection
-            postId={article?.id}
+            postId={article[0]?.id}
             ownerId={session?.user?.id}
             comments={data}
             isComments={isComments}
