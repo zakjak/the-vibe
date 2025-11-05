@@ -21,8 +21,11 @@ export async function GET(
   }
 }
 
-export async function POST(req: Request, context: { params: { id: string } }) {
-  const { id } = context.params;
+export async function POST(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
+  const { id } = params;
   const body = await req.json();
   const { profileImage, username, position, bio, twitter, fb, linkedIn } = body;
 
