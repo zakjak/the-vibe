@@ -1,6 +1,6 @@
 import { articles } from "@/lib/schema/articles";
 import { db } from "@/lib/schema/schema";
-import { arrayContains, eq, inArray } from "drizzle-orm";
+import { arrayContains } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function GET(

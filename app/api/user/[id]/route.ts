@@ -23,9 +23,9 @@ export async function GET(
 
 export async function POST(
   req: Request,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params;
+  { params }: { params: Promise<{ id: string }> }
+): Promise<NextResponse> {
+  const { id } = await params;
   const body = await req.json();
   const { profileImage, username, position, bio, twitter, fb, linkedIn } = body;
 
@@ -92,6 +92,7 @@ export async function POST(
         return NextResponse.json(aboutUserData);
       }
     }
+    return NextResponse.json("Unsucceefull");
   } catch (err) {
     console.log(err);
     return NextResponse.json("Server Error", { status: 500 });
