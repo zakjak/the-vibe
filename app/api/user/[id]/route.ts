@@ -23,9 +23,9 @@ export async function GET(
 
 export async function POST(
   req: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
-  const { id } = await params;
+  const { id } = params;
   const body = await req.json();
   const { profileImage, username, position, bio, twitter, fb, linkedIn } = body;
 
@@ -74,7 +74,6 @@ export async function POST(
           })
           .where(eq(about.ownerId, id))
           .returning();
-        console.log(aboutUserData);
 
         return NextResponse.json(aboutUserData);
       } else {
@@ -89,7 +88,6 @@ export async function POST(
             ownerId: id,
           })
           .returning();
-        console.log(aboutUserData);
 
         return NextResponse.json(aboutUserData);
       }
