@@ -173,9 +173,7 @@ const ArticleForm = ({
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    // setIsSubmitting(true);
-
-    console.log(values);
+    setIsSubmitting(true);
 
     const formData = new FormData();
 

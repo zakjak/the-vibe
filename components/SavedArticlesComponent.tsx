@@ -10,7 +10,7 @@ import { useSession } from "next-auth/react";
 const SavedArticlesComponent = () => {
   const { data: session } = useSession();
   const [visiblePageCount, setVisiblePageCount] = useState(2);
-  const { ref, inView, entry } = useInView({ threshold: 0 });
+  const { ref, inView } = useInView({ threshold: 0 });
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useSavedArticles(session?.user?.id as string);
 
@@ -30,7 +30,7 @@ const SavedArticlesComponent = () => {
     <div>
       <div
         ref={ref}
-        className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4"
+        className="grid md:grid-cols-3 gap-4 lg:w-[60rem] md:w-[50rem] w-[65%] mx-auto"
       >
         {savedArticles?.map(({ articles }) => (
           <TopCategoryStory key={articles?.id} topStory={articles} />

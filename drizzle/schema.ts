@@ -72,13 +72,7 @@ export const readlist = pgTable("readlist", {
 	id: serial().primaryKey().notNull(),
 	articleId: integer(),
 	ownerId: text("owner_id"),
-}, (table) => [
-	foreignKey({
-			columns: [table.ownerId],
-			foreignColumns: [users.id],
-			name: "readlist_owner_id_users_id_fk"
-		}),
-]);
+});
 
 export const replies = pgTable("replies", {
 	id: integer().primaryKey().generatedAlwaysAsIdentity({ name: "replies_id_seq", startWith: 1, increment: 1, minValue: 1, maxValue: 2147483647, cache: 1 }),
@@ -121,4 +115,14 @@ export const articles = pgTable("articles", {
 	imagesTitle: text("images_title").array().default([""]),
 	authorsId: uuid("authors_id").array().default([""]),
 	views: integer().default(0),
+});
+
+export const about = pgTable("about", {
+	id: text().primaryKey().notNull(),
+	position: text(),
+	bio: text(),
+	fb: text(),
+	twitter: text(),
+	linkedIn: text(),
+	ownerId: uuid("owner_id"),
 });

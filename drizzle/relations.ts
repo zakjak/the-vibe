@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm/relations";
-import { users, account, authenticator, session, readlist, comments, replies } from "./schema";
+import { users, account, authenticator, session, comments, replies } from "./schema";
 
 export const accountRelations = relations(account, ({one}) => ({
 	user: one(users, {
@@ -12,7 +12,6 @@ export const usersRelations = relations(users, ({many}) => ({
 	accounts: many(account),
 	authenticators: many(authenticator),
 	sessions: many(session),
-	readlists: many(readlist),
 	comments: many(comments),
 }));
 
@@ -26,13 +25,6 @@ export const authenticatorRelations = relations(authenticator, ({one}) => ({
 export const sessionRelations = relations(session, ({one}) => ({
 	user: one(users, {
 		fields: [session.userId],
-		references: [users.id]
-	}),
-}));
-
-export const readlistRelations = relations(readlist, ({one}) => ({
-	user: one(users, {
-		fields: [readlist.ownerId],
 		references: [users.id]
 	}),
 }));

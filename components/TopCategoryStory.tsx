@@ -6,7 +6,7 @@ import { calculateTime } from "@/lib/utils/helpers";
 import { Article } from "@/lib/types/article";
 import { useDeleteArticle } from "@/hooks/useArticle";
 import { AiOutlineDelete } from "react-icons/ai";
-import { useParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,8 +21,8 @@ import {
 
 const TopCategoryStory = ({ topStory }: { topStory: Article }) => {
   const { mutate } = useDeleteArticle();
-  const params = useParams();
-  const { id } = params;
+  const pathname = usePathname();
+  const isProfile = pathname.includes("/profile");
 
   return (
     <Card className="mt-2">
@@ -41,9 +41,11 @@ const TopCategoryStory = ({ topStory }: { topStory: Article }) => {
           />
         </Link>
         <AlertDialog>
-          <AlertDialogTrigger className="absolute top-3 right-3 text-xl font-bold bg-red-400 p-2 rounded-md cursor-pointer">
-            <AiOutlineDelete />
-          </AlertDialogTrigger>
+          {isProfile && (
+            <AlertDialogTrigger className="absolute top-3 right-3 text-xl font-bold bg-red-400 p-2 rounded-md cursor-pointer">
+              <AiOutlineDelete />
+            </AlertDialogTrigger>
+          )}
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>

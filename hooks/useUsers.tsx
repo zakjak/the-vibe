@@ -1,6 +1,6 @@
 "use client";
 
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -33,6 +33,23 @@ export const useAuthor = (slug: string) => {
     queryKey: ["author", slug],
     queryFn: () => fetchAuthor(slug),
     enabled: !!slug,
+    placeholderData: keepPreviousData,
+  });
+};
+
+const fetchAbout = async (id: string) => {
+  const res = await fetch(`${apiUrl}/api/user/${id}`);
+  if (!res.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return res.json();
+};
+
+export const useAbout = (id: string) => {
+  return useQuery({
+    queryKey: ["about-user", id],
+    queryFn: () => fetchAbout(id),
+    enabled: !!id,
     placeholderData: keepPreviousData,
   });
 };

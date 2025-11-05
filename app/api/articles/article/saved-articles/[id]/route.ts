@@ -29,8 +29,6 @@ export async function PUT(
   const { id } = await params;
   const res = await req.json();
 
-  console.log(id, res);
-
   const numericId = Number(id);
 
   const result = await db

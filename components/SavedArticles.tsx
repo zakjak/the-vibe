@@ -1,10 +1,8 @@
 "use client";
 
 import { User } from "@/lib/types/users";
-import SavedArticlesComponent from "./SavedArticlesComponent";
 import ArticleForm from "./ArticleForm";
-import { Button } from "./ui/button";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import CreatedArticles from "./CreatedArticles";
 
 const SavedArticles = ({

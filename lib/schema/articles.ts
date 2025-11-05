@@ -48,7 +48,9 @@ export const articles = table(
 
 export const readList = table("readlist", {
   id: t.serial("id").primaryKey(),
-  ownerId: t.uuid("owner_id").references(() => users.id),
+  ownerId: t
+    .uuid("owner_id")
+    .references(() => users.id, { onDelete: "cascade" }),
   articleId: t.integer("articleId").references(() => articles.id, {
     onDelete: "cascade",
   }),

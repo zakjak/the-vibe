@@ -42,7 +42,7 @@ const AboutUser = ({ user }: { user: User }) => {
       formData.append("profilePicture", file);
 
       const responseUpload = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/user/profile-image`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/user/profile-image`,
         {
           method: "POST",
           body: formData,

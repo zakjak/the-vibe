@@ -1,5 +1,5 @@
 "use client";
-import { calculateTime } from "@/lib/utils/helpers";
+import { calculateTime, slugify } from "@/lib/utils/helpers";
 import { Separator } from "@radix-ui/react-separator";
 import Image from "next/image";
 import { FaShareAlt } from "react-icons/fa";
@@ -98,7 +98,9 @@ const ArticleStory = ({
             <h2>By: </h2>
             {article[1]?.map((user) => (
               <div key={user?.id} className="flex items-center gap-2">
-                <Link href={`/profiles/${user?.id}/${user?.name}`}>
+                <Link
+                  href={`/profile/${user?.id}/${slugify(user?.name as string)}`}
+                >
                   <Image
                     alt={`${user?.name} profile`}
                     src={user?.image as string}
@@ -109,7 +111,7 @@ const ArticleStory = ({
                 </Link>
 
                 <Link
-                  href={`/profiles/${user?.name?.replaceAll(" ", "-")}`}
+                  href={`/profile/${user?.id}/${slugify(user?.name as string)}`}
                   className="cursor-pointer hover:underline text-sm"
                 >
                   {user?.name}
@@ -166,13 +168,19 @@ const ArticleStory = ({
               </Link>
             </PopoverContent>
           </Popover>
-          <span
-            onClick={() => mutate(article[0]?.id)}
-            className="flex items-center gap-1 cursor-pointer"
-          >
-            {isSavedData || isSaving ? "Saved:" : "Save:"}
-            {isSavedData || isSaving ? <FaBookmark /> : <FaRegBookmark />}
-          </span>
+          {session?.user ? (
+            <span
+              onClick={() => mutate(article[0]?.id)}
+              className="flex items-center gap-1 cursor-pointer"
+            >
+              {isSavedData || isSaving ? "Saved:" : "Save:"}
+              {isSavedData || isSaving ? <FaBookmark /> : <FaRegBookmark />}
+            </span>
+          ) : (
+            <span className="flex items-center gap-2 font-bold">
+              <FaBookmark /> Login to save
+            </span>
+          )}
         </div>
       </div>
       <div className="prose mx-auto">

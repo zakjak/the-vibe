@@ -5,6 +5,7 @@ import {
   text,
   primaryKey,
   integer,
+  uuid,
 } from "drizzle-orm/pg-core";
 import postgres from "postgres";
 
@@ -24,6 +25,18 @@ export const users = pgTable("users", {
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   isAdmin: boolean().default(false),
   image: text(),
+});
+
+export const about = pgTable("about", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  postion: text("position"),
+  bio: text("bio"),
+  fb: text("fb"),
+  twitter: text("twitter"),
+  linkedIn: text("linkedIn"),
+  ownerId: uuid("owner_id").references(() => users.id, { onDelete: "cascade" }),
 });
 
 export const accounts = pgTable(

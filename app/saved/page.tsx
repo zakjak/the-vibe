@@ -1,7 +1,7 @@
 import SavedArticlesComponent from "@/components/SavedArticlesComponent";
 import React from "react";
 
-const page = () => {
+const SavedPage = () => {
   return (
     <div>
       <SavedArticlesComponent />
@@ -9,4 +9,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default SavedPage;

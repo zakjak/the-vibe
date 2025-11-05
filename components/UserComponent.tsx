@@ -18,9 +18,7 @@ import { User } from "@/lib/types/users";
 const UserComponent = () => {
   const { data: session } = useSession();
 
-  if (!session?.user) return null;
-
-  const data: User = session?.user;
+  const data = session?.user as User;
 
   const handleSignIn = async () => {
     await signIn("google");
@@ -70,7 +68,9 @@ const UserComponent = () => {
                   <IoSettingsOutline />
                   Settings
                 </Link>
-                <Button onClick={() => signOut()}>Sign Out</Button>
+                <Button onClick={() => signOut({ callbackUrl: "/" })}>
+                  Sign Out
+                </Button>
               </div>
             </PopoverContent>
           </Popover>
