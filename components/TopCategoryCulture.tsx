@@ -1,8 +1,8 @@
-import { Articles } from "@/lib/types/article";
+import { Article } from "@/lib/types/article";
 import ListCulture from "./ListCulture";
 import TopCategoryStory from "./TopCategoryStory";
 
-const TopCategoryCulture = ({ articles }: Articles) => {
+const TopCategoryCulture = ({ articles }: { articles: Article[] }) => {
   const otherStories = articles?.slice(1, 6);
   return (
     <div>

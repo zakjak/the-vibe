@@ -1,8 +1,8 @@
-import { Articles } from "@/lib/types/article";
+import { Article } from "@/lib/types/article";
 import ListPolitics from "./ListPolitics";
 import TopCategoryStory from "./TopCategoryStory";
 
-const TopCategoryPolitics = ({ articles }: Articles) => {
+const TopCategoryPolitics = ({ articles }: { articles: Article[] }) => {
   const otherStories = articles?.slice(1, 6);
 
   return (
