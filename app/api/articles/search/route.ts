@@ -17,7 +17,7 @@ export async function GET(req: Request) {
       .where(sql`(
         setweight(to_tsvector('english', ${articles.title}), 'A') ||
         setweight(to_tsvector('english', ${articles.story}), 'B')) ||
-        setweight(to_tsvector('english', ${articles.author}), 'C') ||
+        setweight(to_tsvector('english', ${articles.authorsId}), 'C') ||
         setweight(to_tsvector('english', ${articles.category}), 'D')
         @@ plainto_tsquery('english', ${query}
       )`);
@@ -30,7 +30,7 @@ export async function GET(req: Request) {
         sql`(
         setweight(to_tsvector('english', ${articles.title}), 'A') ||
         setweight(to_tsvector('english', ${articles.story}), 'B') ||
-        setweight(to_tsvector('english', ${articles.author}), 'C') ||
+        setweight(to_tsvector('english', ${articles.authorsId}), 'C') ||
         setweight(to_tsvector('english', ${articles.category}), 'D')) 
         @@ plainto_tsquery('english', ${query}
       )`
