@@ -5,9 +5,9 @@ import Image from "next/image";
 import { Clock } from "lucide-react";
 import { Separator } from "@radix-ui/react-separator";
 import { calculateTime } from "@/lib/utils/helpers";
-import { Articles } from "@/lib/types/article";
+import { Article } from "@/lib/types/article";
 
-const RelatedArticles = ({ articles }: Articles) => {
+const RelatedArticles = ({ articles }: { articles: Article[] }) => {
   return (
     <div className="md:col-span-2 col-span-6 md:pt-5">
       <h2 className="text-lg font-bold leading-2 tracking-wide lg:text-3xl lg:font-semibold md:text-xl">
