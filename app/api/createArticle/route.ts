@@ -16,7 +16,6 @@ export async function POST(req: Request) {
     authors,
     category,
     tags,
-    ownerId,
   } = body;
 
   try {
@@ -25,14 +24,13 @@ export async function POST(req: Request) {
       .values({
         title,
         image,
-        imageCredit,
+        imageTitle,
         category,
+        imageCredit,
         story,
         tags,
         images,
         authorsId: authors,
-        ownersId: ownerId,
-        imageTitle,
         imagesTitle,
       })
       .returning();
