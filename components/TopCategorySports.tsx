@@ -1,9 +1,9 @@
 import React from "react";
 import TopCategoryStory from "./TopCategoryStory";
 import ListSports from "./ListSports";
-import { Articles } from "@/lib/types/article";
+import { Article } from "@/lib/types/article";
 
-const TopCategorySports = ({ articles }: Articles) => {
+const TopCategorySports = ({ articles }: { articles: Article[] }) => {
   const otherStories = articles?.slice(1, 6);
   return (
     <div>

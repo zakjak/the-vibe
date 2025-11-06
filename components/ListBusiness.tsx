@@ -1,9 +1,9 @@
-import { Articles } from "@/lib/types/article";
+import { Article } from "@/lib/types/article";
 import { calculateTime } from "@/lib/utils/helpers";
 import { Separator } from "@radix-ui/react-separator";
 import Link from "next/link";
 
-const ListBusiness = ({ articles }: Articles) => {
+const ListBusiness = ({ articles }: { articles: Article[] }) => {
   return (
     <div>
       {articles.map((story) => (
