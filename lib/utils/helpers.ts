@@ -1,5 +1,7 @@
 import moment from "moment";
 
+// -21252 seconds ago
+
 export const calculateTime = (date: Date) => {
   const now = moment();
   const then = moment(date, "YYYY-MM-DD HH:mm:ss.SSSSSS");
