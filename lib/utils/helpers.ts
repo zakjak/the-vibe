@@ -4,7 +4,7 @@ import moment from "moment";
 
 export const calculateTime = (date: Date) => {
   const now = moment();
-  const then = moment(date, "YYYY-MM-DD HH:mm:ss.SSSSSS");
+  const then = moment(date);
 
   const diff = now.diff(then);
   const duration = moment.duration(diff);
