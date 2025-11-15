@@ -58,7 +58,7 @@ const TopCategoryStory = ({ topStory }: { topStory: Article }) => {
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={() => mutate(topStory?.id)}>
+              <AlertDialogAction onClick={() => mutate(topStory?.id as number)}>
                 Continue
               </AlertDialogAction>
             </AlertDialogFooter>
