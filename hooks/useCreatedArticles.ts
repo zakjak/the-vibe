@@ -1,12 +1,17 @@
 "use client";
 
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { Article } from "@/lib/types/article";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
 
 export const useCreatedArticles = (id: string) => {
   return useInfiniteQuery({
-    queryKey: ["created-articles"],
+    queryKey: ["created-articles", id],
     queryFn: ({ pageParam }) =>
       fetch(
         `${apiUrl}/api/articles/article/saved-articles/created-articles/${id}?page=${pageParam}`
@@ -16,5 +21,31 @@ export const useCreatedArticles = (id: string) => {
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.length === 0 ? undefined : allPages.length + 1;
     },
+  });
+};
+
+const createArticle = async (article: Article) => {
+  console.log(article);
+  const res = await fetch(`${apiUrl}/api/createArticle`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(article),
+  });
+
+  if (!res.ok) {
+    const error = await res.text();
+    throw new Error(`Failed to create article: ${error}`);
+  }
+
+  return res.json();
+};
+
+export const useCreateArticle = (userId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (article: Article) => createArticle(article),
+
+    onSettled: () =>
+      queryClient.invalidateQueries({ queryKey: ["created-articles", userId] }),
   });
 };

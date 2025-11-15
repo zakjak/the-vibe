@@ -1,5 +1,6 @@
 "use client";
 
+import { Article } from "@/lib/types/article";
 import {
   keepPreviousData,
   useInfiniteQuery,

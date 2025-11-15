@@ -39,6 +39,7 @@ import {
 } from "./ui/dialog";
 import { useUsers } from "@/hooks/useUsers";
 import { Command, CommandInput, CommandItem } from "./ui/command";
+import { useCreateArticle } from "@/hooks/useCreatedArticles";
 
 export const imageSchema = z.object({
   file: z.instanceof(File).refine((file) => file.size < 5 * 1024 * 1024),
@@ -105,6 +106,8 @@ const ArticleForm = ({
   const [inputTagValue, setInputTagValue] = useState("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+
+  const { mutate } = useCreateArticle(user?.id);
 
   const { data: users, isLoading } = useUsers();
 
@@ -228,20 +231,10 @@ const ArticleForm = ({
           image: image,
           imageTitle,
           images: imagesUrl,
-          ownerId: user?.id,
           imagesTitle,
         };
 
-        const responseArticle = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/createArticle`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(article),
-          }
-        );
-
-        await responseArticle.json();
+        mutate(article);
 
         form.reset({
           title: "",
@@ -255,6 +248,7 @@ const ArticleForm = ({
 
         setOpen(false);
         setError(false);
+        setIsSubmitting(false);
       }
     } catch (error) {
       console.log(error);

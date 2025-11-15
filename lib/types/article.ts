@@ -1,16 +1,17 @@
 import { User } from "./users";
 
 export type Article = {
-  id: number;
+  id?: number;
   title: string;
   story: string;
   category: string;
-  date: Date;
-  author: string;
+  date?: Date;
+  authors: string[];
   image: string;
+  imageTitle: string;
   imageCredit: string;
   images: string[];
-  ownerId: string;
+  imagesTitle: string[];
   tags: string[];
 };
 
