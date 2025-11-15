@@ -31,7 +31,7 @@ const ArticleStory = ({
 }) => {
   const { data: session } = useSession();
   const [copied, setCopied] = useState(false);
-  const { data } = useComments(article[0]?.id, isComments);
+  const { data } = useComments(article[0]?.id ?? 0, isComments);
 
   const articleUrl = `${process.env.NEXT_PUBLIC_API_URL}/${
     article[0]?.category
@@ -170,7 +170,7 @@ const ArticleStory = ({
           </Popover>
           {session?.user ? (
             <span
-              onClick={() => mutate(article[0]?.id)}
+              onClick={() => mutate(article[0]?.id ?? 0)}
               className="flex items-center gap-1 cursor-pointer"
             >
               {isSavedData || isSaving ? "Saved:" : "Save:"}
@@ -189,7 +189,7 @@ const ArticleStory = ({
       {session ? (
         <div className="">
           <CommentSection
-            postId={article[0]?.id}
+            postId={article[0]?.id ?? 0}
             ownerId={session?.user?.id}
             comments={data}
             isComments={isComments}

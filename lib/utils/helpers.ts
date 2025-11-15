@@ -2,7 +2,7 @@ import moment from "moment";
 
 // -21252 seconds ago
 
-export const calculateTime = (date: Date) => {
+export const calculateTime = (date?: Date) => {
   const now = moment();
   const then = moment(date);
 
