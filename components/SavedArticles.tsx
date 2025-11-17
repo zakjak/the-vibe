@@ -22,7 +22,9 @@ const SavedArticles = ({
         )}
       </div>
       <div className="">
-        <h1 className="text-3xl font-bold tracking-wide my-4"></h1>
+        <h1 className="lg:text-3xl text-2xl font-bold tracking-wide my-4">
+          Latest
+        </h1>
         <CreatedArticles ownerId={user?.id as string} />
       </div>
     </div>

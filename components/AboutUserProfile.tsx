@@ -123,20 +123,8 @@ const AboutUserProfile = ({ user }: { user: User }) => {
             {data && data[0] && (
               <div className="">
                 <h3 className="lg:text-xl text-lg">{data[0]?.postion}</h3>
-                <p className="text-justify">
-                  {isExpanded ? lines.join("\n") : lines[0]}
-                </p>
 
-                {lines?.length > 1 && (
-                  <Button
-                    className="my-4"
-                    onClick={() => setIsExpanded(!isExpanded)}
-                  >
-                    {isExpanded ? "Show less" : "Read Full Bio"}
-                  </Button>
-                )}
-
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 my-3">
                   <h3>Follow:</h3>
                   {data[0]?.fb && (
                     <Link href={data[0]?.fb}>
@@ -156,6 +144,19 @@ const AboutUserProfile = ({ user }: { user: User }) => {
                     </Link>
                   )}
                 </div>
+
+                <p className="text-justify">
+                  {isExpanded ? lines.join("\n") : lines[0]}
+                </p>
+
+                {lines?.length > 1 && (
+                  <Button
+                    className="my-4"
+                    onClick={() => setIsExpanded(!isExpanded)}
+                  >
+                    {isExpanded ? "Show less" : "Read Full Bio"}
+                  </Button>
+                )}
               </div>
             )}
           </div>

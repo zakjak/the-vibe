@@ -22,8 +22,8 @@ const CreatedArticles = ({ ownerId }: { ownerId: string }) => {
   }, [inView, hasNextPage, fetchNextPage, isFetchingNextPage]);
 
   return (
-    <div className="">
-      <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-3 w-[30rem] md:w-[50rem] px-8">
+    <div className="md:w-[90%] w-[80%] mx-auto">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-3 px-8">
         {createdArticles?.map((article) => (
           <TopCategoryStory key={article?.id} topStory={article} />
         ))}
