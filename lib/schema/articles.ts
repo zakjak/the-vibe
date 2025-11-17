@@ -72,12 +72,6 @@ export const comments = table("comments", {
   comment: t.text(),
   postId: t.integer("post_id").references(() => articles.id),
   ownerId: t.text("owner_id").references(() => users.id),
+  parentId: t.integer("parent_id"),
   date: t.timestamp().notNull().defaultNow(),
-});
-
-export const replies = table("replies", {
-  id: t.integer().primaryKey().generatedAlwaysAsIdentity(),
-  reply: t.text(),
-  commentId: t.integer("comment_id").references(() => comments.id),
-  ownerId: t.uuid("owner_id").references(() => users.id),
 });

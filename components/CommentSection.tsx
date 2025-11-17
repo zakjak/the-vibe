@@ -166,7 +166,9 @@ const CommentSection = ({
                           </PopoverTrigger>
                           <PopoverContent className="mt-2">
                             <AlertDialog>
-                              <AlertDialogTrigger>Delete</AlertDialogTrigger>
+                              <AlertDialogTrigger className="text-red-400 font-semibold">
+                                Delete
+                              </AlertDialogTrigger>
                               <AlertDialogContent>
                                 <AlertDialogHeader>
                                   <AlertDialogTitle>

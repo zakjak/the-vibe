@@ -246,6 +246,13 @@
       "when": 1762123576546,
       "tag": "0034_purple_supernaut",
       "breakpoints": true
+    },
+    {
+      "idx": 35,
+      "version": "7",
+      "when": 1763193205336,
+      "tag": "0035_equal_the_leader",
+      "breakpoints": true
     }
   ]
 }

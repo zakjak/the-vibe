@@ -11,3 +11,11 @@ export type Session = {
   user: User;
   userId: string;
 };
+
+export type UserInfo = {
+  position?: string;
+  bio: string;
+  twitter?: string;
+  fb?: string;
+  linkedIn?: string;
+};

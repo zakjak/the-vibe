@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -22,6 +22,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
+import { useAbout, useUpdateUserProfile } from "@/hooks/useUsers";
 
 const formSchema = z.object({
   position: z
@@ -35,6 +36,10 @@ const formSchema = z.object({
 });
 
 const AboutUserProfileInformation = ({ userId }: { userId: string }) => {
+  const [open, setOpen] = useState(false);
+  const { data } = useAbout(userId);
+  const { mutate } = useUpdateUserProfile(userId);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,27 +51,34 @@ const AboutUserProfileInformation = ({ userId }: { userId: string }) => {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const about = {};
+  useEffect(() => {
+    if (data) {
+      form.reset({
+        position: data[0]?.postion || "",
+        bio: data[0]?.bio || "",
+        fb: data[0]?.fb || "",
+        twitter: data[0]?.twitter || "",
+        linkedIn: data[0]?.linkedIn || "",
+      });
+    }
+  }, [data, form]);
 
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/user/${userId}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          position: values.position,
-          bio: values.bio,
-          twitter: values.twitter,
-          fb: values.fb,
-          linkedIn: values.linkedIn,
-        }),
-      }
-    );
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const userInfo = {
+      position: values.position,
+      bio: values.bio,
+      twitter: values.twitter,
+      fb: values.fb,
+      linkedIn: values.linkedIn,
+    };
+
+    mutate(userInfo);
+
+    setOpen(false);
   };
 
   return (
-    <Dialog>
+    <Dialog modal={false} onOpenChange={setOpen} open={open}>
       <DialogTrigger asChild>
         <Button className="mt-2">
           <FaRegEdit />

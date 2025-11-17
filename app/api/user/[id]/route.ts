@@ -61,7 +61,21 @@ export async function POST(
         .from(about)
         .where(eq(about.ownerId, id));
 
-      if (!userData) {
+      if (userData.length === 0) {
+        const aboutUserData = await db
+          .insert(about)
+          .values({
+            postion: aboutUser.position,
+            bio: aboutUser.bio,
+            fb: aboutUser.fb,
+            twitter: aboutUser.twitter,
+            linkedIn: aboutUser.linkedIn,
+            ownerId: id,
+          })
+          .returning();
+
+        return NextResponse.json(aboutUserData);
+      } else {
         const aboutUserData = await db
           .update(about)
           .set({
@@ -73,20 +87,6 @@ export async function POST(
             ownerId: id,
           })
           .where(eq(about.ownerId, id))
-          .returning();
-
-        return NextResponse.json(aboutUserData);
-      } else {
-        const aboutUserData = await db
-          .insert(about)
-          .values({
-            postion: aboutUser.position,
-            bio: aboutUser.bio,
-            fb: aboutUser.fb,
-            twitter: aboutUser.twitter,
-            linkedIn: aboutUser.linkedIn,
-            ownerId: id,
-          })
           .returning();
 
         return NextResponse.json(aboutUserData);

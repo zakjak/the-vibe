@@ -1,6 +1,12 @@
 "use client";
 
-import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
+import { UserInfo } from "@/lib/types/users";
+import {
+  keepPreviousData,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -51,5 +57,35 @@ export const useAbout = (id: string) => {
     queryFn: () => fetchAbout(id),
     enabled: !!id,
     placeholderData: keepPreviousData,
+  });
+};
+
+const updateUser = async ({
+  userId,
+  userInfo,
+}: {
+  userId: string;
+  userInfo: UserInfo;
+}) => {
+  const res = await fetch(`${apiUrl}/api/user/${userId}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      position: userInfo.position,
+      bio: userInfo.bio,
+      twitter: userInfo.twitter,
+      fb: userInfo.fb,
+      linkedIn: userInfo.linkedIn,
+    }),
+  });
+};
+
+export const useUpdateUserProfile = (userId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (userInfo: UserInfo) => updateUser({ userId, userInfo }),
+
+    onSettled: () =>
+      queryClient.invalidateQueries({ queryKey: ["about-user", userId] }),
   });
 };
