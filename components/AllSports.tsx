@@ -13,6 +13,7 @@ const AllSports = ({ page }: { page: string }) => {
   const { data: sports, isLoading } = useSports(pageNumber);
 
   const articles: Article[] = sports?.response;
+  console.log(articles);
 
   if (isLoading) return <CategoriesPageSkeleton />;
 
