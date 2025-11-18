@@ -1,6 +1,5 @@
 "use client";
 
-import { Article } from "@/lib/types/article";
 import {
   keepPreviousData,
   useInfiniteQuery,
@@ -22,7 +21,7 @@ const fetchArticle = async (id: number, page: number) => {
 export const useArticle = (id: number, page: number) => {
   return useQuery({
     queryKey: ["article", id],
-    queryFn: () => fetchArticle(id!, page),
+    queryFn: () => fetchArticle(id, page),
     select: (data) => data.article,
     enabled: !!id,
     placeholderData: keepPreviousData,
