@@ -9,9 +9,8 @@ import {
 } from "@tanstack/react-query";
 
 const fetchArticle = async (id: number, page: number) => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/articles/article/${id}?page=${page}`
-  );
+  console.log(process.env.NEXT_PUBLIC_API_URL);
+  const res = await fetch(`/api/articles/article/${id}?page=${page}`);
   if (!res.ok) {
     throw new Error("Network response was not ok");
   }
@@ -39,9 +38,9 @@ export const useAddMoreComments = (id: number) => {
   return useInfiniteQuery({
     queryKey: ["comments"],
     queryFn: ({ pageParam }: { pageParam: number }) =>
-      fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/articles/article/${id}?page=${pageParam}`
-      ).then((res) => res.json()),
+      fetch(`/api/articles/article/${id}?page=${pageParam}`).then((res) =>
+        res.json()
+      ),
     select: (data) =>
       data?.pages?.map((comment) => ({
         comments: comment.articleComments,
@@ -59,7 +58,7 @@ export const useDeleteArticle = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: number) =>
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/articles/article/${id}`, {
+      fetch(`/api/articles/article/${id}`, {
         method: "DELETE",
       }).then((data) => data.json()),
     onSettled: () =>
@@ -68,9 +67,7 @@ export const useDeleteArticle = () => {
 };
 
 const fetchRelatedArticle = async (category: string, id: number) => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/articles/category/${id}/${category}`
-  );
+  const res = await fetch(`/api/articles/category/${id}/${category}`);
   if (!res.ok) {
     throw new Error("Network response was not ok");
   }
