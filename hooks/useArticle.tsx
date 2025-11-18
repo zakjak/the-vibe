@@ -15,7 +15,6 @@ const fetchArticle = async (id: number, page: number) => {
   }
 
   const data = await res.json();
-  console.log(data);
 
   return data;
 };

@@ -9,7 +9,7 @@ export async function generateMetadata({
   const { id } = await params;
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/articles/article/${id}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/articles/article/${id}`,
     {
       next: { revalidate: 60 },
     }
