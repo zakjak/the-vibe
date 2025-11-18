@@ -37,7 +37,7 @@ const TopCategoryStory = ({ topStory }: { topStory: Article }) => {
             width={240}
             height={240}
             alt={`${topStory?.title}`}
-            className=" w-full h-[12rem] object-cover"
+            className=" w-full h-[14rem] object-cover"
           />
         </Link>
         <AlertDialog>

@@ -11,7 +11,7 @@ const ProfileAbout = () => {
   const [error, setError] = useState(false);
 
   return (
-    <div className="w-full">
+    <div className="lg:w-[60rem] mx-auto">
       <AboutUserProfile user={session?.user as User} />
       <SavedArticles user={session?.user as User} setError={setError} />
     </div>
