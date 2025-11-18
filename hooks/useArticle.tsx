@@ -9,11 +9,11 @@ import {
 } from "@tanstack/react-query";
 
 const fetchArticle = async (id: number, page: number) => {
-  console.log(process.env.NEXT_PUBLIC_API_URL);
   const res = await fetch(`/api/articles/article/${id}?page=${page}`);
   if (!res.ok) {
     throw new Error("Network response was not ok");
   }
+  console.log(res.json());
   return res.json();
 };
 
