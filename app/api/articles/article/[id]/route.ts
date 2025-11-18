@@ -18,45 +18,38 @@ export async function GET(
   const nextPage = page * 5;
 
   try {
-    if (id) {
-      const [singleArticle] = await db
-        .select()
-        .from(articles)
-        .where(eq(articles.id, numericId));
+    const [singleArticle] = await db
+      .select()
+      .from(articles)
+      .where(eq(articles.id, numericId));
 
-      if (!singleArticle) throw new Error("Article not found");
+    if (!singleArticle) throw new Error("Article not found");
 
-      const authors = await db
-        .select()
-        .from(users)
-        .where(inArray(users.id, singleArticle.authors as string[]));
+    const authors = await db
+      .select()
+      .from(users)
+      .where(inArray(users.id, singleArticle.authors as string[]));
 
-      const articleComments = await db
-        .select()
-        .from(comments)
-        .where(eq(comments.postId, numericId))
-        .leftJoin(users, eq(comments.ownerId, users.id))
-        .limit(nextPage);
+    const articleComments = await db
+      .select()
+      .from(comments)
+      .where(eq(comments.postId, numericId))
+      .leftJoin(users, eq(comments.ownerId, users.id))
+      .limit(nextPage);
 
-      const lastComment = await db
-        .select()
-        .from(comments)
-        .orderBy(sql`${comments.id}`)
-        .limit(1);
+    const lastComment = await db
+      .select()
+      .from(comments)
+      .orderBy(sql`${comments.id}`)
+      .limit(1);
 
-      const article = [singleArticle, authors];
+    const article = [singleArticle, authors];
 
-      return NextResponse.json({
-        article,
-        articleComments,
-        lastComment,
-      });
-    } else {
-      return NextResponse.json(
-        { error: "Article does not exists" },
-        { status: 404 }
-      );
-    }
+    return NextResponse.json({
+      article,
+      articleComments,
+      lastComment,
+    });
   } catch (err) {
     console.log("Error fetching articles:", err);
     return NextResponse.json({ error: "Failed fetching articles" });
