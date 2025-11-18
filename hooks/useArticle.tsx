@@ -20,7 +20,7 @@ const fetchArticle = async (id: number, page: number) => {
 
 export const useArticle = (id: number, page: number) => {
   return useQuery({
-    queryKey: ["article", id],
+    queryKey: ["article", id, page],
     queryFn: () => fetchArticle(id, page),
     select: (data) => data.article,
     enabled: !!id,
