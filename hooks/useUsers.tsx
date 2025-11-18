@@ -8,10 +8,8 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
 const fetchUsers = async () => {
-  const res = await fetch(`${apiUrl}/api/users`);
+  const res = await fetch(`/api/users`);
   if (!res.ok) {
     throw new Error("Network response was not ok");
   }
@@ -27,7 +25,7 @@ export const useUsers = () => {
 };
 
 const fetchAuthor = async (slug: string) => {
-  const res = await fetch(`${apiUrl}/api/users/${slug}`);
+  const res = await fetch(`/api/users/${slug}`);
   if (!res.ok) {
     throw new Error("Network response was not ok");
   }
@@ -44,7 +42,7 @@ export const useAuthor = (slug: string) => {
 };
 
 const fetchAbout = async (id: string) => {
-  const res = await fetch(`${apiUrl}/api/user/${id}`);
+  const res = await fetch(`/api/user/${id}`);
   if (!res.ok) {
     throw new Error("Network response was not ok");
   }
@@ -67,7 +65,7 @@ const updateUser = async ({
   userId: string;
   userInfo: UserInfo;
 }) => {
-  const res = await fetch(`${apiUrl}/api/user/${userId}`, {
+  const res = await fetch(`/api/user/${userId}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({

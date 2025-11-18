@@ -8,14 +8,12 @@ type CommentProps = {
   ownerId: string;
 };
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
 export const useAddComment = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (data: CommentProps) => {
-      const res = await fetch(`${apiUrl}/api/comment`, {
+      const res = await fetch(`/api/comment`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -32,7 +30,7 @@ export const useDeleteComment = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: number) =>
-      fetch(`${apiUrl}/api/comment/${id}`, {
+      fetch(`/api/comment/${id}`, {
         method: "DELETE",
       }).then((data) => data.json()),
     onSettled: () => queryClient.invalidateQueries({ queryKey: ["comments"] }),

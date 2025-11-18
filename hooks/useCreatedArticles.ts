@@ -7,14 +7,12 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
-
 export const useCreatedArticles = (id: string) => {
   return useInfiniteQuery({
     queryKey: ["created-articles", id],
     queryFn: ({ pageParam }) =>
       fetch(
-        `${apiUrl}/api/articles/article/saved-articles/created-articles/${id}?page=${pageParam}`
+        `/api/articles/article/saved-articles/created-articles/${id}?page=${pageParam}`
       ).then((res) => res.json()),
     enabled: !!id,
     initialPageParam: 1,
@@ -26,7 +24,7 @@ export const useCreatedArticles = (id: string) => {
 
 const createArticle = async (article: Article) => {
   console.log(article);
-  const res = await fetch(`${apiUrl}/api/createArticle`, {
+  const res = await fetch(`/api/createArticle`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(article),
