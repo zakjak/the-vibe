@@ -3,10 +3,13 @@ import { db, users } from "@/lib/schema/schema";
 import { eq, inArray, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
-export async function GET(req: Request, context: { params: { id: string } }) {
+export async function GET(
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   const { searchParams } = new URL(req.url);
 
-  const { id } = context.params;
+  const { id } = await params;
 
   const numericId = Number(id);
 
