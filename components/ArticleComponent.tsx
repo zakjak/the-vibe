@@ -4,7 +4,6 @@ import { useArticle, useRelatedArticles } from "@/hooks/useArticle";
 import ArticleStory from "./ArticleStory";
 import RelatedArticles from "./RelatedArticles";
 import ArticleComponentSkeleton from "./ArticleComponentSkeleton";
-import Head from "next/head";
 import { useState } from "react";
 
 const ArticleComponent = ({ id }: { id: number }) => {
@@ -13,10 +12,10 @@ const ArticleComponent = ({ id }: { id: number }) => {
 
   console.log(data);
 
-  const { data: relatedArticles } = useRelatedArticles(
-    data && data?.category,
-    id
-  );
+  // const { data: relatedArticles } = useRelatedArticles(
+  //   data && data?.category,
+  //   id
+  // );
 
   if (isFetching) {
     return <ArticleComponentSkeleton />;
@@ -34,7 +33,7 @@ const ArticleComponent = ({ id }: { id: number }) => {
           />
         )}
         {/* Right Section */}
-        {data && <RelatedArticles articles={relatedArticles} />}
+        {/* {data && <RelatedArticles articles={relatedArticles} />} */}
       </div>
     </>
   );
