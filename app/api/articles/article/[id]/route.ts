@@ -5,11 +5,11 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   req: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   const { searchParams } = new URL(req.url);
 
-  const { id } = await params;
+  const { id } = params;
 
   const numericId = Number(id);
 
@@ -58,9 +58,9 @@ export async function GET(
 
 export async function POST(
   req: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
-  const { id } = await params;
+  const { id } = params;
 
   const numericId = Number(id);
 
@@ -78,9 +78,9 @@ export async function POST(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
-  const param = await params;
+  const param = params;
   const { id } = param;
 
   const numericId = Number(id);
