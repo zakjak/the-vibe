@@ -4,12 +4,12 @@ import { eq, inArray, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { searchParams } = new URL(req.url);
+  const { searchParams } = new URL(request.url);
 
-  const { id } = params;
+  const { id } = await params;
 
   const numericId = Number(id);
 
@@ -58,9 +58,9 @@ export async function GET(
 
 export async function POST(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = params;
+  const { id } = await params;
 
   const numericId = Number(id);
 
@@ -78,9 +78,9 @@ export async function POST(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const param = params;
+  const param = await params;
   const { id } = param;
 
   const numericId = Number(id);
