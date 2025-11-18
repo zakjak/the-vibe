@@ -1,10 +1,10 @@
 import { articles, comments } from "@/lib/schema/articles";
 import { db, users } from "@/lib/schema/schema";
 import { eq, inArray, sql } from "drizzle-orm";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
-  req: Request,
+  req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   const { searchParams } = new URL(req.url);
