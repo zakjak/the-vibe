@@ -13,8 +13,10 @@ const fetchArticle = async (id: number, page: number) => {
   if (!res.ok) {
     throw new Error("Network response was not ok");
   }
-  console.log(res.json());
-  return res.json();
+
+  const data = await res.json();
+
+  return data;
 };
 
 export const useArticle = (id: number, page: number) => {
