@@ -11,6 +11,8 @@ const ArticleComponent = ({ id }: { id: number }) => {
   const [isComments, setIsComments] = useState(1);
   const { data, isFetching } = useArticle(id, isComments);
 
+  console.log(data);
+
   const articleUrl =
     data &&
     `http://localhost:3000/${data?.category}/${
