@@ -58,8 +58,7 @@ const Navbar = () => {
   ];
 
   const handleSearch = (data: string) => {
-    const query = encodeURIComponent(data);
-    router.push(`/search?q=${query}&page=${page}`);
+    router.push(`/search?q=${data.split(" ").join("+")}&page=${page}`);
   };
 
   return (

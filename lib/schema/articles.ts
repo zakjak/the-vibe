@@ -39,8 +39,7 @@ export const articles = table(
       sql`(
           setweight(to_tsvector('english', ${table.title}), 'A') ||
           setweight(to_tsvector('english', ${table.story}), 'B') ||
-          setweight(to_tsvector('english', ${table.authors}), 'C') ||
-          setweight(to_tsvector('english', ${table.category}), 'D')
+          setweight(to_tsvector('english', ${table.category}), 'C')
       )`
     ),
   ]

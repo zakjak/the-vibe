@@ -1,4 +1,4 @@
-import { articles } from "@/drizzle/schema";
+import { articles } from "@/lib/schema/articles";
 import { db } from "@/lib/schema/schema";
 import { count, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
@@ -17,8 +17,7 @@ export async function GET(req: Request) {
       .where(sql`(
         setweight(to_tsvector('english', ${articles.title}), 'A') ||
         setweight(to_tsvector('english', ${articles.story}), 'B')) ||
-        setweight(to_tsvector('english', ${articles.authorsId}), 'C') ||
-        setweight(to_tsvector('english', ${articles.category}), 'D')
+        setweight(to_tsvector('english', ${articles.category}), 'C')
         @@ plainto_tsquery('english', ${query}
       )`);
     const pageNumber = Math.ceil(countRows[0].count / 10);
@@ -30,8 +29,7 @@ export async function GET(req: Request) {
         sql`(
         setweight(to_tsvector('english', ${articles.title}), 'A') ||
         setweight(to_tsvector('english', ${articles.story}), 'B') ||
-        setweight(to_tsvector('english', ${articles.authorsId}), 'C') ||
-        setweight(to_tsvector('english', ${articles.category}), 'D')) 
+        setweight(to_tsvector('english', ${articles.category}), 'C')) 
         @@ plainto_tsquery('english', ${query}
       )`
       )

@@ -6,7 +6,7 @@ import { FaShareAlt } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa6";
 import { plateToHtml } from "@/lib/utils/plateToHtml";
-import { Article, Articles } from "@/lib/types/article";
+import { Article } from "@/lib/types/article";
 import { useSavedArticle, useToggleBookmark } from "@/hooks/useBookmarks";
 import { useSession } from "next-auth/react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
