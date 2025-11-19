@@ -57,14 +57,11 @@ const SettingsProfile = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setSaving(true);
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/user/${session?.user?.id}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username: values.name }),
-        }
-      );
+      const res = await fetch(`/api/user/${session?.user?.id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: values.name }),
+      });
 
       if (res.ok) {
         await update();

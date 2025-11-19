@@ -105,7 +105,6 @@ const ArticleForm = ({
   const inputTagRef = useRef<HTMLInputElement | null>(null);
   const [inputTagValue, setInputTagValue] = useState("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
 
   const { mutate } = useCreateArticle(user?.id);
 
@@ -187,13 +186,10 @@ const ArticleForm = ({
     values?.images?.forEach((file) => formData.append("images", file.file));
 
     try {
-      const responseUpload = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/uploadImages`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+      const responseUpload = await fetch(`/api/uploadImages`, {
+        method: "POST",
+        body: formData,
+      });
 
       if (responseUpload) {
         const resultUploads = await responseUpload.json();

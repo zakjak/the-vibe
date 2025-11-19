@@ -13,9 +13,7 @@ type SavedOwner = {
 };
 
 const fetchSavedArticle = async (id: string): Promise<SavedArticle[]> => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/articles/article/saved-articles/${id}`
-  );
+  const res = await fetch(`/api/articles/article/saved-articles/${id}`);
   if (!res) {
     throw new Error("Network response was not ok");
   }
@@ -37,14 +35,11 @@ const toggleReadList = async ({
   ownerId: string;
   articleId: number;
 }): Promise<SavedOwner[]> => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/articles/article/saved-articles/${articleId}`,
-    {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ownerId }),
-    }
-  );
+  const res = await fetch(`/api/articles/article/saved-articles/${articleId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ownerId }),
+  });
 
   return res.json();
 };

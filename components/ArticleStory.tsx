@@ -33,9 +33,9 @@ const ArticleStory = ({
   const [copied, setCopied] = useState(false);
   const { data } = useComments(article[0]?.id ?? 0, isComments);
 
-  const articleUrl = `${process.env.NEXT_PUBLIC_API_URL}/${
-    article[0]?.category
-  }/${article[0]?.id}/${article[0]?.title?.replaceAll(" ", "-")}`;
+  const articleUrl = `/${article[0]?.category}/${
+    article[0]?.id
+  }/${article[0]?.title?.replaceAll(" ", "-")}`;
 
   const encodedTitle = encodeURIComponent(article[0]?.title);
 

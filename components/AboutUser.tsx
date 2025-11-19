@@ -41,13 +41,10 @@ const AboutUser = ({ user }: { user: User }) => {
 
       formData.append("profilePicture", file);
 
-      const responseUpload = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/user/profile-image`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+      const responseUpload = await fetch(`/api/user/profile-image`, {
+        method: "POST",
+        body: formData,
+      });
 
       if (responseUpload) {
         const imageUpload = await responseUpload.json();
@@ -58,13 +55,10 @@ const AboutUser = ({ user }: { user: User }) => {
           profileImage: imageUrl,
         };
 
-        const responseProfile = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/user/${user?.id}`,
-          {
-            method: "POST",
-            body: JSON.stringify(image),
-          }
-        );
+        const responseProfile = await fetch(`/api/user/${user?.id}`, {
+          method: "POST",
+          body: JSON.stringify(image),
+        });
 
         if (responseProfile.ok) {
           await responseProfile.json();
