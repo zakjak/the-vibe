@@ -23,13 +23,12 @@ const ArticleComponent = ({ id }: { id: number }) => {
     <>
       <div className="grid lg:gap-6 gap-4 lg:grid-cols-6 md:grid-cols-5 mx-auto max-w-[80%] lg:w-[60rem]">
         {/* Left Section */}
-        {data && (
-          <ArticleStory
-            article={data}
-            isComments={isComments}
-            setIsComments={setIsComments}
-          />
-        )}
+        <ArticleStory
+          article={data}
+          isComments={isComments}
+          setIsComments={setIsComments}
+        />
+
         {/* Right Section */}
         {/* {data && <RelatedArticles articles={relatedArticles} />} */}
       </div>

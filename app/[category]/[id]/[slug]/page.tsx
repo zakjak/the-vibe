@@ -1,17 +1,14 @@
 import ArticleComponent from "@/components/ArticleComponent";
+import React from "react";
 
-const BusinessPage = async ({
-  params,
-}: {
-  params: Promise<{ id: number }>;
-}) => {
+const ArticlePage = async ({ params }: { params: Promise<{ id: number }> }) => {
   const { id } = await params;
 
   return (
-    <div className="">
+    <div>
       <ArticleComponent id={id} />
     </div>
   );
 };
 
-export default BusinessPage;
+export default ArticlePage;
