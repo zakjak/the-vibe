@@ -10,14 +10,16 @@ const ArticleComponent = ({ id }: { id: number }) => {
   const [isComments, setIsComments] = useState(1);
   const { data, isFetching } = useArticle(id, isComments);
 
-  // const { data: relatedArticles } = useRelatedArticles(
-  //   data && data?.category,
-  //   id
-  // );
+  const { data: relatedArticles } = useRelatedArticles(
+    data && data?.category,
+    id
+  );
 
   if (isFetching) {
     return <ArticleComponentSkeleton />;
   }
+
+  console.log(data);
 
   return (
     <>

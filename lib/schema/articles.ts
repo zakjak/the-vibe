@@ -71,6 +71,5 @@ export const comments = table("comments", {
   comment: t.text(),
   postId: t.integer("post_id").references(() => articles.id),
   ownerId: t.text("owner_id").references(() => users.id),
-  parentId: t.integer("parent_id"),
   date: t.timestamp().notNull().defaultNow(),
 });

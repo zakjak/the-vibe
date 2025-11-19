@@ -9,11 +9,12 @@ import {
 } from "@tanstack/react-query";
 
 const fetchArticle = async (id: number, page: number) => {
-  if (!id) return;
+  console.log(id, page);
+  // if (!id) return;
 
-  await fetch(`/api/articles/article/${id}`, {
-    method: "POST",
-  });
+  // await fetch(`/api/articles/article/${id}`, {
+  //   method: "POST",
+  // });
 
   const res = await fetch(`/api/articles/article/${id}?page=${page}`);
   if (!res.ok) {

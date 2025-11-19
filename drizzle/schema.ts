@@ -1,12 +1,71 @@
-import { pgTable, text, timestamp, foreignKey, integer, unique, boolean, serial, varchar, uuid } from "drizzle-orm/pg-core"
+import { pgTable, foreignKey, unique, text, integer, boolean, serial, timestamp, uuid, varchar } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
 
+
+export const authenticator = pgTable("authenticator", {
+	credentialId: text().notNull(),
+	userId: text().notNull(),
+	providerAccountId: text().notNull(),
+	credentialPublicKey: text().notNull(),
+	counter: integer().notNull(),
+	credentialDeviceType: text().notNull(),
+	credentialBackedUp: boolean().notNull(),
+	transports: text(),
+}, (table) => [
+	foreignKey({
+			columns: [table.userId],
+			foreignColumns: [users.id],
+			name: "authenticator_userId_users_id_fk"
+		}).onDelete("cascade"),
+	unique("authenticator_credentialID_unique").on(table.credentialId),
+]);
+
+export const comments = pgTable("comments", {
+	id: serial().primaryKey().notNull(),
+	comment: text(),
+	postId: integer("post_id"),
+	ownerId: text("owner_id"),
+	date: timestamp({ mode: 'string' }).defaultNow().notNull(),
+}, (table) => [
+	foreignKey({
+			columns: [table.ownerId],
+			foreignColumns: [users.id],
+			name: "comments_owner_id_users_id_fk"
+		}),
+]);
+
+export const readlist = pgTable("readlist", {
+	id: serial().primaryKey().notNull(),
+	articleId: integer(),
+	ownerId: text("owner_id"),
+});
+
+export const session = pgTable("session", {
+	sessionToken: text().primaryKey().notNull(),
+	userId: text().notNull(),
+	expires: timestamp({ mode: 'string' }).notNull(),
+}, (table) => [
+	foreignKey({
+			columns: [table.userId],
+			foreignColumns: [users.id],
+			name: "session_userId_users_id_fk"
+		}).onDelete("cascade"),
+]);
 
 export const verificationToken = pgTable("verificationToken", {
 	identifier: text().notNull(),
 	token: text().notNull(),
 	expires: timestamp({ mode: 'string' }).notNull(),
+});
+
+export const users = pgTable("users", {
+	id: text().primaryKey().notNull(),
+	name: text(),
+	email: text(),
+	emailVerified: timestamp({ mode: 'string' }),
+	isAdmin: boolean().default(false),
+	image: text(),
 });
 
 export const account = pgTable("account", {
@@ -29,58 +88,14 @@ export const account = pgTable("account", {
 		}).onDelete("cascade"),
 ]);
 
-export const authenticator = pgTable("authenticator", {
-	credentialId: text().notNull(),
-	userId: text().notNull(),
-	providerAccountId: text().notNull(),
-	credentialPublicKey: text().notNull(),
-	counter: integer().notNull(),
-	credentialDeviceType: text().notNull(),
-	credentialBackedUp: boolean().notNull(),
-	transports: text(),
-}, (table) => [
-	foreignKey({
-			columns: [table.userId],
-			foreignColumns: [users.id],
-			name: "authenticator_userId_users_id_fk"
-		}).onDelete("cascade"),
-	unique("authenticator_credentialID_unique").on(table.credentialId),
-]);
-
-export const session = pgTable("session", {
-	sessionToken: text().primaryKey().notNull(),
-	userId: text().notNull(),
-	expires: timestamp({ mode: 'string' }).notNull(),
-}, (table) => [
-	foreignKey({
-			columns: [table.userId],
-			foreignColumns: [users.id],
-			name: "session_userId_users_id_fk"
-		}).onDelete("cascade"),
-]);
-
-export const users = pgTable("users", {
+export const about = pgTable("about", {
 	id: text().primaryKey().notNull(),
-	name: text(),
-	email: text(),
-	emailVerified: timestamp({ mode: 'string' }),
-	isAdmin: boolean().default(false),
-	image: text(),
-});
-
-export const readlist = pgTable("readlist", {
-	id: serial().primaryKey().notNull(),
-	articleId: integer(),
-	ownerId: text("owner_id"),
-});
-
-export const comments = pgTable("comments", {
-	id: serial().primaryKey().notNull(),
-	comment: text(),
-	postId: integer("post_id"),
-	ownerId: text("owner_id"),
-	parentId: integer("parent_id"),
-	date: timestamp({ mode: 'string' }).defaultNow().notNull(),
+	position: text(),
+	bio: text(),
+	fb: text(),
+	twitter: text(),
+	linkedIn: text(),
+	ownerId: uuid("owner_id"),
 });
 
 export const articles = pgTable("articles", {
@@ -97,14 +112,4 @@ export const articles = pgTable("articles", {
 	imagesTitle: text("images_title").array().default([""]),
 	authorsId: uuid("authors_id").array().default([""]),
 	views: integer().default(0),
-});
-
-export const about = pgTable("about", {
-	id: text().primaryKey().notNull(),
-	position: text(),
-	bio: text(),
-	fb: text(),
-	twitter: text(),
-	linkedIn: text(),
-	ownerId: uuid("owner_id"),
 });
