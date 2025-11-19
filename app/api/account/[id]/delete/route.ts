@@ -2,8 +2,7 @@ import { readList } from "@/lib/schema/articles";
 import { db, users } from "@/lib/schema/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
-import { signOut, auth } from "@/lib/utils/auth";
-import { error } from "console";
+import { auth } from "@/lib/utils/auth";
 
 export async function DELETE(
   req: Request,
