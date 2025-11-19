@@ -9,32 +9,15 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { Comment, Comments } from "@/lib/types/article";
-import { CiMenuKebab } from "react-icons/ci";
-import Image from "next/image";
-import { calculateTime } from "@/lib/utils/helpers";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Popover } from "./ui/popover";
-import { PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
+import { CommentProp, Comments } from "@/lib/types/article";
 import { Textarea } from "./ui/textarea";
-import { IoIosSend, IoIosThumbsDown, IoIosThumbsUp } from "react-icons/io";
+import { IoIosSend } from "react-icons/io";
 import { FaChevronDown } from "react-icons/fa";
-import { useAddComment, useDeleteComment } from "@/hooks/useComments";
+import { useAddComment } from "@/hooks/useComments";
 import { useAddMoreComments } from "@/hooks/useArticle";
 import { User } from "@/lib/types/users";
-import { useState } from "react";
-import { AlertDialogDescription } from "@radix-ui/react-alert-dialog";
 import { Spinner } from "./ui/spinner";
-import { MdMessage } from "react-icons/md";
+import Comment from "./Comment";
 
 const commentSchema = z.object({
   comment: z.string().min(2, {
@@ -54,10 +37,8 @@ const CommentSection = ({
   isComments: number;
   setIsComments: (page: number) => void;
 }) => {
-  const [expanded, setExpanded] = useState(false);
-  const [isReply, setIsReply] = useState(false);
-  const { mutate: deleteComment } = useDeleteComment();
   const { mutate, isPending } = useAddComment();
+
   const { fetchNextPage, isFetchingNextPage, data } =
     useAddMoreComments(postId);
 
@@ -84,15 +65,9 @@ const CommentSection = ({
   const isExisting =
     data &&
     data[data?.length - 1]?.comments?.some(
-      ({ comments }: { comments: Comment }) =>
+      ({ comments }: { comments: CommentProp }) =>
         comments?.id === data[data?.length - 1]?.lastComment[0]?.id
     );
-
-  const readMore = (text: string) => {
-    const visibleText = expanded ? text : text.slice(0, 80) + "...";
-
-    return visibleText;
-  };
 
   return (
     <div>
@@ -131,124 +106,13 @@ const CommentSection = ({
       </Form>
       <div className="my-2 pb-5">
         {moreComments?.map(
-          ({ comments, users }: { comments: Comment; users: User }) => (
-            <article key={comments?.id} className="mb-2 border-b pb-4">
-              <div className="">
-                <header className="flex gap-2">
-                  <Image
-                    className="w-8 h-8 object-cover rounded-full"
-                    src={users?.image || ""}
-                    alt={`Image of ${users?.name}`}
-                    height={200}
-                    width={2000}
-                  />
-                  <div className="flex justify-between w-full">
-                    <div className="w-[90%]">
-                      <div className="flex gap-2 text-sm">
-                        <span className="font-semibold">{users?.name}</span>
-                        <span className="text-zinc-400">
-                          {calculateTime(comments?.date)}
-                        </span>
-                      </div>
-                      <div className="">
-                        <p>{readMore(comments?.comment)}</p>
-                        <div className="flex items-center gap-4">
-                          <div className="flex items-center gap-1">
-                            <IoIosThumbsUp className="cursor-pointer" /> 23
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <IoIosThumbsDown className="cursor-pointer" /> 15
-                          </div>
-                          <div
-                            onClick={() => setIsReply(!isReply)}
-                            className="flex items-center gap-1 cursor-pointer"
-                          >
-                            <MdMessage /> reply
-                          </div>
-                        </div>
-                        {isReply && (
-                          <Form {...form}>
-                            <form
-                              className="flex gap-2 border rounded-xl pb-5 relative"
-                              onSubmit={form.handleSubmit(onSubmit)}
-                            >
-                              <FormField
-                                control={form.control}
-                                name="comment"
-                                render={({ field }) => (
-                                  <FormItem className="w-full">
-                                    <FormControl>
-                                      <Textarea
-                                        className="min-h-[4em] max-h-[4rem] w-[90%] bg-transparent! border-none no-scrollbar"
-                                        placeholder="Enter comment..."
-                                        {...field}
-                                      />
-                                    </FormControl>
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
-                              <Button
-                                className="absolute bottom-2 right-4 rounded-full cursor-pointer"
-                                size="icon"
-                                type="submit"
-                              >
-                                {isPending ? <Spinner /> : <IoIosSend />}
-                              </Button>
-                            </form>
-                          </Form>
-                        )}
-                      </div>
-
-                      {comments?.comment?.length > 80 && (
-                        <button
-                          className="cursor-pointer text-zinc-500"
-                          onClick={() => setExpanded(!expanded)}
-                        >
-                          {expanded ? "Show less" : "Read more..."}
-                        </button>
-                      )}
-                    </div>
-                    <div className="bg-zinc-200 text-blaxk hover:bg-zinc-500 cursor-pointer w-6 h-6 text-black flex items-center rounded-full justify-center">
-                      {comments.ownerId === ownerId && (
-                        <Popover>
-                          <PopoverTrigger>
-                            <CiMenuKebab />
-                          </PopoverTrigger>
-                          <PopoverContent className="mt-2">
-                            <AlertDialog>
-                              <AlertDialogTrigger className="text-red-400 font-semibold">
-                                Delete
-                              </AlertDialogTrigger>
-                              <AlertDialogContent>
-                                <AlertDialogHeader>
-                                  <AlertDialogTitle>
-                                    Are you sure you want to delete this
-                                    comment?
-                                  </AlertDialogTitle>
-                                  <AlertDialogDescription>
-                                    Are you sure you want to delete this
-                                    comment?
-                                  </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                  <AlertDialogAction
-                                    onClick={() => deleteComment(comments?.id)}
-                                  >
-                                    Continue
-                                  </AlertDialogAction>
-                                </AlertDialogFooter>
-                              </AlertDialogContent>
-                            </AlertDialog>
-                          </PopoverContent>
-                        </Popover>
-                      )}
-                    </div>
-                  </div>
-                </header>
-              </div>
-            </article>
+          ({ comments, users }: { comments: CommentProp; users: User }) => (
+            <Comment
+              key={comments?.id}
+              comment={comments}
+              users={users}
+              ownerId={ownerId}
+            />
           )
         )}
         <div className="flex items-center gap-1 justify-center text-sm">

@@ -5,7 +5,7 @@ export type Article = {
   title: string;
   story: string;
   category: string;
-  date?: Date;
+  date?: string;
   authors: string[];
   image: string;
   imageTitle: string;
@@ -20,7 +20,7 @@ export type Articles = {
   users: User;
 };
 
-export type Comment = {
+export type CommentProp = {
   id: number;
   comment: string;
   ownerId: string;
@@ -29,6 +29,6 @@ export type Comment = {
 };
 
 export type Comments = {
-  comments: Comment;
+  comments: CommentProp;
   users: User;
 };
