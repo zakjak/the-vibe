@@ -45,11 +45,9 @@ const ArticleStory = ({
     twitter: `https://twitter.com/intent/tweet?url=${articleUrl}&text=${encodedTitle}`,
   };
 
-  const {
-    data: savedArticle,
-    isSuccess,
-    isLoading,
-  } = useSavedArticle(session?.user?.id as string);
+  const { data: savedArticle, isLoading } = useSavedArticle(
+    session?.user?.id as string
+  );
 
   const { mutate, data: toggleMark } = useToggleBookmark(
     session?.user?.id as string
