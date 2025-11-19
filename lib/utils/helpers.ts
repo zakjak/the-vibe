@@ -1,10 +1,13 @@
 import moment from "moment";
 
-// -21252 seconds ago
+export const calculateTime = (date?: string) => {
+  if (!date) return "";
 
-export const calculateTime = (date?: Date) => {
+  // Remove microseconds if present
+  const cleanDate = date.split(".")[0]; // "2025-11-19 00:23:51"
+
   const now = moment();
-  const then = moment(date);
+  const then = moment(cleanDate, "YYYY-MM-DD HH:mm:ss"); // parse as local
 
   const diff = now.diff(then);
   const duration = moment.duration(diff);

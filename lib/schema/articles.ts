@@ -71,5 +71,26 @@ export const comments = table("comments", {
   comment: t.text(),
   postId: t.integer("post_id").references(() => articles.id),
   ownerId: t.text("owner_id").references(() => users.id),
+  parentId: t.integer("parent_id"),
   date: t.timestamp().notNull().defaultNow(),
 });
+
+export const commentVotes = table(
+  "comment_votes",
+  {
+    id: t.serial("id").primaryKey(),
+    commentId: t
+      .integer("comment_id")
+      .references(() => comments.id)
+      .notNull(),
+    userId: t
+      .uuid("user_id")
+      .references(() => users.id)
+      .notNull(),
+    vote: t.integer("vote").notNull(),
+    createdAt: t.timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => ({
+    uniqueUserVote: t.unique().on(table.commentId, table.userId),
+  })
+);

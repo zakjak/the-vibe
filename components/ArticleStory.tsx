@@ -195,7 +195,9 @@ const ArticleStory = ({
           />
         </div>
       ) : (
-        <h1>Login to view and comment on articles</h1>
+        <h1 className="text-xl my-4 font-bold">
+          Login to view and comment on articles
+        </h1>
       )}
     </div>
   );

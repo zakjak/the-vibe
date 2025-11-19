@@ -25,7 +25,7 @@ export type Comment = {
   comment: string;
   ownerId: string;
   postId: number;
-  date: Date;
+  date: string;
 };
 
 export type Comments = {

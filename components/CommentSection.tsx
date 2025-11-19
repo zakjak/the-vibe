@@ -26,13 +26,15 @@ import {
 import { Popover } from "./ui/popover";
 import { PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import { Textarea } from "./ui/textarea";
-import { IoIosSend } from "react-icons/io";
+import { IoIosSend, IoIosThumbsDown, IoIosThumbsUp } from "react-icons/io";
 import { FaChevronDown } from "react-icons/fa";
 import { useAddComment, useDeleteComment } from "@/hooks/useComments";
 import { useAddMoreComments } from "@/hooks/useArticle";
 import { User } from "@/lib/types/users";
 import { useState } from "react";
 import { AlertDialogDescription } from "@radix-ui/react-alert-dialog";
+import { Spinner } from "./ui/spinner";
+import { MdMessage } from "react-icons/md";
 
 const commentSchema = z.object({
   comment: z.string().min(2, {
@@ -53,6 +55,7 @@ const CommentSection = ({
   setIsComments: (page: number) => void;
 }) => {
   const [expanded, setExpanded] = useState(false);
+  const [isReply, setIsReply] = useState(false);
   const { mutate: deleteComment } = useDeleteComment();
   const { mutate, isPending } = useAddComment();
   const { fetchNextPage, isFetchingNextPage, data } =
@@ -122,7 +125,7 @@ const CommentSection = ({
             size="icon"
             type="submit"
           >
-            {isPending ? "Loading" : <IoIosSend />}
+            {isPending ? <Spinner /> : <IoIosSend />}
           </Button>
         </form>
       </Form>
@@ -147,8 +150,56 @@ const CommentSection = ({
                           {calculateTime(comments?.date)}
                         </span>
                       </div>
+                      <div className="">
+                        <p>{readMore(comments?.comment)}</p>
+                        <div className="flex items-center gap-4">
+                          <div className="flex items-center gap-1">
+                            <IoIosThumbsUp className="cursor-pointer" /> 23
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <IoIosThumbsDown className="cursor-pointer" /> 15
+                          </div>
+                          <div
+                            onClick={() => setIsReply(!isReply)}
+                            className="flex items-center gap-1 cursor-pointer"
+                          >
+                            <MdMessage /> reply
+                          </div>
+                        </div>
+                        {isReply && (
+                          <Form {...form}>
+                            <form
+                              className="flex gap-2 border rounded-xl pb-5 relative"
+                              onSubmit={form.handleSubmit(onSubmit)}
+                            >
+                              <FormField
+                                control={form.control}
+                                name="comment"
+                                render={({ field }) => (
+                                  <FormItem className="w-full">
+                                    <FormControl>
+                                      <Textarea
+                                        className="min-h-[4em] max-h-[4rem] w-[90%] bg-transparent! border-none no-scrollbar"
+                                        placeholder="Enter comment..."
+                                        {...field}
+                                      />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                              <Button
+                                className="absolute bottom-2 right-4 rounded-full cursor-pointer"
+                                size="icon"
+                                type="submit"
+                              >
+                                {isPending ? <Spinner /> : <IoIosSend />}
+                              </Button>
+                            </form>
+                          </Form>
+                        )}
+                      </div>
 
-                      <p>{readMore(comments?.comment)}</p>
                       {comments?.comment?.length > 80 && (
                         <button
                           className="cursor-pointer text-zinc-500"
