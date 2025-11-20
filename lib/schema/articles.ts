@@ -66,7 +66,7 @@ export const readListRelations = relations(readList, ({ one }) => ({
   }),
 }));
 
-export const comments = table("comments", {
+export const comments = table("comment", {
   id: t.serial("id").primaryKey(),
   comment: t.text(),
   postId: t.integer("post_id").references(() => articles.id),

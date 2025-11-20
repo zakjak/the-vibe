@@ -105,10 +105,10 @@ const CommentSection = ({
       </Form>
       <div className="my-2 pb-5">
         {comments?.map(
-          ({ comments, users }: { comments: CommentProp; users: User }) => (
+          ({ comment, users }: { comment: CommentProp; users: User }) => (
             <Comment
-              key={comments?.id}
-              comment={comments}
+              key={comment?.id}
+              comment={comment}
               users={users}
               ownerId={ownerId}
               postId={postId}

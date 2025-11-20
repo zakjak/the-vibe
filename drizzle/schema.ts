@@ -68,19 +68,19 @@ export const users = pgTable("users", {
 	image: text(),
 });
 
-export const readlist = pgTable("readlist", {
-	id: serial().primaryKey().notNull(),
-	articleId: integer(),
-	ownerId: text("owner_id"),
-});
-
-export const comments = pgTable("comments", {
+export const comment = pgTable("comment", {
 	id: serial().primaryKey().notNull(),
 	comment: text(),
 	postId: integer("post_id"),
 	ownerId: text("owner_id"),
 	parentId: integer("parent_id"),
 	date: timestamp({ mode: 'string' }).defaultNow().notNull(),
+});
+
+export const readlist = pgTable("readlist", {
+	id: serial().primaryKey().notNull(),
+	articleId: integer(),
+	ownerId: text("owner_id"),
 });
 
 export const commentVotes = pgTable("comment_votes", {

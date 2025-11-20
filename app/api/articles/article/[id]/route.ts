@@ -1,7 +1,6 @@
 import { articles, comments } from "@/lib/schema/articles";
 import { db, users } from "@/lib/schema/schema";
-import { buildCommentTree } from "@/lib/utils/helpers";
-import { and, desc, eq, inArray, isNull, sql } from "drizzle-orm";
+import { desc, eq, inArray, isNull, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -38,8 +37,6 @@ export async function GET(
       .orderBy(desc(comments.date))
       .limit(limit)
       .offset(offset);
-
-    // const nestedComments = buildCommentTree(articleComments);
 
     const lastComment = await db
       .select()

@@ -39,7 +39,6 @@ import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { Spinner } from "./ui/spinner";
 import { IoThumbsDownOutline, IoThumbsUpOutline } from "react-icons/io5";
-import ReplyList from "./ReplyList";
 
 const commentSchema = z.object({
   comment: z.string().min(2, {
@@ -49,7 +48,7 @@ const commentSchema = z.object({
 
 export type CommentFormValues = z.infer<typeof commentSchema>;
 
-const Comment = ({
+const ReplyList = ({
   comment,
   users,
   ownerId,
@@ -79,6 +78,7 @@ const Comment = ({
       comment: "",
     },
   });
+  console.log(comment);
 
   const readMore = (text: string) => {
     const visibleText = expanded ? text : text.slice(0, 80) + "...";
@@ -285,4 +285,4 @@ const Comment = ({
   );
 };
 
-export default Comment;
+export default ReplyList;
