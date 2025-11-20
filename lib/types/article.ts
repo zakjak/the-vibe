@@ -27,10 +27,6 @@ export type CommentProp = {
   postId: number;
   date: string;
   parentId: number;
-  replies: CommentProp[];
-};
-
-export type Comments = {
-  comments: CommentProp;
   users: User;
+  reply: CommentProp[];
 };

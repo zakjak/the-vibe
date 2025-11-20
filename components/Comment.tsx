@@ -26,7 +26,11 @@ import { IoIosSend, IoIosThumbsDown, IoIosThumbsUp } from "react-icons/io";
 import { Popover } from "./ui/popover";
 import { PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import { useState } from "react";
-import { useAddComment, useDeleteComment } from "@/hooks/useComments";
+import {
+  useAddComment,
+  useDeleteComment,
+  useReplyComments,
+} from "@/hooks/useComments";
 import { useAddVotes, useVotes, VoteProps } from "@/hooks/useVotes";
 import z from "zod";
 import { useForm } from "react-hook-form";
@@ -49,18 +53,20 @@ const Comment = ({
   users,
   ownerId,
   postId,
-  replies,
+  limit,
 }: {
   comment: CommentProp;
   users: User;
   ownerId: string;
   postId: number;
-  replies: CommentProp[];
+  limit: number;
 }) => {
   const [isReply, setIsReply] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [offset, setOffset] = useState(0);
   const { mutate: deleteComment } = useDeleteComment();
   const { mutate, isPending } = useAddComment();
+  const { data: replies } = useReplyComments(comment?.id, limit, offset);
 
   const { mutate: mutateVotes, isPending: isVotesPending } = useAddVotes();
 
@@ -92,9 +98,8 @@ const Comment = ({
     };
     mutate(commentSection);
     form.reset();
+    setIsReply(false);
   };
-
-  console.log(replies);
 
   return (
     <div className="mb-2 pb-4">
@@ -116,7 +121,7 @@ const Comment = ({
                 </span>
               </div>
               <div className="">
-                <p>{readMore(comment?.comment)}</p>
+                <p>{comment && readMore(comment?.comment)}</p>
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-1">
                     {data?.voteComment?.vote === 1 ? (
@@ -221,7 +226,7 @@ const Comment = ({
               )}
             </div>
             <div className="bg-zinc-200 text-blaxk hover:bg-zinc-500 cursor-pointer w-6 h-6 text-black flex items-center rounded-full justify-center">
-              {comment.ownerId === ownerId && (
+              {comment?.ownerId === ownerId && (
                 <Popover>
                   <PopoverTrigger>
                     <CiMenuKebab />
@@ -257,16 +262,20 @@ const Comment = ({
           </div>
         </header>
         {replies?.length > 0 && (
-          <div className="ml-6 mt-3 border-l border-gray-600 pl-4">
-            {replies?.map((reply) => (
-              <Comment
-                key={reply?.comments?.id}
-                comment={reply?.comments}
-                users={reply?.users}
-                ownerId={reply?.users?.id}
-                postId={postId}
-                replies={reply?.replies}
-              />
+          <div className="ml-6 mt-3  pl-4 relative">
+            <div className="absolute left-[-10px] bottom-5 w-[2px] h-full bg-gray-300 rounded-bl-md" />
+
+            {replies?.map((reply: CommentProp) => (
+              <div key={reply?.id} className="relative">
+                <div className="absolute left-[-25px] top-2 w-3 h-3 border-l border-b border-gray-300 rounded-bl-md " />
+                <Comment
+                  comment={reply?.comments}
+                  users={reply?.users}
+                  ownerId={reply?.users?.id}
+                  postId={postId}
+                  limit={limit}
+                />
+              </div>
             ))}
           </div>
         )}

@@ -9,15 +9,16 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { CommentProp, Comments } from "@/lib/types/article";
+import { CommentProp } from "@/lib/types/article";
 import { Textarea } from "./ui/textarea";
 import { IoIosSend } from "react-icons/io";
 import { FaChevronDown } from "react-icons/fa";
-import { useAddComment } from "@/hooks/useComments";
-import { useAddMoreComments } from "@/hooks/useArticle";
+import { useAddComment, useComments } from "@/hooks/useComments";
+import { useAddMoreComments } from "@/hooks/useComments";
 import { User } from "@/lib/types/users";
 import { Spinner } from "./ui/spinner";
 import Comment from "./Comment";
+import { useState } from "react";
 
 const commentSchema = z.object({
   comment: z.string().min(2, {
@@ -30,15 +31,14 @@ export type CommentFormValues = z.infer<typeof commentSchema>;
 const CommentSection = ({
   postId,
   ownerId,
-  comments,
 }: {
   postId: number;
   ownerId: string;
-  comments: Comments[];
-  isComments: number;
-  setIsComments: (page: number) => void;
 }) => {
+  const [offset, setOffset] = useState(0);
   const { mutate, isPending } = useAddComment();
+  const limit = 5;
+  const { data: comments } = useComments(postId, limit, offset);
 
   const { fetchNextPage, isFetchingNextPage, data } =
     useAddMoreComments(postId);
@@ -60,8 +60,6 @@ const CommentSection = ({
     mutate(commentSection);
     form.reset();
   };
-
-  const moreComments = data && data[data?.length - 1]?.comments;
 
   const isExisting =
     data &&
@@ -106,23 +104,15 @@ const CommentSection = ({
         </form>
       </Form>
       <div className="my-2 pb-5">
-        {moreComments?.map(
-          ({
-            comments,
-            users,
-            replies,
-          }: {
-            comments: CommentProp;
-            users: User;
-            replies: CommentProp[];
-          }) => (
+        {comments?.map(
+          ({ comments, users }: { comments: CommentProp; users: User }) => (
             <Comment
               key={comments?.id}
               comment={comments}
               users={users}
               ownerId={ownerId}
               postId={postId}
-              replies={replies}
+              limit={limit}
             />
           )
         )}
@@ -134,7 +124,7 @@ const CommentSection = ({
               onClick={() => fetchNextPage()}
               className="cursor-pointer flex items-center gap-1"
             >
-              {moreComments?.length > 5 && (
+              {comments?.length > 5 && (
                 <div>
                   <span>Load more</span>
                   <FaChevronDown className="" />

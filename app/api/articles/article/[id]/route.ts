@@ -1,7 +1,7 @@
 import { articles, comments } from "@/lib/schema/articles";
 import { db, users } from "@/lib/schema/schema";
 import { buildCommentTree } from "@/lib/utils/helpers";
-import { eq, inArray, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, isNull, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -12,17 +12,16 @@ export async function GET(
 
   const { id } = await params;
 
-  const numericId = Number(id);
+  const articleId = Number(id);
 
-  const page = Number(searchParams.get("page")) || 1;
-
-  const nextPage = page * 5;
+  const limit = Number(searchParams.get("limit")) || 5;
+  const offset = Number(searchParams.get("offset")) || 0;
 
   try {
     const [singleArticle] = await db
       .select()
       .from(articles)
-      .where(eq(articles.id, numericId));
+      .where(eq(articles.id, articleId));
 
     if (!singleArticle) throw new Error("Article not found");
 
@@ -34,11 +33,13 @@ export async function GET(
     const articleComments = await db
       .select()
       .from(comments)
-      .where(eq(comments.postId, numericId))
+      .where(eq(comments.postId, articleId) && isNull(comments.parentId))
       .leftJoin(users, eq(comments.ownerId, users.id))
-      .limit(nextPage);
+      .orderBy(desc(comments.date))
+      .limit(limit)
+      .offset(offset);
 
-    const nestedComments = buildCommentTree(articleComments);
+    // const nestedComments = buildCommentTree(articleComments);
 
     const lastComment = await db
       .select()
@@ -50,7 +51,7 @@ export async function GET(
 
     return NextResponse.json({
       article,
-      nestedComments,
+      articleComments,
       lastComment,
     });
   } catch (err) {

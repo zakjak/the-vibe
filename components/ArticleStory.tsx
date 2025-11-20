@@ -17,21 +17,11 @@ import { useState } from "react";
 import { TiTick } from "react-icons/ti";
 import Link from "next/link";
 import CommentSection from "./CommentSection";
-import { useComments } from "@/hooks/useArticle";
 import { User } from "@/lib/types/users";
 
-const ArticleStory = ({
-  article,
-  isComments,
-  setIsComments,
-}: {
-  article: [Article, User[]];
-  isComments: number;
-  setIsComments: (page: number) => void;
-}) => {
+const ArticleStory = ({ article }: { article: [Article, User[]] }) => {
   const { data: session } = useSession();
   const [copied, setCopied] = useState(false);
-  const { data } = useComments(article[0]?.id ?? 0, isComments);
 
   const articleUrl = `/${article[0]?.category}/${
     article[0]?.id
@@ -189,9 +179,6 @@ const ArticleStory = ({
           <CommentSection
             postId={article[0]?.id ?? 0}
             ownerId={session?.user?.id}
-            comments={data}
-            isComments={isComments}
-            setIsComments={setIsComments}
           />
         </div>
       ) : (

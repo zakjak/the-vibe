@@ -1,11 +1,93 @@
 "use client";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 
 type CommentProps = {
   comment: string;
   postId: number;
   ownerId: string;
+};
+
+const fetchArticle = async (id: number, limit: number, offset: number) => {
+  if (!id) return;
+
+  await fetch(`/api/articles/article/${id}`, {
+    method: "POST",
+  });
+
+  const res = await fetch(
+    `/api/articles/article/${id}?limit=${limit}&offset=${offset}`
+  );
+  if (!res.ok) {
+    throw new Error("Network response was not ok");
+  }
+
+  const data = await res.json();
+
+  return data;
+};
+
+export const useComments = (id: number, limit: number, offset: number) => {
+  return useQuery({
+    queryKey: ["comments", id],
+    queryFn: () =>
+      fetchArticle(id, limit, offset).then((data) => data.articleComments),
+  });
+};
+
+const fetchCommentReplies = async (
+  parentId: number,
+  limit: number,
+  offset: number
+) => {
+  if (!parentId) return;
+
+  const res = await fetch(
+    `/api/articles/article/replies?parentId=${parentId}&limit=${limit}&offset=${offset}`
+  );
+  if (!res.ok) {
+    throw new Error("Network response was not ok");
+  }
+
+  const data = await res.json();
+
+  return data;
+};
+
+export const useReplyComments = (
+  parentId: number,
+  limit: number,
+  offset: number
+) => {
+  return useQuery({
+    queryKey: ["comments", parentId],
+    queryFn: () => fetchCommentReplies(parentId, limit, offset),
+  });
+};
+
+export const useAddMoreComments = (id: number) => {
+  return useInfiniteQuery({
+    queryKey: ["comments"],
+    queryFn: ({ pageParam }: { pageParam: number }) =>
+      fetch(`/api/articles/article/${id}?page=${pageParam}`).then((res) =>
+        res.json()
+      ),
+    select: (data) =>
+      data?.pages?.map((comment) => ({
+        comments: comment.nestedComments,
+        lastComment: comment.lastComment,
+      })),
+    enabled: !!id,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length === 0 ? undefined : allPages.length + 1;
+    },
+  });
 };
 
 export const useAddComment = () => {
