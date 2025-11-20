@@ -1,4 +1,4 @@
-import { commentVotes } from "@/lib/schema/articles";
+import { comments, commentVotes } from "@/lib/schema/articles";
 import { db } from "@/lib/schema/schema";
 import { and, eq, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
@@ -62,7 +62,7 @@ export async function POST(
       await db
         .delete(commentVotes)
         .where(eq(commentVotes.id, existingVote[0].id));
-      return NextResponse.json("removed", { status: 2000 });
+      return NextResponse.json("removed", { status: 200 });
     }
 
     await db

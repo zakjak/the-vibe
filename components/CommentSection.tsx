@@ -30,6 +30,7 @@ export type CommentFormValues = z.infer<typeof commentSchema>;
 const CommentSection = ({
   postId,
   ownerId,
+  comments,
 }: {
   postId: number;
   ownerId: string;
@@ -106,12 +107,22 @@ const CommentSection = ({
       </Form>
       <div className="my-2 pb-5">
         {moreComments?.map(
-          ({ comments, users }: { comments: CommentProp; users: User }) => (
+          ({
+            comments,
+            users,
+            replies,
+          }: {
+            comments: CommentProp;
+            users: User;
+            replies: CommentProp[];
+          }) => (
             <Comment
               key={comments?.id}
               comment={comments}
               users={users}
               ownerId={ownerId}
+              postId={postId}
+              replies={replies}
             />
           )
         )}

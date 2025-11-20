@@ -1,4 +1,5 @@
 import moment from "moment";
+import { Comments } from "../types/article";
 
 export const calculateTime = (date?: string) => {
   if (!date) return "";
@@ -67,4 +68,25 @@ export function getPaginationRange(
   }
 
   return Array.from(new Set(range));
+}
+
+export function buildCommentTree(flatComments) {
+  const map = new Map();
+
+  flatComments.forEach((c) => {
+    map.set(c.comments.id, { ...c, replies: [] });
+  });
+
+  const tree: Comment[] = [];
+
+  flatComments.forEach((c) => {
+    if (c.comments.parentId) {
+      const parent = map.get(c.comments.parentId);
+      if (parent) parent.replies.push(map.get(c.comments.id));
+    } else {
+      tree.push(map.get(c.comments.id));
+    }
+  });
+
+  return tree;
 }

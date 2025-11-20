@@ -38,7 +38,7 @@ export const useArticle = (id: number, page: number) => {
 export const useComments = (id: number, page: number) => {
   return useQuery({
     queryKey: ["comments", id],
-    queryFn: () => fetchArticle(id, page).then((data) => data.articleComments),
+    queryFn: () => fetchArticle(id, page).then((data) => data.nestedComments),
   });
 };
 
@@ -51,7 +51,7 @@ export const useAddMoreComments = (id: number) => {
       ),
     select: (data) =>
       data?.pages?.map((comment) => ({
-        comments: comment.articleComments,
+        comments: comment.nestedComments,
         lastComment: comment.lastComment,
       })),
     enabled: !!id,

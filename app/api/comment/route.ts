@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   const body = await req.json();
 
-  const { comment, postId, ownerId } = body;
+  const { comment, postId, ownerId, parentId } = body;
 
   try {
     const response = await db
@@ -14,6 +14,7 @@ export async function POST(req: Request) {
         comment,
         postId,
         ownerId,
+        parentId,
       })
       .returning();
 

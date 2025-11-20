@@ -1,5 +1,6 @@
 import { articles, comments } from "@/lib/schema/articles";
 import { db, users } from "@/lib/schema/schema";
+import { buildCommentTree } from "@/lib/utils/helpers";
 import { eq, inArray, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
@@ -37,6 +38,8 @@ export async function GET(
       .leftJoin(users, eq(comments.ownerId, users.id))
       .limit(nextPage);
 
+    const nestedComments = buildCommentTree(articleComments);
+
     const lastComment = await db
       .select()
       .from(comments)
@@ -47,7 +50,7 @@ export async function GET(
 
     return NextResponse.json({
       article,
-      articleComments,
+      nestedComments,
       lastComment,
     });
   } catch (err) {

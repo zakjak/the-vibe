@@ -48,10 +48,14 @@ const Comment = ({
   comment,
   users,
   ownerId,
+  postId,
+  replies,
 }: {
   comment: CommentProp;
   users: User;
   ownerId: string;
+  postId: number;
+  replies: CommentProp[];
 }) => {
   const [isReply, setIsReply] = useState(false);
   const [expanded, setExpanded] = useState(false);
@@ -80,17 +84,20 @@ const Comment = ({
   };
 
   const onSubmit = (values: CommentFormValues) => {
-    //   const commentSection = {
-    //     postId,
-    //     ownerId,
-    //     comment: values.comment,
-    //   };
-    //   mutate(commentSection);
-    //   form.reset();
+    const commentSection = {
+      postId,
+      ownerId,
+      comment: values.comment,
+      parentId: comment?.id,
+    };
+    mutate(commentSection);
+    form.reset();
   };
 
+  console.log(replies);
+
   return (
-    <div className="mb-2 border-b pb-4">
+    <div className="mb-2 pb-4">
       <div className="">
         <header className="flex gap-2">
           <Image
@@ -249,6 +256,20 @@ const Comment = ({
             </div>
           </div>
         </header>
+        {replies?.length > 0 && (
+          <div className="ml-6 mt-3 border-l border-gray-600 pl-4">
+            {replies?.map((reply) => (
+              <Comment
+                key={reply?.comments?.id}
+                comment={reply?.comments}
+                users={reply?.users}
+                ownerId={reply?.users?.id}
+                postId={postId}
+                replies={reply?.replies}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
