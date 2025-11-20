@@ -53,17 +53,17 @@ const ReplyList = ({
   users,
   ownerId,
   postId,
-  limit,
+  offset,
 }: {
   comment: CommentProp;
   users: User;
   ownerId: string;
   postId: number;
-  limit: number;
+  offset: number;
 }) => {
   const [isReply, setIsReply] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  const [offset, setOffset] = useState(0);
+  const [limit, setLimit] = useState(0);
   const { mutate: deleteComment } = useDeleteComment();
   const { mutate, isPending } = useAddComment();
   const { data: replies } = useReplyComments(comment?.id, limit, offset);
@@ -78,7 +78,6 @@ const ReplyList = ({
       comment: "",
     },
   });
-  console.log(comment);
 
   const readMore = (text: string) => {
     const visibleText = expanded ? text : text.slice(0, 80) + "...";

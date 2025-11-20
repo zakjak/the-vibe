@@ -19,6 +19,7 @@ import { User } from "@/lib/types/users";
 import { Spinner } from "./ui/spinner";
 import Comment from "./Comment";
 import { useState } from "react";
+import { FaArrowDown } from "react-icons/fa6";
 
 const commentSchema = z.object({
   comment: z.string().min(2, {
@@ -35,9 +36,9 @@ const CommentSection = ({
   postId: number;
   ownerId: string;
 }) => {
-  const [offset, setOffset] = useState(0);
+  const [limit, setLimit] = useState(1);
   const { mutate, isPending } = useAddComment();
-  const limit = 5;
+  const offset = 0;
   const { data: comments } = useComments(postId, limit, offset);
 
   const { fetchNextPage, isFetchingNextPage, data } =
@@ -67,6 +68,16 @@ const CommentSection = ({
       ({ comments }: { comments: CommentProp }) =>
         comments?.id === data[data?.length - 1]?.lastComment[0]?.id
     );
+
+  const loadComment = () => {
+    setLimit((prev) => prev + 1);
+  };
+
+  console.log(
+    // comments?.articleComments[comments?.articleComments?.length - 1]?.comment
+    //   ?.id !== comments?.lastComment[0]?.id
+    comments?.lastComment
+  );
 
   return (
     <div>
@@ -104,7 +115,7 @@ const CommentSection = ({
         </form>
       </Form>
       <div className="my-2 pb-5">
-        {comments?.map(
+        {comments?.articleComments?.map(
           ({ comment, users }: { comment: CommentProp; users: User }) => (
             <Comment
               key={comment?.id}
@@ -112,29 +123,23 @@ const CommentSection = ({
               users={users}
               ownerId={ownerId}
               postId={postId}
-              limit={limit}
             />
           )
         )}
-        <div className="flex items-center gap-1 justify-center text-sm">
-          {isFetchingNextPage ? (
-            "Loading More..."
-          ) : !isExisting ? (
+        {comments?.articleComments[comments?.articleComments?.length - 1]
+          ?.comment?.id !== comments?.lastComment[0]?.id ? (
+          <div className=" flex items-center text-center justify-center">
             <div
-              onClick={() => fetchNextPage()}
-              className="cursor-pointer flex items-center gap-1"
+              onClick={loadComment}
+              className="cursor-pointer flex items-center text-sm font-semibold"
             >
-              {comments?.length > 5 && (
-                <div>
-                  <span>Load more</span>
-                  <FaChevronDown className="" />
-                </div>
-              )}
+              Show more
+              <FaArrowDown />
             </div>
-          ) : (
-            <h1 className="text-center font-bold my-4">No More Comments</h1>
-          )}
-        </div>
+          </div>
+        ) : (
+          <p className="text-gray-400 text-center">No more comments</p>
+        )}
       </div>
     </div>
   );

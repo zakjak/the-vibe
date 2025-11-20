@@ -34,9 +34,8 @@ const fetchArticle = async (id: number, limit: number, offset: number) => {
 
 export const useComments = (id: number, limit: number, offset: number) => {
   return useQuery({
-    queryKey: ["comments", id],
-    queryFn: () =>
-      fetchArticle(id, limit, offset).then((data) => data.articleComments),
+    queryKey: ["comments", id, limit],
+    queryFn: () => fetchArticle(id, limit, offset),
   });
 };
 
@@ -62,11 +61,11 @@ const fetchCommentReplies = async (
 export const useReplyComments = (
   parentId: number,
   limit: number,
-  offset: number
+  offsetReply: number
 ) => {
   return useQuery({
-    queryKey: ["comments", parentId],
-    queryFn: () => fetchCommentReplies(parentId, limit, offset),
+    queryKey: ["comments", parentId, offsetReply],
+    queryFn: () => fetchCommentReplies(parentId, limit, offsetReply),
   });
 };
 

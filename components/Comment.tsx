@@ -40,6 +40,7 @@ import { Button } from "./ui/button";
 import { Spinner } from "./ui/spinner";
 import { IoThumbsDownOutline, IoThumbsUpOutline } from "react-icons/io5";
 import ReplyList from "./ReplyList";
+import { FaArrowDown } from "react-icons/fa6";
 
 const commentSchema = z.object({
   comment: z.string().min(2, {
@@ -54,19 +55,18 @@ const Comment = ({
   users,
   ownerId,
   postId,
-  limit,
 }: {
   comment: CommentProp;
   users: User;
   ownerId: string;
   postId: number;
-  limit: number;
 }) => {
   const [isReply, setIsReply] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  const [offset, setOffset] = useState(0);
+  const [limit, setLimit] = useState(1);
   const { mutate: deleteComment } = useDeleteComment();
   const { mutate, isPending } = useAddComment();
+  const offset = 1;
   const { data: replies } = useReplyComments(comment?.id, limit, offset);
 
   const { mutate: mutateVotes, isPending: isVotesPending } = useAddVotes();
@@ -100,6 +100,10 @@ const Comment = ({
     mutate(commentSection);
     form.reset();
     setIsReply(false);
+  };
+
+  const loadReplies = () => {
+    setLimit((prev) => prev + limit);
   };
 
   return (
@@ -274,8 +278,17 @@ const Comment = ({
                   users={reply?.users}
                   ownerId={reply?.users?.id}
                   postId={postId}
-                  limit={limit}
+                  offset={limit}
                 />
+                <div className=" flex items-center text-center justify-center my-2">
+                  <div
+                    onClick={loadReplies}
+                    className="cursor-pointer flex items-center text-sm font-semibold"
+                  >
+                    Show more
+                    <FaArrowDown />
+                  </div>
+                </div>
               </div>
             ))}
           </div>

@@ -1,6 +1,6 @@
 import { articles, comments } from "@/lib/schema/articles";
 import { db, users } from "@/lib/schema/schema";
-import { desc, eq, inArray, isNull, sql } from "drizzle-orm";
+import { asc, desc, eq, inArray, isNull, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -41,7 +41,8 @@ export async function GET(
     const lastComment = await db
       .select()
       .from(comments)
-      .orderBy(sql`${comments.id}`)
+      .where(eq(comments.postId, articleId) && isNull(comments.parentId))
+      .orderBy(asc(sql`${comments.id}`))
       .limit(1);
 
     const article = [singleArticle, authors];
