@@ -39,6 +39,7 @@ import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { Spinner } from "./ui/spinner";
 import { IoThumbsDownOutline, IoThumbsUpOutline } from "react-icons/io5";
+import { FaArrowDown } from "react-icons/fa6";
 
 const commentSchema = z.object({
   comment: z.string().min(2, {
@@ -53,20 +54,20 @@ const ReplyList = ({
   users,
   ownerId,
   postId,
-  offset,
 }: {
   comment: CommentProp;
   users: User;
   ownerId: string;
   postId: number;
-  offset: number;
 }) => {
   const [isReply, setIsReply] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [limit, setLimit] = useState(0);
   const { mutate: deleteComment } = useDeleteComment();
   const { mutate, isPending } = useAddComment();
-  const { data: replies } = useReplyComments(comment?.id, limit, offset);
+  const { data: replies, fetchNextPage } = useReplyComments(comment?.id);
+
+  const allReplies = replies?.pages?.flatMap((page) => page) ?? [];
 
   const { mutate: mutateVotes, isPending: isVotesPending } = useAddVotes();
 
@@ -99,6 +100,10 @@ const ReplyList = ({
     mutate(commentSection);
     form.reset();
     setIsReply(false);
+  };
+
+  const loadReplies = () => {
+    fetchNextPage();
   };
 
   return (
@@ -261,24 +266,31 @@ const ReplyList = ({
             </div>
           </div>
         </header>
-        {replies?.length > 0 && (
-          <div className="ml-6 mt-3  pl-4 relative">
-            <div className="absolute left-[-10px] bottom-5 w-[2px] h-full bg-gray-300 rounded-bl-md" />
 
-            {replies?.map((reply: ReplyProps) => (
-              <div key={reply?.comment?.id} className="relative">
-                <div className="absolute left-[-25px] top-2 w-3 h-3 border-l border-b border-gray-300 rounded-bl-md " />
-                <ReplyList
-                  comment={reply?.comment}
-                  users={reply?.users}
-                  ownerId={reply?.users?.id}
-                  postId={postId}
-                  offset={offset}
-                />
+        <div className="ml-6 mt-3  pl-4 relative">
+          <div className="absolute left-[-10px] bottom-5 w-[2px] h-full bg-gray-300 rounded-bl-md" />
+
+          {allReplies?.map((reply: ReplyProps) => (
+            <div key={reply?.comment?.id} className="relative">
+              <div className="absolute left-[-25px] top-2 w-3 h-3 border-l border-b border-gray-300 rounded-bl-md " />
+              <ReplyList
+                comment={reply?.comment}
+                users={reply?.users}
+                ownerId={reply?.users?.id}
+                postId={postId}
+              />
+              <div className=" flex items-center text-center justify-center my-2">
+                <div
+                  onClick={loadReplies}
+                  className="cursor-pointer flex items-center text-sm font-semibold"
+                >
+                  Show more replies
+                  <FaArrowDown />
+                </div>
               </div>
-            ))}
-          </div>
-        )}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -44,8 +44,6 @@ const CommentSection = ({
     isFetchingNextPage,
   } = useComments(postId);
 
-  console.log(comments);
-
   const allComments =
     comments?.pages?.flatMap((page) => page.articleComments) ?? [];
 
@@ -66,8 +64,6 @@ const CommentSection = ({
     mutate(commentSection);
     form.reset();
   };
-
-  console.log(comments);
 
   const isExisting =
     allComments &&

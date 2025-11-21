@@ -63,11 +63,14 @@ const Comment = ({
 }) => {
   const [isReply, setIsReply] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  const [limit, setLimit] = useState(1);
   const { mutate: deleteComment } = useDeleteComment();
   const { mutate, isPending } = useAddComment();
-  const offset = 1;
-  const { data: replies } = useReplyComments(comment?.id, limit, offset);
+  const {
+    data: replies,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useReplyComments(comment?.id);
 
   const { mutate: mutateVotes, isPending: isVotesPending } = useAddVotes();
 
@@ -103,8 +106,10 @@ const Comment = ({
   };
 
   const loadReplies = () => {
-    setLimit((prev) => prev + limit);
+    fetchNextPage();
   };
+
+  const allReplies = replies?.pages?.flatMap((page) => page) ?? [];
 
   return (
     <div className="mb-2 pb-4">
@@ -266,11 +271,11 @@ const Comment = ({
             </div>
           </div>
         </header>
-        {replies?.length > 0 && (
+        {replies && (
           <div className="ml-6 mt-3  pl-4 relative">
             <div className="absolute left-[-10px] bottom-5 w-[2px] h-full bg-gray-300 rounded-bl-md" />
 
-            {replies?.map((reply: ReplyProps) => (
+            {allReplies?.map((reply: ReplyProps) => (
               <div key={reply?.comment?.id} className="relative">
                 <div className="absolute left-[-25px] top-2 w-3 h-3 border-l border-b border-gray-300 rounded-bl-md " />
                 <ReplyList
@@ -278,7 +283,6 @@ const Comment = ({
                   users={reply?.users}
                   ownerId={reply?.users?.id}
                   postId={postId}
-                  offset={limit}
                 />
                 <div className=" flex items-center text-center justify-center my-2">
                   <div
