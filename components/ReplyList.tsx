@@ -273,7 +273,7 @@ const ReplyList = ({
                   users={reply?.users}
                   ownerId={reply?.users?.id}
                   postId={postId}
-                  limit={limit}
+                  offset={offset}
                 />
               </div>
             ))}

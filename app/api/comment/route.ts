@@ -1,4 +1,4 @@
-import { comments } from "@/drizzle/schema";
+import { comments } from "@/lib/schema/articles";
 import { db } from "@/lib/schema/schema";
 import { NextResponse } from "next/server";
 

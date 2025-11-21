@@ -12,14 +12,13 @@ import {
 import { CommentProp } from "@/lib/types/article";
 import { Textarea } from "./ui/textarea";
 import { IoIosSend } from "react-icons/io";
-import { FaChevronDown } from "react-icons/fa";
 import { useAddComment, useComments } from "@/hooks/useComments";
-import { useAddMoreComments } from "@/hooks/useComments";
 import { User } from "@/lib/types/users";
 import { Spinner } from "./ui/spinner";
 import Comment from "./Comment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaArrowDown } from "react-icons/fa6";
+import { Skeleton } from "./ui/skeleton";
 
 const commentSchema = z.object({
   comment: z.string().min(2, {
@@ -36,13 +35,19 @@ const CommentSection = ({
   postId: number;
   ownerId: string;
 }) => {
-  const [limit, setLimit] = useState(1);
   const { mutate, isPending } = useAddComment();
-  const offset = 0;
-  const { data: comments } = useComments(postId, limit, offset);
+  const [offset, setOffset] = useState(0);
+  const {
+    data: comments,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useComments(postId);
 
-  const { fetchNextPage, isFetchingNextPage, data } =
-    useAddMoreComments(postId);
+  console.log(comments);
+
+  const allComments =
+    comments?.pages?.flatMap((page) => page.articleComments) ?? [];
 
   const form = useForm<z.infer<typeof commentSchema>>({
     resolver: zodResolver(commentSchema),
@@ -62,22 +67,16 @@ const CommentSection = ({
     form.reset();
   };
 
+  console.log(comments);
+
   const isExisting =
-    data &&
-    data[data?.length - 1]?.comments?.some(
-      ({ comments }: { comments: CommentProp }) =>
-        comments?.id === data[data?.length - 1]?.lastComment[0]?.id
-    );
+    allComments &&
+    allComments?.[allComments.length - 1]?.comment?.id !==
+      comments?.pages[0]?.lastComment[0]?.id;
 
   const loadComment = () => {
-    setLimit((prev) => prev + 1);
+    fetchNextPage();
   };
-
-  console.log(
-    // comments?.articleComments[comments?.articleComments?.length - 1]?.comment
-    //   ?.id !== comments?.lastComment[0]?.id
-    comments?.lastComment
-  );
 
   return (
     <div>
@@ -115,7 +114,7 @@ const CommentSection = ({
         </form>
       </Form>
       <div className="my-2 pb-5">
-        {comments?.articleComments?.map(
+        {allComments?.map(
           ({ comment, users }: { comment: CommentProp; users: User }) => (
             <Comment
               key={comment?.id}
@@ -126,8 +125,10 @@ const CommentSection = ({
             />
           )
         )}
-        {comments?.articleComments[comments?.articleComments?.length - 1]
-          ?.comment?.id !== comments?.lastComment[0]?.id ? (
+
+        {isFetchingNextPage ? (
+          <Skeleton />
+        ) : isExisting ? (
           <div className=" flex items-center text-center justify-center">
             <div
               onClick={loadComment}

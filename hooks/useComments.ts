@@ -13,7 +13,7 @@ type CommentProps = {
   ownerId: string;
 };
 
-const fetchArticle = async (id: number, limit: number, offset: number) => {
+const fetchArticle = async (id: number, limit: number) => {
   if (!id) return;
 
   await fetch(`/api/articles/article/${id}`, {
@@ -21,7 +21,7 @@ const fetchArticle = async (id: number, limit: number, offset: number) => {
   });
 
   const res = await fetch(
-    `/api/articles/article/${id}?limit=${limit}&offset=${offset}`
+    `/api/articles/article/${id}?limit=${limit}&offset=${limit - 5}`
   );
   if (!res.ok) {
     throw new Error("Network response was not ok");
@@ -32,10 +32,14 @@ const fetchArticle = async (id: number, limit: number, offset: number) => {
   return data;
 };
 
-export const useComments = (id: number, limit: number, offset: number) => {
-  return useQuery({
-    queryKey: ["comments", id, limit],
-    queryFn: () => fetchArticle(id, limit, offset),
+export const useComments = (id: number) => {
+  return useInfiniteQuery({
+    queryKey: ["comments", id],
+    queryFn: ({ pageParam }) => fetchArticle(id, pageParam),
+    initialPageParam: 5,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length === 0 ? undefined : (allPages.length + 1) * 5;
+    },
   });
 };
 
@@ -69,25 +73,25 @@ export const useReplyComments = (
   });
 };
 
-export const useAddMoreComments = (id: number) => {
-  return useInfiniteQuery({
-    queryKey: ["comments"],
-    queryFn: ({ pageParam }: { pageParam: number }) =>
-      fetch(`/api/articles/article/${id}?page=${pageParam}`).then((res) =>
-        res.json()
-      ),
-    select: (data) =>
-      data?.pages?.map((comment) => ({
-        comments: comment.nestedComments,
-        lastComment: comment.lastComment,
-      })),
-    enabled: !!id,
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages) => {
-      return lastPage.length === 0 ? undefined : allPages.length + 1;
-    },
-  });
-};
+// export const useAddMoreComments = (id: number) => {
+//   return useInfiniteQuery({
+//     queryKey: ["comments"],
+//     queryFn: ({ pageParam }: { pageParam: number }) =>
+//       fetch(`/api/articles/article/${id}?page=${pageParam}`).then((res) =>
+//         res.json()
+//       ),
+//     select: (data) =>
+//       data?.pages?.map((comment) => ({
+//         comments: comment.nestedComments,
+//         lastComment: comment.lastComment,
+//       })),
+//     enabled: !!id,
+//     initialPageParam: 1,
+//     getNextPageParam: (lastPage, allPages) => {
+//       return lastPage.length === 0 ? undefined : allPages.length + 1;
+//     },
+//   });
+// };
 
 export const useAddComment = () => {
   const queryClient = useQueryClient();
