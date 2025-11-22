@@ -10,6 +10,7 @@ import SearchInput from "./SearchInput";
 import NavbarSmallLinks from "./NavbarSmallLinks";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const Navbar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -63,15 +64,24 @@ const Navbar = () => {
 
   return (
     <nav className="sticky top-0 dark:bg-black dark:shadow bg-white z-[999]">
-      <section className="h-14 flex items-center shadow-md">
+      <section className="h-14  flex items-center shadow-md">
         <div className="w-[90%] mx-auto flex justify-between items-center">
           <div className="flex items-center gap-2 flex-1">
             <div className="">
               <h1 className="hidden md:block font-bold text-lg">
-                <Link href="/">TheVybeNews</Link>
+                <Link href="/">
+                  <Image
+                    src="/favicon.svg"
+                    height={10}
+                    width={50}
+                    alt="The vybe news logo"
+                  />
+                </Link>
               </h1>
               <h1 className="block md:hidden font-bold text-lg">
-                <Link href="/">TheVybe</Link>
+                <Link href="/">
+                  <Image src="/favicon.svg" height={10} width={50} alt="logo" />
+                </Link>
               </h1>
             </div>
             <Separator className="bg-gray-400 h-4 w-0.5 hidden lg:flex" />

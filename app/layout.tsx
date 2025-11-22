@@ -22,6 +22,9 @@ export const metadata: Metadata = {
   title: "TheVybe",
   description:
     "TheVybe brings you the latest headlines, insightful reports, and global coverage in real time. Stay ahead with stories that inform, inspire, and connect the world.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({

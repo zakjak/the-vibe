@@ -18,8 +18,6 @@ export async function generateMetadata({
     .then((r) => r.json())
     .then((data) => data.article);
 
-  console.log(article);
-
   const texts = JSON.parse(article[0]?.story);
 
   const desc = texts[0]?.children[0]?.text + " " + texts[0]?.children[2]?.text;
