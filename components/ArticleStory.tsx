@@ -19,15 +19,21 @@ import Link from "next/link";
 import CommentSection from "./CommentSection";
 import { User } from "@/lib/types/users";
 
-const ArticleStory = ({ article }: { article: [Article, User[]] }) => {
+const ArticleStory = ({
+  articleStory,
+}: {
+  articleStory: { article: [Article, User[]] };
+}) => {
   const { data: session } = useSession();
   const [copied, setCopied] = useState(false);
 
-  const articleUrl = `/${article[0]?.category}/${
-    article[0]?.id
-  }/${article[0]?.title?.replaceAll(" ", "-")}`;
+  console.log(articleStory?.article);
 
-  const encodedTitle = encodeURIComponent(article[0]?.title);
+  const articleUrl = `/${articleStory?.article[0]?.category}/${
+    articleStory?.article[0]?.id
+  }/${articleStory?.article[0]?.title?.replaceAll(" ", "-")}`;
+
+  const encodedTitle = encodeURIComponent(articleStory?.article[0]?.title);
 
   const shareLinks = {
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${articleUrl}`,
@@ -63,16 +69,16 @@ const ArticleStory = ({ article }: { article: [Article, User[]] }) => {
     <div className="lg:col-span-4 md:col-span-3 w-full col-span-6">
       <div className="">
         <h1 className="lg:text-3xl lg:font-semibold font-bold md:text-xl text-lg my-2">
-          {article[0]?.title}
+          {articleStory?.article[0]?.title}
         </h1>
         <div className="flex items-center gap-1 mb-4">
-          <span>{article[0]?.category}</span>
+          <span>{articleStory?.article[0]?.category}</span>
           <Separator className="bg-gray-400 h-4 w-0.5" />
-          <span>{calculateTime(article[0]?.date)}</span>
+          <span>{calculateTime(articleStory?.article[0]?.date)}</span>
         </div>
         <Image
-          src={article[0]?.image || ""}
-          alt={`${article[0]?.title}` || "image"}
+          src={articleStory?.article[0]?.image || ""}
+          alt={`${articleStory?.article[0]?.title}` || "image"}
           className="w-full h-full object-cover rounded-2xl"
           width={250}
           height={250}
@@ -80,11 +86,11 @@ const ArticleStory = ({ article }: { article: [Article, User[]] }) => {
       </div>
       <div className="flex justify-between pt-6">
         <div className="">
-          <h2>Image Source: {article[0]?.imageCredit}</h2>
+          {/* <h2>Image Source: {article[0]?.imageCredit}</h2> */}
 
           <div className="flex items-center gap-2">
             <h2>By: </h2>
-            {article[1]?.map((user) => (
+            {articleStory?.article[1]?.map((user) => (
               <div key={user?.id} className="flex items-center gap-2">
                 <Link
                   href={`/profile/${user?.id}/${slugify(user?.name as string)}`}
@@ -158,7 +164,7 @@ const ArticleStory = ({ article }: { article: [Article, User[]] }) => {
           </Popover>
           {session?.user ? (
             <span
-              onClick={() => mutate(article[0]?.id ?? 0)}
+              onClick={() => mutate(articleStory?.article[0]?.id ?? 0)}
               className="flex items-center gap-1 cursor-pointer"
             >
               {isSavedData || isSaving ? "Saved:" : "Save:"}
@@ -172,12 +178,15 @@ const ArticleStory = ({ article }: { article: [Article, User[]] }) => {
         </div>
       </div>
       <div className="prose mx-auto">
-        {plateToHtml(JSON.parse(article[0]?.story), article[0]?.images)}
+        {plateToHtml(
+          JSON.parse(articleStory?.article[0]?.story),
+          articleStory?.article[0]?.images
+        )}
       </div>
       {session ? (
         <div className="">
           <CommentSection
-            postId={article[0]?.id ?? 0}
+            postId={articleStory?.article[0]?.id ?? 0}
             ownerId={session?.user?.id}
           />
         </div>

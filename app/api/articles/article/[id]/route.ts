@@ -17,17 +17,18 @@ export async function GET(
   const offset = Number(searchParams.get("offset")) || 0;
 
   try {
-    const [singleArticle] = await db
+    const singleArticle = await db
       .select()
       .from(articles)
       .where(eq(articles.id, articleId));
 
-    if (!singleArticle) throw new Error("Article not found");
+    if (!singleArticle.length)
+      return NextResponse.json({ error: "Article not found" });
 
     const authors = await db
       .select()
       .from(users)
-      .where(inArray(users.id, singleArticle.authors as string[]));
+      .where(inArray(users.id, singleArticle[0].authors as string[]));
 
     const articleComments = await db
       .select()
@@ -45,7 +46,7 @@ export async function GET(
       .orderBy(asc(sql`${comments.id}`))
       .limit(1);
 
-    const article = [singleArticle, authors];
+    const article = [singleArticle[0], authors];
 
     return NextResponse.json({
       article,

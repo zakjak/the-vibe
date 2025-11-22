@@ -28,10 +28,11 @@ export const useArticle = (id: number) => {
   return useQuery({
     queryKey: ["article", id],
     queryFn: () => fetchArticle(id),
-    select: (data) => data.article,
+    // select: (data) => data,
     enabled: !!id,
     placeholderData: keepPreviousData,
   });
+  //  select: (data) =>  data?.article,
 };
 
 export const useDeleteArticle = () => {
