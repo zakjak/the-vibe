@@ -18,17 +18,18 @@ export async function generateMetadata({
     .then((r) => r.json())
     .then((data) => data.article);
 
+  console.log(article);
+
   const texts = JSON.parse(article[0]?.story);
 
   const desc = texts[0]?.children[0]?.text + " " + texts[0]?.children[2]?.text;
-
-  return {
+  http: return {
     title: article[0]?.title,
     description: desc,
     openGraph: {
       title: article[0]?.title,
       description: desc,
-      url: `${process.env.NEXT_PUBLIC_API_URL}/api/articles/article/${id}/${slug}`,
+      url: `${process.env.NEXT_PUBLIC_API_URL}/${article[0]?.category}/${id}/${slug}`,
       images: [
         {
           url: article[0]?.image,
@@ -46,7 +47,7 @@ export async function generateMetadata({
       images: [article[0]?.image],
     },
     alternates: {
-      canonical: `${process.env.NEXT_PUBLIC_API_URL}/api/articles/article/${id}/${slug}`,
+      canonical: `${process.env.NEXT_PUBLIC_API_URL}/${article[0]?.category}/${id}/${slug}`,
     },
   };
 }
