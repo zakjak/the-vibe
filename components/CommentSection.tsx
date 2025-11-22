@@ -16,7 +16,6 @@ import { useAddComment, useComments } from "@/hooks/useComments";
 import { User } from "@/lib/types/users";
 import { Spinner } from "./ui/spinner";
 import Comment from "./Comment";
-import { useEffect, useState } from "react";
 import { FaArrowDown } from "react-icons/fa6";
 import { Skeleton } from "./ui/skeleton";
 
@@ -36,10 +35,8 @@ const CommentSection = ({
   ownerId: string;
 }) => {
   const { mutate, isPending } = useAddComment();
-  const [offset, setOffset] = useState(0);
   const {
     data: comments,
-    hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
   } = useComments(postId);

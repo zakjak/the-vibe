@@ -41,6 +41,7 @@ import { Spinner } from "./ui/spinner";
 import { IoThumbsDownOutline, IoThumbsUpOutline } from "react-icons/io5";
 import ReplyList from "./ReplyList";
 import { FaArrowDown } from "react-icons/fa6";
+import { Skeleton } from "./ui/skeleton";
 
 const commentSchema = z.object({
   comment: z.string().min(2, {
@@ -67,7 +68,6 @@ const Comment = ({
   const { mutate, isPending } = useAddComment();
   const {
     data: replies,
-    hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
   } = useReplyComments(comment?.id);
@@ -109,7 +109,12 @@ const Comment = ({
     fetchNextPage();
   };
 
-  const allReplies = replies?.pages?.flatMap((page) => page) ?? [];
+  const allReplies = replies?.pages?.flatMap((page) => page.replies) ?? [];
+
+  const isExisting =
+    allReplies &&
+    allReplies?.[allReplies.length - 1]?.comment?.id !==
+      replies?.pages[0]?.lastComment[0]?.id;
 
   return (
     <div className="mb-2 pb-4">
@@ -284,15 +289,21 @@ const Comment = ({
                   ownerId={reply?.users?.id}
                   postId={postId}
                 />
-                <div className=" flex items-center text-center justify-center my-2">
-                  <div
-                    onClick={loadReplies}
-                    className="cursor-pointer flex items-center text-sm font-semibold"
-                  >
-                    Show more
-                    <FaArrowDown />
-                  </div>
-                </div>
+                {isFetchingNextPage ? (
+                  <Skeleton />
+                ) : (
+                  isExisting && (
+                    <div className=" flex items-center text-center justify-center my-2">
+                      <div
+                        onClick={loadReplies}
+                        className="cursor-pointer flex items-center text-sm font-semibold"
+                      >
+                        Show more replies
+                        <FaArrowDown />
+                      </div>
+                    </div>
+                  )
+                )}
               </div>
             ))}
           </div>

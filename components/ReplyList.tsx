@@ -40,6 +40,7 @@ import { Button } from "./ui/button";
 import { Spinner } from "./ui/spinner";
 import { IoThumbsDownOutline, IoThumbsUpOutline } from "react-icons/io5";
 import { FaArrowDown } from "react-icons/fa6";
+import { Skeleton } from "./ui/skeleton";
 
 const commentSchema = z.object({
   comment: z.string().min(2, {
@@ -62,12 +63,15 @@ const ReplyList = ({
 }) => {
   const [isReply, setIsReply] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  const [limit, setLimit] = useState(0);
   const { mutate: deleteComment } = useDeleteComment();
   const { mutate, isPending } = useAddComment();
-  const { data: replies, fetchNextPage } = useReplyComments(comment?.id);
+  const {
+    data: replies,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useReplyComments(comment?.id);
 
-  const allReplies = replies?.pages?.flatMap((page) => page) ?? [];
+  const allReplies = replies?.pages?.flatMap((page) => page.replies) ?? [];
 
   const { mutate: mutateVotes, isPending: isVotesPending } = useAddVotes();
 
@@ -105,6 +109,12 @@ const ReplyList = ({
   const loadReplies = () => {
     fetchNextPage();
   };
+
+  const isExisting =
+    replies?.pages[0]?.lastComment?.length > 0 &&
+    allReplies?.length > 0 &&
+    allReplies?.[allReplies.length - 1]?.comment?.id !==
+      replies?.pages[0]?.lastComment[0]?.id;
 
   return (
     <div className="mb-2 pb-4">
@@ -279,18 +289,24 @@ const ReplyList = ({
                 ownerId={reply?.users?.id}
                 postId={postId}
               />
-              <div className=" flex items-center text-center justify-center my-2">
-                <div
-                  onClick={loadReplies}
-                  className="cursor-pointer flex items-center text-sm font-semibold"
-                >
-                  Show more replies
-                  <FaArrowDown />
-                </div>
-              </div>
             </div>
           ))}
         </div>
+        {isFetchingNextPage ? (
+          <Skeleton />
+        ) : (
+          isExisting && (
+            <div className=" flex items-center text-center justify-center my-2">
+              <div
+                onClick={loadReplies}
+                className="cursor-pointer flex items-center text-sm font-semibold"
+              >
+                Show more replies
+                <FaArrowDown />
+              </div>
+            </div>
+          )
+        )}
       </div>
     </div>
   );
