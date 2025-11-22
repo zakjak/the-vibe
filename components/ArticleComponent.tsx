@@ -6,6 +6,7 @@ import ArticleStory from "./ArticleStory";
 import RelatedArticles from "./RelatedArticles";
 import ArticleComponentSkeleton from "./ArticleComponentSkeleton";
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
 const ArticleComponent = ({ id }: { id: number }) => {
   const { data, isFetching } = useArticle(id);
@@ -18,7 +19,6 @@ const ArticleComponent = ({ id }: { id: number }) => {
   if (data?.error) {
     return notFound();
   }
-  // http://localhost:3000/politics/5/Democratic-socialism,-according-to-Zohran-Mamdani
 
   if (isFetching) {
     return <ArticleComponentSkeleton />;

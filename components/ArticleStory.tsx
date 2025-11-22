@@ -27,8 +27,6 @@ const ArticleStory = ({
   const { data: session } = useSession();
   const [copied, setCopied] = useState(false);
 
-  console.log(articleStory?.article);
-
   const articleUrl = `/${articleStory?.article[0]?.category}/${
     articleStory?.article[0]?.id
   }/${articleStory?.article[0]?.title?.replaceAll(" ", "-")}`;

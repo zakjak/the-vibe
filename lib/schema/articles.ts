@@ -14,7 +14,6 @@ export const articles = table(
     date: t.timestamp().notNull().defaultNow(),
     imageCredit: t.varchar({ length: 250 }).notNull(),
     story: t.text().notNull(),
-    video: t.text(),
     tags: t
       .text()
       .array()
