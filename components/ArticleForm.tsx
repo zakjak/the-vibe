@@ -78,7 +78,7 @@ const formSchema = z.object({
     { message: "Invalid content format" }
   ),
   tags: z.array(z.string()).nonempty(),
-  images: z.array(imageSchema).min(1, "At least one image required"),
+  images: z.array(imageSchema).optional(),
   authors: z.array(z.string()).min(1, "Select at least one author"),
 });
 

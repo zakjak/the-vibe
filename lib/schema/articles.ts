@@ -14,6 +14,7 @@ export const articles = table(
     date: t.timestamp().notNull().defaultNow(),
     imageCredit: t.varchar({ length: 250 }).notNull(),
     story: t.text().notNull(),
+    video: t.text(),
     tags: t
       .text()
       .array()
@@ -44,6 +45,25 @@ export const articles = table(
     ),
   ]
 );
+
+// export const sponsors = table("sponsors", {
+//   id: t.serial("id").primaryKey(),
+//   name: t.text("name").notNull(),
+//   logoUrl: t.text("logo_url"),
+//   website: t.text("website"),
+// });
+
+// export const sponsoredArticle = table("sponsored_articles", {
+//   id: t.serial("id").primaryKey(),
+//   articleId: t
+//     .integer("article_id")
+//     .references(() => articles.id)
+//     .unique(),
+//   sponsorId: t.integer("sponsor_id").references(() => sponsors.id),
+//   disclosure: t.text("disclosure"),
+//   startsAt: t.timestamp("starts_at"),
+//   expiresAt: t.timestamp("expires_at"),
+// });
 
 export const readList = table("readlist", {
   id: t.serial("id").primaryKey(),
