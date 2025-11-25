@@ -42,8 +42,12 @@ const Comment = ({
       replies?.pages[0]?.lastComment[0]?.id;
 
   return (
-    <div className="mb-2 pb-4">
-      <div className="">
+    <div className="h-full border-b mb-4">
+      <div className="mb-2 pb-4 relative overflow-hidden">
+        {!!replies?.pages[0]?.replies?.length && (
+          <div className="w-[2px] h-full top-8 bg-gray-300 absolute left-[15px]" />
+        )}
+
         <CommentContent
           users={users}
           comment={comment}
@@ -53,11 +57,12 @@ const Comment = ({
         />
         {replies && (
           <div className="ml-6 mt-3  pl-4 relative">
-            <div className="absolute left-[-10px] bottom-5 w-[2px] h-full bg-gray-300 rounded-bl-md" />
-
             {allReplies?.map((reply: ReplyProps) => (
               <div key={reply?.comment?.id} className="relative">
-                <div className="absolute left-[-25px] top-2 w-3 h-3 border-l border-b border-gray-300 rounded-bl-md " />
+                <div
+                  className="absolute 
+          } top-2 w-5 h-3 border-l border-b border-gray-300 rounded-bl-md left-[-25px]"
+                />
                 <CommentThread
                   comment={reply?.comment}
                   ownerId={ownerId}

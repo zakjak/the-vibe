@@ -94,7 +94,7 @@ const CommentContent = ({
   };
 
   return (
-    <header className="flex gap-2">
+    <div className="flex gap-2">
       <Image
         className="w-8 h-8 object-cover rounded-full"
         src={users?.image || ""}
@@ -258,7 +258,7 @@ const CommentContent = ({
           )}
         </div>
       </div>
-    </header>
+    </div>
   );
 };
 

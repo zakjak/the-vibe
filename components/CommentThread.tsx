@@ -1,9 +1,8 @@
 import { useReplyComments } from "@/hooks/useComments";
 import { CommentProp, ReplyProps } from "@/lib/types/article";
 import { User } from "@/lib/types/users";
-import React, { useState } from "react";
+import React from "react";
 import CommentContent from "./CommentContent";
-import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
 import { FaArrowDown } from "react-icons/fa6";
 const CommentThread = ({
@@ -22,33 +21,10 @@ const CommentThread = ({
     fetchNextPage,
     isFetchingNextPage,
   } = useReplyComments(comment?.id);
-  const [showCollapsed, setShowCollapsed] = useState(false);
 
   const allReplies = replies?.pages?.flatMap((page) => page.replies) ?? [];
 
-  const indent = Math.min(depth * 20, 120);
-
-  const showParentName = depth >= 1 ? replies?.pages[0]?.parentUser : "";
-
-  if (depth > 2 && !showCollapsed) {
-    return (
-      <div style={{ marginLeft: indent }} className="mt-3">
-        <CommentContent
-          key={comment?.id}
-          comment={comment}
-          users={users}
-          ownerId={ownerId}
-          postId={comment?.postId}
-          parentUser={showParentName}
-        />
-        {allReplies?.length > 0 && (
-          <Button onClick={() => setShowCollapsed(!showCollapsed)}>
-            View {allReplies.length} replies
-          </Button>
-        )}
-      </div>
-    );
-  }
+  const showParentName = depth >= 2 ? replies?.pages[0]?.parentUser : "";
 
   const isExisting =
     allReplies &&
@@ -56,7 +32,15 @@ const CommentThread = ({
       replies?.pages[0]?.lastComment[0]?.id;
 
   return (
-    <div className="mt-3 relative" style={{ marginLeft: indent }}>
+    <div className="mt-3 relative">
+      {depth >= 1 && (
+        <div
+          className={`absolute ${depth <= 1 && "left-[-26px]"} ${
+            depth >= 1 && "ml-[7px]"
+          } top-2 w-3 h-3 border-l border-b border-gray-300 rounded-bl-md `}
+        />
+      )}
+
       <CommentContent
         key={comment?.id}
         comment={comment}
@@ -67,11 +51,11 @@ const CommentThread = ({
       />
 
       {allReplies?.map((reply: ReplyProps) => (
-        <div className="relative ml-6" key={reply?.comment?.id}>
-          <div className="absolute left-[-10px] bottom-5 w-[2px] h-full bg-gray-300 rounded-bl-md" />
-          <div className="absolute left-[-9px] top-2 w-3 h-3 border-l border-b border-gray-300 rounded-bl-md " />
-
-          <div className="ml-2">
+        <div
+          className={`relative ${depth >= 2 ? "" : "ml-6"}`}
+          key={reply?.comment?.id}
+        >
+          <div className={`${depth >= 1 ? "" : "ml-2"}`}>
             <CommentThread
               comment={reply?.comment}
               users={reply?.users}
