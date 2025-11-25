@@ -9,6 +9,12 @@ export async function GET(request: Request) {
   const limit = Number(searchParams.get("limit")) || 5;
   const offset = Number(searchParams.get("offset")) || 0;
 
+  const [parent] = await db
+    .select({ user: users, comment: comments })
+    .from(comments)
+    .where(eq(comments.id, parentId))
+    .leftJoin(users, eq(comments.ownerId, users.id));
+
   const replies = await db
     .select()
     .from(comments)
@@ -25,5 +31,9 @@ export async function GET(request: Request) {
     .orderBy(asc(sql`${comments.id}`))
     .limit(1);
 
-  return Response.json({ replies, lastComment });
+  return Response.json({
+    replies,
+    lastComment,
+    parentUser: parent?.user?.name,
+  });
 }

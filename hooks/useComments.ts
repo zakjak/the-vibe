@@ -61,7 +61,7 @@ const fetchCommentReplies = async (parentId: number, limit: number) => {
 
 export const useReplyComments = (parentId: number) => {
   return useInfiniteQuery({
-    queryKey: ["comments", parentId],
+    queryKey: ["reply-comments", parentId],
     queryFn: ({ pageParam }) => fetchCommentReplies(parentId, pageParam),
     initialPageParam: 5,
     getNextPageParam: (lastPage, allPages) => {
@@ -84,7 +84,14 @@ export const useAddComment = () => {
       return res.json();
     },
 
-    onSettled: () => queryClient.invalidateQueries({ queryKey: ["comments"] }),
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["comments"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["reply-comments"],
+      });
+    },
   });
 };
 
@@ -95,6 +102,13 @@ export const useDeleteComment = () => {
       fetch(`/api/comment/${id}`, {
         method: "DELETE",
       }).then((data) => data.json()),
-    onSettled: () => queryClient.invalidateQueries({ queryKey: ["comments"] }),
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["reply-comments"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["reply-comments"],
+      });
+    },
   });
 };

@@ -107,17 +107,21 @@ const CommentSection = ({
         </form>
       </Form>
       <div className="my-2 pb-5">
-        {allComments?.map(
-          ({ comment, users }: { comment: CommentProp; users: User }) => (
+        {allComments?.map((item) => {
+          if (!item) return null;
+          const { comment, users }: { comment: CommentProp; users: User } =
+            item;
+
+          return (
             <Comment
               key={comment?.id}
               comment={comment}
               users={users}
               ownerId={ownerId}
-              postId={postId}
+              postId={comment?.postId}
             />
-          )
-        )}
+          );
+        })}
 
         {isFetchingNextPage ? (
           <Skeleton />

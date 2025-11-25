@@ -5,7 +5,7 @@ import z from "zod";
 import { FaArrowDown } from "react-icons/fa6";
 import { Skeleton } from "./ui/skeleton";
 import CommentContent from "./CommentContent";
-import ReplyList from "./ReplyList";
+import CommentThread from "./CommentThread";
 
 export const commentSchema = z.object({
   comment: z.string().min(2, {
@@ -34,7 +34,7 @@ const Comment = ({
     fetchNextPage();
   };
 
-  const allReplies = replies?.pages?.flatMap((page) => page.replies) ?? [];
+  const allReplies = replies?.pages?.flatMap((page) => page?.replies) ?? [];
 
   const isExisting =
     allReplies &&
@@ -49,6 +49,7 @@ const Comment = ({
           comment={comment}
           postId={postId}
           ownerId={ownerId}
+          parentUser=""
         />
         {replies && (
           <div className="ml-6 mt-3  pl-4 relative">
@@ -57,11 +58,11 @@ const Comment = ({
             {allReplies?.map((reply: ReplyProps) => (
               <div key={reply?.comment?.id} className="relative">
                 <div className="absolute left-[-25px] top-2 w-3 h-3 border-l border-b border-gray-300 rounded-bl-md " />
-                <ReplyList
+                <CommentThread
                   comment={reply?.comment}
-                  users={reply?.users}
-                  ownerId={reply?.users?.id}
-                  postId={postId}
+                  ownerId={ownerId}
+                  users={reply.users}
+                  depth={0}
                 />
                 {isFetchingNextPage ? (
                   <Skeleton />

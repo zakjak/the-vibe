@@ -5,6 +5,7 @@ import { useReplyComments } from "@/hooks/useComments";
 import { FaArrowDown } from "react-icons/fa6";
 import { Skeleton } from "./ui/skeleton";
 import CommentContent from "./CommentContent";
+import Comment from "./Comment";
 
 const ReplyList = ({
   comment,
@@ -35,7 +36,7 @@ const ReplyList = ({
     allReplies?.[allReplies.length - 1]?.comment?.id !==
       replies?.pages[0]?.lastComment[0]?.id;
 
-  console.log(allReplies);
+  // console.log(allReplies);
 
   return (
     <div className="mb-2 pb-4">
@@ -50,20 +51,23 @@ const ReplyList = ({
         <div className="ml-6 mt-3  pl-4 relative">
           <div className="absolute left-[-10px] bottom-5 w-[2px] h-full bg-gray-300 rounded-bl-md" />
 
-          {allReplies?.map((reply: ReplyProps) => (
-            <div key={reply?.comment?.id} className="relative">
-              <div className="absolute left-[-25px] top-2 w-3 h-3 border-l border-b border-gray-300 rounded-bl-md " />
-              <p>{reply?.comment?.comment}</p>
-              <CommentContent
-                comment={reply?.comment}
-                users={reply?.users}
-                postId={reply?.comment?.postId}
-                ownerId={reply?.users?.id}
-              />
-            </div>
-          ))}
+          {allReplies?.map((reply) => {
+            // <div key={reply?.comment?.id} className="relative">
+            //   <div className="absolute left-[-25px] top-2 w-3 h-3 border-l border-b border-gray-300 rounded-bl-md " />
+            return (
+              <div className="" key={reply?.comment?.id}></div>
+              // <ReplyList
+              //   key={reply?.comment?.id}
+              //   comment={reply?.comment}
+              //   users={reply?.users}
+              //   postId={reply?.comment?.postId}
+              //   ownerId={reply?.comment?.ownerId}
+              // />
+            );
+            // </div>;
+          })}
         </div>
-        {isFetchingNextPage ? (
+        {/* {isFetchingNextPage ? (
           <Skeleton />
         ) : (
           isExisting && (
@@ -77,7 +81,7 @@ const ReplyList = ({
               </div>
             </div>
           )
-        )}
+        )} */}
       </div>
     </div>
   );

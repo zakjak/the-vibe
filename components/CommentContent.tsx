@@ -1,4 +1,8 @@
-import { useAddComment, useDeleteComment } from "@/hooks/useComments";
+import {
+  useAddComment,
+  useDeleteComment,
+  useReplyComments,
+} from "@/hooks/useComments";
 import { useAddVotes, useVotes, VoteProps } from "@/hooks/useVotes";
 import { CommentProp } from "@/lib/types/article";
 import { User } from "@/lib/types/users";
@@ -43,11 +47,13 @@ const CommentContent = ({
   comment,
   postId,
   ownerId,
+  parentUser,
 }: {
   users: User;
   comment: CommentProp;
   postId: number;
   ownerId: string;
+  parentUser: string;
 }) => {
   const [expanded, setExpanded] = useState(false);
   const [isReply, setIsReply] = useState(false);
@@ -98,11 +104,19 @@ const CommentContent = ({
       />
       <div className="flex justify-between w-full">
         <div className="w-[90%]">
-          <div className="flex gap-2 text-sm">
-            <span className="font-semibold">{users?.name}</span>
-            <span className="text-zinc-400">
-              {calculateTime(comment?.date)}
-            </span>
+          <div className="text-sm">
+            <div className="flex gap-2">
+              <span className="font-semibold">{users?.name}</span>
+              <span className="text-zinc-400">
+                {calculateTime(comment?.date)}
+              </span>
+            </div>
+            {parentUser && (
+              <p className="text-zinc-400">
+                <span>Replying to </span>
+                {parentUser}
+              </p>
+            )}
           </div>
           <div className="">
             <p>{comment && readMore(comment?.comment)}</p>

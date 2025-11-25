@@ -1,4 +1,5 @@
 import moment from "moment";
+import { ReplyProps } from "../types/article";
 
 export const calculateTime = (date?: string) => {
   if (!date) return "";
@@ -68,3 +69,13 @@ export function getPaginationRange(
 
   return Array.from(new Set(range));
 }
+
+export const groupByParent = (list: ReplyProps[]) => {
+  const map: Record<number, ReplyProps[]> = {};
+  list.forEach((reply) => {
+    const pid = reply.comment.parentId;
+    if (!map[pid]) map[pid] = [];
+    map[pid] = [...map[pid], reply];
+  });
+  return map;
+};
