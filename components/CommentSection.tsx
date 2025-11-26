@@ -20,9 +20,13 @@ import { FaArrowDown } from "react-icons/fa6";
 import { Skeleton } from "./ui/skeleton";
 
 const commentSchema = z.object({
-  comment: z.string().min(2, {
-    message: "Comment must be at least 2 characters.",
-  }),
+  comment: z
+    .string()
+    .min(1, {
+      message: "Comment can not be empty",
+    })
+    .trim()
+    .max(300, { message: "Comment must not be more than 300 characters" }),
 });
 
 export type CommentFormValues = z.infer<typeof commentSchema>;
@@ -95,7 +99,21 @@ const CommentSection = ({
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
+                <div className="pl-2">
+                  <p>
+                    Characters:{" "}
+                    <span
+                      className={`${
+                        form.getValues("comment").length < 300
+                          ? "text-white"
+                          : "text-red-500"
+                      }`}
+                    >
+                      {300 - form.getValues("comment").length}
+                    </span>
+                  </p>
+                  <FormMessage />
+                </div>
               </FormItem>
             )}
           />

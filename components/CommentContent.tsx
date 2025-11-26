@@ -86,7 +86,12 @@ const CommentContent = ({
     };
     mutate(commentSection);
     form.reset();
-    setIsReply(false);
+
+    if (isPending) {
+      setIsReply(false);
+    } else {
+      setIsReply(true);
+    }
   };
 
   useEffect(() => {
@@ -113,8 +118,6 @@ const CommentContent = ({
       else window.removeEventListener("resize", checkOverflow);
     };
   }, [comment.comment, expanded]);
-
-  console.log(needsTruncate);
 
   return (
     <div className="flex gap-2">
@@ -152,14 +155,6 @@ const CommentContent = ({
             >
               {comment?.comment}
             </p>
-            {/* {comment?.comment?.length > 80 && (
-            <button
-              className="cursor-pointer text-zinc-500"
-              onClick={() => setExpanded(!expanded)}
-            >
-              {expanded ? "Show less" : "Read more..."}
-            </button>
-          )} */}
             {needsTruncate && (
               <Button variant="ghost" onClick={() => setExpanded(!expanded)}>
                 {expanded ? "Read less" : "Read more..."}
@@ -245,7 +240,21 @@ const CommentContent = ({
                               {...field}
                             />
                           </FormControl>
-                          <FormMessage />
+                          <div className="pl-2">
+                            <p className="text-sm">
+                              Characters:{" "}
+                              <span
+                                className={`${
+                                  form.getValues("comment").length < 300
+                                    ? "text-white"
+                                    : "text-red-500"
+                                }`}
+                              >
+                                {300 - form.getValues("comment").length}
+                              </span>
+                            </p>
+                            <FormMessage />
+                          </div>
                         </FormItem>
                       )}
                     />
@@ -253,6 +262,7 @@ const CommentContent = ({
                       className="absolute bottom-2 right-4 rounded-full cursor-pointer"
                       size="icon"
                       type="submit"
+                      disabled={isPending}
                     >
                       {isPending ? <Spinner /> : <IoIosSend />}
                     </Button>

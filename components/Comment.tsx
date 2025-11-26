@@ -8,9 +8,13 @@ import CommentContent from "./CommentContent";
 import CommentThread from "./CommentThread";
 
 export const commentSchema = z.object({
-  comment: z.string().min(2, {
-    message: "Comment must be at least 2 characters.",
-  }),
+  comment: z
+    .string()
+    .min(1, {
+      message: "Comment can not be empty",
+    })
+    .trim()
+    .max(300, { message: "Comment must not be more than 300 characters" }),
 });
 
 const Comment = ({
