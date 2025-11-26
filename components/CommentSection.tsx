@@ -18,6 +18,7 @@ import { Spinner } from "./ui/spinner";
 import Comment from "./Comment";
 import { FaArrowDown } from "react-icons/fa6";
 import { Skeleton } from "./ui/skeleton";
+import { groupNumbers } from "@/lib/utils/helpers";
 
 const commentSchema = z.object({
   comment: z
@@ -74,14 +75,18 @@ const CommentSection = ({
   const loadComment = () => {
     fetchNextPage();
   };
-
-  console.log(allComments);
+  console.log();
 
   return (
     <div>
-      <h2 className="md:text-xl text-lg font-semibold my-2">
-        Comments Section
-      </h2>
+      <div className="flex items-center gap-2 mb-4">
+        <h2 className="md:text-xl text-lg font-semibold my-2">
+          Comments Section
+        </h2>
+        <span className="dark:bg-zinc-100 dark:text-zinc-800 bg-black text-white text-sm  rounded-md shadow-2xl py-2 px-2 font-bold">
+          {groupNumbers(comments?.pages[0]?.commentCount)} comments
+        </span>
+      </div>
       <Form {...form}>
         <form
           className="flex gap-2 border rounded-xl pb-5 relative"
@@ -127,7 +132,7 @@ const CommentSection = ({
           </Button>
         </form>
       </Form>
-      <div className="my-2 pb-5">
+      <div className="my-2 pb-5 mt-8">
         {allComments?.map((item) => {
           if (!item) return null;
           const { comment, users }: { comment: CommentProp; users: User } =

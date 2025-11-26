@@ -1,4 +1,4 @@
-import { comments, commentVotes } from "@/lib/schema/articles";
+import { commentVotes } from "@/lib/schema/articles";
 import { db } from "@/lib/schema/schema";
 import { and, eq, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";

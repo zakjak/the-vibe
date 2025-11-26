@@ -79,3 +79,15 @@ export const groupByParent = (list: ReplyProps[]) => {
   });
   return map;
 };
+
+export const groupNumbers = (num: number) => {
+  if (num < 1000) {
+    return `${num}`;
+  } else if (num < 1_000_000) {
+    return `${Math.floor(num / 1000)}k`;
+  } else if (num < 1_000_000_000) {
+    return `${Math.floor(num / 1_000_000)}`;
+  } else {
+    return `${Math.floor(num / 1_000_000_000)}B`;
+  }
+};

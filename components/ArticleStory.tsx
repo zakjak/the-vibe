@@ -77,15 +77,18 @@ const ArticleStory = ({
         </div>
         <Image
           src={articleStory?.article[0]?.image || ""}
-          alt={`${articleStory?.article[0]?.title}` || "image"}
+          alt={`${articleStory?.article[0]?.imageTitle}` || "image"}
           className="w-full h-full object-cover rounded-2xl"
           width={250}
           height={250}
         />
+        <h3 className="text-xs text-zinc-400 mt-2">
+          {articleStory?.article[0]?.imageTitle}
+        </h3>
       </div>
       <div className="flex justify-between pt-6">
         <div className="">
-          {/* <h2>Image Source: {article[0]?.imageCredit}</h2> */}
+          <h2>Image Source: {articleStory?.article[0]?.imageCredit}</h2>
 
           <div className="flex items-center gap-2">
             <h2>By: </h2>

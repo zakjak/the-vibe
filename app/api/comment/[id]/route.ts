@@ -1,6 +1,6 @@
 import { comments } from "@/lib/schema/articles";
 import { db } from "@/lib/schema/schema";
-import { and, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function DELETE(
