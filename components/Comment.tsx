@@ -78,23 +78,23 @@ const Comment = ({
                   users={reply.users}
                   depth={0}
                 />
-                {isFetchingNextPage ? (
-                  <Skeleton />
-                ) : (
-                  isExisting && (
-                    <div className=" flex items-center text-center justify-center my-2">
-                      <div
-                        onClick={loadReplies}
-                        className="cursor-pointer flex items-center text-sm font-semibold"
-                      >
-                        Show more replies
-                        <FaArrowDown />
-                      </div>
-                    </div>
-                  )
-                )}
               </div>
             ))}
+            {isFetchingNextPage ? (
+              <Skeleton />
+            ) : (
+              isExisting && (
+                <div className=" flex items-center text-center justify-center my-2">
+                  <div
+                    onClick={loadReplies}
+                    className="cursor-pointer flex items-center text-sm font-semibold"
+                  >
+                    Show more replies
+                    <FaArrowDown />
+                  </div>
+                </div>
+              )
+            )}
           </div>
         )}
       </div>

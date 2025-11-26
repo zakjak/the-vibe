@@ -6,8 +6,11 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
 
   const parentId = Number(searchParams.get("parentId"));
-  const limit = Number(searchParams.get("limit")) || 5;
+  const limit = Number(searchParams.get("limit")) || 1;
   const offset = Number(searchParams.get("offset")) || 0;
+
+  console.log("limit", limit);
+  console.log("offset", offset);
 
   const [parent] = await db
     .select({ user: users, comment: comments })

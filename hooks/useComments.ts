@@ -47,7 +47,7 @@ const fetchCommentReplies = async (parentId: number, limit: number) => {
 
   const res = await fetch(
     `/api/articles/article/replies?parentId=${parentId}&limit=${limit}&offset=${
-      limit - 5
+      limit === 1 ? 0 : limit > 5 ? limit - 4 : 1
     }`
   );
   if (!res.ok) {
@@ -63,9 +63,9 @@ export const useReplyComments = (parentId: number) => {
   return useInfiniteQuery({
     queryKey: ["reply-comments", parentId],
     queryFn: ({ pageParam }) => fetchCommentReplies(parentId, pageParam),
-    initialPageParam: 5,
+    initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
-      return lastPage.length === 0 ? undefined : (allPages.length + 1) * 5;
+      return lastPage.length === 0 ? undefined : allPages.length * 5;
     },
   });
 };
