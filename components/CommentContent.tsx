@@ -8,7 +8,7 @@ import { CommentProp } from "@/lib/types/article";
 import { User } from "@/lib/types/users";
 import { calculateTime } from "@/lib/utils/helpers";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoIosSend, IoIosThumbsDown, IoIosThumbsUp } from "react-icons/io";
 import { IoThumbsDownOutline, IoThumbsUpOutline } from "react-icons/io5";
 import { MdMessage } from "react-icons/md";
@@ -58,17 +58,13 @@ const CommentContent = ({
   const [expanded, setExpanded] = useState(false);
   const [isReply, setIsReply] = useState(false);
   const { mutate: deleteComment } = useDeleteComment();
+  const [needsTruncate, setNeedsTruncate] = useState(false);
+  const elRef = useRef<HTMLDivElement>(null);
 
   const { mutate: mutateVotes, isPending: isVotesPending } = useAddVotes();
   const { mutate, isPending } = useAddComment();
 
   const { data } = useVotes(comment?.id);
-
-  const readMore = (text: string) => {
-    const visibleText = expanded ? text : text.slice(0, 80) + "...";
-
-    return visibleText;
-  };
 
   const voteComment = (data: VoteProps) => {
     mutateVotes(data);
@@ -92,6 +88,33 @@ const CommentContent = ({
     form.reset();
     setIsReply(false);
   };
+
+  useEffect(() => {
+    const el = elRef.current;
+    if (!el) return;
+
+    const checkOverflow = () => {
+      const isOverflowing = el.scrollHeight > el.clientHeight + 1;
+      setNeedsTruncate(isOverflowing);
+    };
+
+    checkOverflow();
+
+    let ro: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== "undefined") {
+      ro = new ResizeObserver(checkOverflow);
+      ro.observe(el);
+    } else {
+      window.addEventListener("resize", checkOverflow);
+    }
+
+    return () => {
+      if (ro) ro.disconnect();
+      else window.removeEventListener("resize", checkOverflow);
+    };
+  }, [comment.comment, expanded]);
+
+  console.log(needsTruncate);
 
   return (
     <div className="flex gap-2">
@@ -118,8 +141,31 @@ const CommentContent = ({
               </p>
             )}
           </div>
-          <div className="">
-            <p>{comment && readMore(comment?.comment)}</p>
+          <div className="relative">
+            <p
+              ref={elRef}
+              className={`${
+                expanded
+                  ? "whitespace-pre-line"
+                  : "line-clamp-4 whitespace-pre-line"
+              }`}
+            >
+              {comment?.comment}
+            </p>
+            {/* {comment?.comment?.length > 80 && (
+            <button
+              className="cursor-pointer text-zinc-500"
+              onClick={() => setExpanded(!expanded)}
+            >
+              {expanded ? "Show less" : "Read more..."}
+            </button>
+          )} */}
+            {needsTruncate && (
+              <Button variant="ghost" onClick={() => setExpanded(!expanded)}>
+                {expanded ? "Read less" : "Read more..."}
+              </Button>
+            )}
+
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-1">
                 {data?.voteComment?.vote === 1 ? (
@@ -181,47 +227,40 @@ const CommentContent = ({
               </div>
             </div>
             {isReply && (
-              <Form {...form}>
-                <form
-                  className="flex gap-2 border rounded-xl pb-5 relative"
-                  onSubmit={form.handleSubmit(onSubmit)}
-                >
-                  <FormField
-                    control={form.control}
-                    name="comment"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormControl>
-                          <Textarea
-                            className="min-h-[4em] max-h-[4rem] w-[90%] bg-transparent! border-none no-scrollbar"
-                            placeholder="Enter comment..."
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button
-                    className="absolute bottom-2 right-4 rounded-full cursor-pointer"
-                    size="icon"
-                    type="submit"
+              <div className="absolue">
+                <Form {...form}>
+                  <form
+                    className="flex gap-2 border rounded-xl pb-5 relative"
+                    onSubmit={form.handleSubmit(onSubmit)}
                   >
-                    {isPending ? <Spinner /> : <IoIosSend />}
-                  </Button>
-                </form>
-              </Form>
+                    <FormField
+                      control={form.control}
+                      name="comment"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormControl>
+                            <Textarea
+                              className="min-h-[4em] max-h-[4rem] w-[90%] bg-transparent! border-none no-scrollbar"
+                              placeholder="Enter comment..."
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Button
+                      className="absolute bottom-2 right-4 rounded-full cursor-pointer"
+                      size="icon"
+                      type="submit"
+                    >
+                      {isPending ? <Spinner /> : <IoIosSend />}
+                    </Button>
+                  </form>
+                </Form>
+              </div>
             )}
           </div>
-
-          {comment?.comment?.length > 80 && (
-            <button
-              className="cursor-pointer text-zinc-500"
-              onClick={() => setExpanded(!expanded)}
-            >
-              {expanded ? "Show less" : "Read more..."}
-            </button>
-          )}
         </div>
         <div className="bg-zinc-200 text-blaxk hover:bg-zinc-500 cursor-pointer w-6 h-6 text-black flex items-center rounded-full justify-center">
           {comment?.ownerId === ownerId && (
@@ -231,7 +270,7 @@ const CommentContent = ({
               </PopoverTrigger>
               <PopoverContent className="mt-2">
                 <AlertDialog>
-                  <AlertDialogTrigger className="text-red-400 font-semibold">
+                  <AlertDialogTrigger className="text-red-400 font-semibold cursor-pointer">
                     Delete
                   </AlertDialogTrigger>
                   <AlertDialogContent>

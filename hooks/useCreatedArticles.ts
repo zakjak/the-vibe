@@ -23,7 +23,6 @@ export const useCreatedArticles = (id: string) => {
 };
 
 const createArticle = async (article: Article) => {
-  console.log(article);
   const res = await fetch(`/api/createArticle`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

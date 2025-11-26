@@ -181,18 +181,6 @@ const ArticleStory = ({
           articleStory?.article[0]?.images
         )}
       </div>
-      {session ? (
-        <div className="">
-          <CommentSection
-            postId={articleStory?.article[0]?.id ?? 0}
-            ownerId={session?.user?.id}
-          />
-        </div>
-      ) : (
-        <h1 className="text-xl my-4 font-bold">
-          Login to view and comment on articles
-        </h1>
-      )}
     </div>
   );
 };

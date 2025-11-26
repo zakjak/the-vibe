@@ -295,6 +295,20 @@
       "when": 1763805167495,
       "tag": "0041_furry_baron_zemo",
       "breakpoints": true
+    },
+    {
+      "idx": 42,
+      "version": "7",
+      "when": 1764143121209,
+      "tag": "0042_lyrical_payback",
+      "breakpoints": true
+    },
+    {
+      "idx": 43,
+      "version": "7",
+      "when": 1764144783836,
+      "tag": "0043_powerful_chronomancer",
+      "breakpoints": true
     }
   ]
 }

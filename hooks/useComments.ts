@@ -104,7 +104,7 @@ export const useDeleteComment = () => {
       }).then((data) => data.json()),
     onSettled: () => {
       queryClient.invalidateQueries({
-        queryKey: ["reply-comments"],
+        queryKey: ["comments"],
       });
       queryClient.invalidateQueries({
         queryKey: ["reply-comments"],

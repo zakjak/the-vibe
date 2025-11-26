@@ -7,9 +7,12 @@ import RelatedArticles from "./RelatedArticles";
 import ArticleComponentSkeleton from "./ArticleComponentSkeleton";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import { useSession } from "next-auth/react";
+import CommentSection from "./CommentSection";
 
 const ArticleComponent = ({ id }: { id: number }) => {
   const { data, isFetching } = useArticle(id);
+  const { data: session } = useSession();
 
   const { data: relatedArticles } = useRelatedArticles(
     data && data?.category,
@@ -25,15 +28,27 @@ const ArticleComponent = ({ id }: { id: number }) => {
   }
 
   return (
-    <>
-      <div className="grid lg:gap-6 gap-4 lg:grid-cols-6 md:grid-cols-5 mx-auto max-w-[80%] lg:w-[60rem]">
+    <div className="max-w-[80%] lg:w-[60rem] mx-auto">
+      <div className="grid lg:gap-6 gap-4 lg:grid-cols-6 md:grid-cols-5  ">
         {/* Left Section */}
         {data?.article && <ArticleStory articleStory={data} />}
 
         {/* Right Section */}
         {/* {data && <RelatedArticles articles={relatedArticles} />} */}
       </div>
-    </>
+      {session ? (
+        <div className="mt-8">
+          <CommentSection
+            postId={data.article[0]?.id ?? 0}
+            ownerId={session?.user?.id}
+          />
+        </div>
+      ) : (
+        <h1 className="text-xl my-4 font-bold">
+          Login to view and comment on articles
+        </h1>
+      )}
+    </div>
   );
 };
 

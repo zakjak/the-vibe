@@ -1,6 +1,6 @@
 import { comments } from "@/lib/schema/articles";
 import { db } from "@/lib/schema/schema";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function DELETE(
@@ -13,7 +13,10 @@ export async function DELETE(
   const numericId = Number(id);
 
   try {
-    await db.delete(comments).where(eq(comments.id, numericId));
+    await db.transaction(async (tx) => {
+      await tx.delete(comments).where(eq(comments.id, numericId));
+      await tx.delete(comments).where(eq(comments.parentId, numericId));
+    });
 
     return NextResponse.json("Successfully deleted comment");
   } catch (err) {

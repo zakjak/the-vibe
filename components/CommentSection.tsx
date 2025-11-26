@@ -71,6 +71,8 @@ const CommentSection = ({
     fetchNextPage();
   };
 
+  console.log(allComments);
+
   return (
     <div>
       <h2 className="md:text-xl text-lg font-semibold my-2">
@@ -101,6 +103,7 @@ const CommentSection = ({
             className="absolute bottom-2 right-4 rounded-full cursor-pointer"
             size="icon"
             type="submit"
+            disabled={isPending}
           >
             {isPending ? <Spinner /> : <IoIosSend />}
           </Button>
@@ -136,7 +139,9 @@ const CommentSection = ({
             </div>
           </div>
         ) : (
-          <p className="text-gray-400 text-center">No more comments</p>
+          <p className="text-gray-400 text-center">
+            {allComments?.length ? "No more comments" : "No Comments"}
+          </p>
         )}
       </div>
     </div>

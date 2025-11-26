@@ -68,15 +68,6 @@ export const users = pgTable("users", {
 	image: text(),
 });
 
-export const comment = pgTable("comment", {
-	id: serial().primaryKey().notNull(),
-	comment: text(),
-	postId: integer("post_id"),
-	ownerId: text("owner_id"),
-	parentId: integer("parent_id"),
-	date: timestamp({ mode: 'string' }).defaultNow().notNull(),
-});
-
 export const readlist = pgTable("readlist", {
 	id: serial().primaryKey().notNull(),
 	articleId: integer(),
@@ -107,6 +98,15 @@ export const articles = pgTable("articles", {
 	imagesTitle: text("images_title").array().default([""]),
 	authorsId: uuid("authors_id").array().default([""]),
 	views: integer().default(0),
+});
+
+export const comment = pgTable("comment", {
+	id: serial().primaryKey().notNull(),
+	comment: text(),
+	postId: integer("post_id"),
+	ownerId: text("owner_id"),
+	parentId: integer("parent_id"),
+	date: timestamp({ mode: 'string' }).defaultNow().notNull(),
 });
 
 export const about = pgTable("about", {

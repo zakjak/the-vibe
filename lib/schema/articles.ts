@@ -1,5 +1,5 @@
 import { pgTable as table } from "drizzle-orm/pg-core";
-import { relations, sql } from "drizzle-orm";
+import { BuildColumns, relations, sql } from "drizzle-orm";
 import * as t from "drizzle-orm/pg-core";
 import { users } from "./schema";
 
@@ -85,14 +85,28 @@ export const readListRelations = relations(readList, ({ one }) => ({
   }),
 }));
 
-export const comments = table("comment", {
-  id: t.serial("id").primaryKey(),
-  comment: t.text(),
-  postId: t.integer("post_id").references(() => articles.id),
-  ownerId: t.text("owner_id").references(() => users.id),
-  parentId: t.integer("parent_id"),
-  date: t.timestamp().notNull().defaultNow(),
-});
+export const comments = table(
+  "comment",
+  {
+    id: t.serial("id").primaryKey(),
+    comment: t.text(),
+    postId: t.integer("post_id").references(() => articles.id),
+    ownerId: t.text("owner_id").references(() => users.id),
+    parentId: t.integer("parent_id"),
+    date: t.timestamp().notNull().defaultNow(),
+  },
+  (table) => {
+    return {
+      parentReference: t
+        .foreignKey({
+          columns: [table.parentId],
+          foreignColumns: [table.id],
+          name: "comments_parent_id_fkey_cascade",
+        })
+        .onDelete("cascade"),
+    };
+  }
+);
 
 export const commentVotes = table(
   "comment_votes",

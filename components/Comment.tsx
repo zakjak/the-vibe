@@ -44,25 +44,30 @@ const Comment = ({
   return (
     <div className="h-full border-b mb-4">
       <div className="mb-2 pb-4 relative overflow-hidden">
-        {!!replies?.pages[0]?.replies?.length && (
-          <div className="w-[2px] h-full top-8 bg-gray-300 absolute left-[15px]" />
-        )}
+        {/* {!!replies?.pages[0]?.replies?.length && (
+          <div
+            style={{ height: Math.max(0, lineHeight * allReplies?.length) }}
+            className="w-[2px] top-8 bg-gray-300 absolute left-[15px]"
+          />
+        )} */}
+        <div className="">
+          <CommentContent
+            users={users}
+            comment={comment}
+            postId={postId}
+            ownerId={ownerId}
+            parentUser=""
+          />
+        </div>
 
-        <CommentContent
-          users={users}
-          comment={comment}
-          postId={postId}
-          ownerId={ownerId}
-          parentUser=""
-        />
         {replies && (
           <div className="ml-6 mt-3  pl-4 relative">
             {allReplies?.map((reply: ReplyProps) => (
               <div key={reply?.comment?.id} className="relative">
-                <div
+                {/* <div
                   className="absolute 
           } top-2 w-5 h-3 border-l border-b border-gray-300 rounded-bl-md left-[-25px]"
-                />
+                /> */}
                 <CommentThread
                   comment={reply?.comment}
                   ownerId={ownerId}

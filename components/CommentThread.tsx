@@ -1,7 +1,7 @@
 import { useReplyComments } from "@/hooks/useComments";
 import { CommentProp, ReplyProps } from "@/lib/types/article";
 import { User } from "@/lib/types/users";
-import React from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import CommentContent from "./CommentContent";
 import { Skeleton } from "./ui/skeleton";
 import { FaArrowDown } from "react-icons/fa6";
@@ -16,6 +16,9 @@ const CommentThread = ({
   users: User;
   depth: number;
 }) => {
+  const contentRef = useRef(null);
+  const [lineHeight, setLineHeight] = useState(0);
+
   const {
     data: replies,
     fetchNextPage,
@@ -32,29 +35,35 @@ const CommentThread = ({
       replies?.pages[0]?.lastComment[0]?.id;
 
   return (
-    <div className="mt-3 relative">
-      {depth >= 1 && (
+    <div className="mt-3 relative overflow-hidden ">
+      {!!replies?.pages[0]?.replies?.length && (
         <div
-          className={`absolute ${depth <= 1 && "left-[-26px]"} ${
-            depth >= 1 && "ml-[7px]"
-          } top-2 w-3 h-3 border-l border-b border-gray-300 rounded-bl-md `}
+          style={{
+            height: lineHeight,
+          }}
+          className="w-[1px] top-8 bg-gray-300 absolute left-[15px]"
         />
       )}
 
-      <CommentContent
-        key={comment?.id}
-        comment={comment}
-        users={users}
-        ownerId={ownerId}
-        postId={comment?.postId}
-        parentUser={showParentName}
-      />
+      <div ref={contentRef}>
+        <CommentContent
+          key={comment?.id}
+          comment={comment}
+          users={users}
+          ownerId={ownerId}
+          postId={comment?.postId}
+          parentUser={showParentName}
+        />
+      </div>
 
       {allReplies?.map((reply: ReplyProps) => (
         <div
-          className={`relative ${depth >= 2 ? "" : "ml-6"}`}
+          className={`relative ${depth >= 2 ? "" : "ml-6"} `}
           key={reply?.comment?.id}
         >
+          {/* <div
+            className={`absolute left-[-9px] w-3 h-6 border-l border-b border-gray-300 rounded-bl-md `}
+          /> */}
           <div className={`${depth >= 1 ? "" : "ml-2"}`}>
             <CommentThread
               comment={reply?.comment}
