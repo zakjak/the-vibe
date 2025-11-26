@@ -46,7 +46,7 @@ const Comment = ({
       replies?.pages[0]?.lastComment[0]?.id;
 
   return (
-    <div className="h-full border-b mb-4">
+    <div className="h-full border-b-2 mb-4">
       <div className="mb-2 pb-4 relative overflow-hidden">
         {/* {!!replies?.pages[0]?.replies?.length && (
           <div

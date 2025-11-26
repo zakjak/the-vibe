@@ -1,7 +1,7 @@
 import { useReplyComments } from "@/hooks/useComments";
 import { CommentProp, ReplyProps } from "@/lib/types/article";
 import { User } from "@/lib/types/users";
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React from "react";
 import CommentContent from "./CommentContent";
 import { Skeleton } from "./ui/skeleton";
 import { FaArrowDown } from "react-icons/fa6";
@@ -16,8 +16,7 @@ const CommentThread = ({
   users: User;
   depth: number;
 }) => {
-  const contentRef = useRef(null);
-  const [lineHeight, setLineHeight] = useState(0);
+  // const [lineHeight, setLineHeight] = useState(0);
 
   const {
     data: replies,
@@ -36,16 +35,16 @@ const CommentThread = ({
 
   return (
     <div className="mt-3 relative overflow-hidden ">
-      {!!replies?.pages[0]?.replies?.length && (
+      {/* {!!replies?.pages[0]?.replies?.length && (
         <div
           style={{
             height: lineHeight,
           }}
           className="w-[1px] top-8 bg-gray-300 absolute left-[15px]"
         />
-      )}
+      )} */}
 
-      <div ref={contentRef}>
+      <div>
         <CommentContent
           key={comment?.id}
           comment={comment}

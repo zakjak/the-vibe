@@ -16,7 +16,6 @@ import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 import { useState } from "react";
 import { TiTick } from "react-icons/ti";
 import Link from "next/link";
-import CommentSection from "./CommentSection";
 import { User } from "@/lib/types/users";
 
 const ArticleStory = ({
@@ -27,7 +26,9 @@ const ArticleStory = ({
   const { data: session } = useSession();
   const [copied, setCopied] = useState(false);
 
-  const articleUrl = `/${articleStory?.article[0]?.category}/${
+  const articleUrl = `${process.env.NEXT_PUBLIC_API_URL}/${
+    articleStory?.article[0]?.category
+  }/${
     articleStory?.article[0]?.id
   }/${articleStory?.article[0]?.title?.replaceAll(" ", "-")}`;
 
