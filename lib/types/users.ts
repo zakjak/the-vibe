@@ -19,3 +19,9 @@ export type UserInfo = {
   fb?: string;
   linkedIn?: string;
 };
+
+export type SocialProps = {
+  fb: string;
+  twitter: string;
+  linkedIn: string;
+};

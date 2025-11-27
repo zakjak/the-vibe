@@ -1,22 +1,11 @@
 "use client";
 
 import { User } from "@/lib/types/users";
-import ArticleForm from "./ArticleForm";
-import { Dispatch, SetStateAction } from "react";
 import CreatedArticles from "./CreatedArticles";
 
-const SavedArticles = ({
-  user,
-  setError,
-}: {
-  user: User;
-  setError: Dispatch<SetStateAction<boolean>>;
-}) => {
+const SavedArticles = ({ user }: { user: User }) => {
   return (
     <div className="m-6">
-      <div className="mt-2 gap-2 flex w-full">
-        {user?.isAdmin && <ArticleForm user={user} setError={setError} />}
-      </div>
       <div className="">
         <div className="flex items-center gap-2">
           <div className="dark:bg-white bg-black w-1.5 h-5" />
@@ -24,7 +13,7 @@ const SavedArticles = ({
             Latest
           </h1>
         </div>
-        <CreatedArticles ownerId={user?.id as string} />
+        {user && <CreatedArticles ownerId={user?.id as string} />}
       </div>
     </div>
   );

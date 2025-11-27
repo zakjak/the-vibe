@@ -95,7 +95,9 @@ const ArticleStory = ({
             {articleStory?.article[1]?.map((user) => (
               <div key={user?.id} className="flex items-center gap-2">
                 <Link
-                  href={`/profile/${user?.id}/${slugify(user?.name as string)}`}
+                  href={`/profiles/${slugify(user?.name as string)}/${
+                    user?.id
+                  }`}
                 >
                   <Image
                     alt={`${user?.name} profile`}
@@ -107,7 +109,9 @@ const ArticleStory = ({
                 </Link>
 
                 <Link
-                  href={`/profile/${user?.id}/${slugify(user?.name as string)}`}
+                  href={`/profiles/${slugify(user?.name as string)}/${
+                    user?.id
+                  }`}
                   className="cursor-pointer hover:underline text-sm"
                 >
                   {user?.name}

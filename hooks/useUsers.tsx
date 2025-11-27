@@ -58,6 +58,23 @@ export const useAbout = (id: string) => {
   });
 };
 
+const fetchWriter = async (id: string) => {
+  const res = await fetch(`/api/user/profile/${id}`);
+  if (!res.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return res.json();
+};
+
+export const useUserWriter = (id: string) => {
+  return useQuery({
+    queryKey: ["about-writer", id],
+    queryFn: () => fetchWriter(id),
+    enabled: !!id,
+    placeholderData: keepPreviousData,
+  });
+};
+
 const updateUser = async ({
   userId,
   userInfo,

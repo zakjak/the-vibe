@@ -1,12 +1,7 @@
+import { SocialProps } from "@/lib/types/users";
 import Link from "next/link";
 import React from "react";
 import { FaFacebookF, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
-
-interface SocialProps {
-  fb: string;
-  twitter: string;
-  linkedIn: string;
-}
 
 const SocialMediaComponent = ({ data }: { data: SocialProps }) => {
   return (
