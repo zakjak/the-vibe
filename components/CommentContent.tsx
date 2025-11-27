@@ -261,7 +261,7 @@ const CommentContent = ({
                         <FormItem className="w-full">
                           <FormControl>
                             <Textarea
-                              className="min-h-[4em] max-h-[4rem] w-[90%] bg-transparent! border-none no-scrollbar"
+                              className="min-h-[4em] max-h-[4rem] w-[90%] bg-transparent! border-none overflow-scroll"
                               placeholder="Enter comment..."
                               {...field}
                             />

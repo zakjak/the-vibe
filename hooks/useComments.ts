@@ -31,11 +31,12 @@ const fetchArticle = async (id: number, limit: number) => {
   return data;
 };
 
-export const useComments = (id: number) => {
+export const useComments = (id: number, inView: boolean) => {
   return useInfiniteQuery({
     queryKey: ["comments", id],
     queryFn: ({ pageParam }) => fetchArticle(id, pageParam),
     initialPageParam: 5,
+    enabled: inView,
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.length === 0 ? undefined : (allPages.length + 1) * 5;
     },

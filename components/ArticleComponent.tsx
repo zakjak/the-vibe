@@ -9,10 +9,12 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { useSession } from "next-auth/react";
 import CommentSection from "./CommentSection";
+import { useInView } from "react-intersection-observer";
 
 const ArticleComponent = ({ id }: { id: number }) => {
   const { data, isFetching } = useArticle(id);
   const { data: session } = useSession();
+  const { ref, inView } = useInView({ threshold: 0 });
 
   const { data: relatedArticles } = useRelatedArticles(
     data && data?.category,
@@ -37,10 +39,11 @@ const ArticleComponent = ({ id }: { id: number }) => {
         {/* {data && <RelatedArticles articles={relatedArticles} />} */}
       </div>
       {session ? (
-        <div className="mt-8">
+        <div ref={ref} className="mt-8">
           <CommentSection
             postId={data.article[0]?.id ?? 0}
             ownerId={session?.user?.id}
+            inView={inView}
           />
         </div>
       ) : (

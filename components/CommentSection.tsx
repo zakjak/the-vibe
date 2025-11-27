@@ -19,6 +19,9 @@ import Comment from "./Comment";
 import { FaArrowDown } from "react-icons/fa6";
 import { Skeleton } from "./ui/skeleton";
 import { groupNumbers } from "@/lib/utils/helpers";
+import { useInView } from "react-intersection-observer";
+import { useEffect, useState } from "react";
+import CommentsSkeleton from "./CommentsSkeleton";
 
 const commentSchema = z.object({
   comment: z
@@ -35,16 +38,20 @@ export type CommentFormValues = z.infer<typeof commentSchema>;
 const CommentSection = ({
   postId,
   ownerId,
+  inView,
 }: {
   postId: number;
   ownerId: string;
+  inView: boolean;
 }) => {
   const { mutate, isPending } = useAddComment();
+
   const {
     data: comments,
     fetchNextPage,
+    isLoading,
     isFetchingNextPage,
-  } = useComments(postId);
+  } = useComments(postId, inView);
 
   const allComments =
     comments?.pages?.flatMap((page) => page.articleComments) ?? [];
@@ -75,6 +82,10 @@ const CommentSection = ({
   const loadComment = () => {
     fetchNextPage();
   };
+
+  if (!inView) {
+    return <CommentsSkeleton />;
+  }
 
   return (
     <div>
@@ -152,13 +163,13 @@ const CommentSection = ({
           <Skeleton />
         ) : isExisting ? (
           <div className=" flex items-center text-center justify-center">
-            <div
+            <Button
               onClick={loadComment}
               className="cursor-pointer flex items-center text-sm font-semibold"
             >
               Show more
               <FaArrowDown />
-            </div>
+            </Button>
           </div>
         ) : (
           <p className="text-gray-400 text-center">
