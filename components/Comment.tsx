@@ -6,6 +6,7 @@ import { FaArrowDown } from "react-icons/fa6";
 import { Skeleton } from "./ui/skeleton";
 import CommentContent from "./CommentContent";
 import CommentThread from "./CommentThread";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const commentSchema = z.object({
   comment: z
@@ -34,6 +35,8 @@ const Comment = ({
     isFetchingNextPage,
   } = useReplyComments(comment?.id);
 
+  const queryClinet = useQueryClient();
+
   const loadReplies = () => {
     fetchNextPage();
   };
@@ -44,6 +47,12 @@ const Comment = ({
     allReplies &&
     allReplies?.[allReplies.length - 1]?.comment?.id !==
       replies?.pages[0]?.lastComment[0]?.id;
+
+  const totalReplies =
+    replies?.pages?.reduce(
+      (acc, page) => acc + (page.replies?.length || 0),
+      0
+    ) ?? 0;
 
   return (
     <div className="h-full border-b-2 mb-4">
@@ -89,7 +98,8 @@ const Comment = ({
                     onClick={loadReplies}
                     className="cursor-pointer flex items-center text-sm font-semibold"
                   >
-                    Show more replies
+                    Show {replies?.pages[0]?.repliesCount - totalReplies} more
+                    replies
                     <FaArrowDown />
                   </div>
                 </div>

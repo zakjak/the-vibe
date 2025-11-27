@@ -75,7 +75,6 @@ const CommentSection = ({
   const loadComment = () => {
     fetchNextPage();
   };
-  console.log();
 
   return (
     <div>

@@ -83,7 +83,7 @@ const CommentThread = ({
               onClick={() => fetchNextPage()}
               className="cursor-pointer flex items-center text-sm font-semibold"
             >
-              Show more replies
+              Show replies
               <FaArrowDown />
             </div>
           </div>

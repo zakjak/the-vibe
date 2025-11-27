@@ -1,6 +1,6 @@
 import { comments } from "@/lib/schema/articles";
 import { db, users } from "@/lib/schema/schema";
-import { asc, desc, eq, sql } from "drizzle-orm";
+import { asc, count, desc, eq, sql } from "drizzle-orm";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -27,6 +27,11 @@ export async function GET(request: Request) {
     .limit(limit)
     .offset(offset);
 
+  const repliesCount = await db
+    .select({ count: count() })
+    .from(comments)
+    .where(eq(comments.parentId, parentId));
+
   const lastComment = await db
     .select()
     .from(comments)
@@ -36,6 +41,7 @@ export async function GET(request: Request) {
 
   return Response.json({
     replies,
+    repliesCount: repliesCount[0]?.count,
     lastComment,
     parentUser: parent?.user?.name,
   });
