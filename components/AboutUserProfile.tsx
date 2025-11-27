@@ -12,7 +12,18 @@ import { useAbout } from "@/hooks/useUsers";
 import Link from "next/link";
 import { FaFacebookF } from "react-icons/fa";
 import { FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import SocialMediaComponent from "./SocialMediaComponent";
 
 const formSchema = z.object({
   profilePicture: z.union([
@@ -118,39 +129,25 @@ const AboutUserProfile = ({ user }: { user: User }) => {
               <div className="">
                 <h3 className="lg:text-xl text-lg">{data[0]?.postion}</h3>
 
-                <div className="flex items-center gap-2 my-3">
-                  <h3>Follow:</h3>
-                  {data[0]?.fb && (
-                    <Link href={data[0]?.fb}>
-                      <FaFacebookF />
-                    </Link>
-                  )}
+                <SocialMediaComponent data={data} />
 
-                  {data[0]?.twitter && (
-                    <Link href={data[0]?.twitter}>
-                      <FaXTwitter />
-                    </Link>
-                  )}
-
-                  {data[0]?.linkedIn && (
-                    <Link href={data[0]?.linkedIn}>
-                      <FaLinkedinIn />
-                    </Link>
-                  )}
-                </div>
-
-                <p className="text-justify">
-                  {isExpanded ? lines.join("\n") : lines[0]}
-                </p>
-
-                {lines?.length > 1 && (
-                  <Button
-                    className="my-4"
-                    onClick={() => setIsExpanded(!isExpanded)}
-                  >
-                    {isExpanded ? "Show less" : "Read Full Bio"}
-                  </Button>
-                )}
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button>Read Full Bio</Button>
+                  </DialogTrigger>
+                  <DialogContent className="z-[999]">
+                    <DialogHeader>
+                      <DialogTitle>About User</DialogTitle>
+                      <DialogDescription className="text-2xl dark:text-white text-zinc-800">
+                        {user?.name}
+                      </DialogDescription>
+                      <SocialMediaComponent data={data[0]} />
+                    </DialogHeader>
+                    <DialogHeader className="text-start overflow-scroll h-[45vh] text-zinc-800 dark:text-white p-[8px]">
+                      <p>{lines.join("\n")}</p>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
               </div>
             )}
           </div>

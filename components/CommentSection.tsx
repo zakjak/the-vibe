@@ -19,8 +19,6 @@ import Comment from "./Comment";
 import { FaArrowDown } from "react-icons/fa6";
 import { Skeleton } from "./ui/skeleton";
 import { groupNumbers } from "@/lib/utils/helpers";
-import { useInView } from "react-intersection-observer";
-import { useEffect, useState } from "react";
 import CommentsSkeleton from "./CommentsSkeleton";
 
 const commentSchema = z.object({
@@ -49,7 +47,6 @@ const CommentSection = ({
   const {
     data: comments,
     fetchNextPage,
-    isLoading,
     isFetchingNextPage,
   } = useComments(postId, inView);
 

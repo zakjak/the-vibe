@@ -2,7 +2,6 @@ import {
   useAddComment,
   useDeleteComment,
   useEditComment,
-  useReplyComments,
 } from "@/hooks/useComments";
 import { useAddVotes, useVotes, VoteProps } from "@/hooks/useVotes";
 import { CommentProp } from "@/lib/types/article";

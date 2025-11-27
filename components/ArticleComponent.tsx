@@ -1,12 +1,10 @@
 "use client";
-// import { notFound } from "next/navigation";
 
 import { useArticle, useRelatedArticles } from "@/hooks/useArticle";
 import ArticleStory from "./ArticleStory";
 import RelatedArticles from "./RelatedArticles";
 import ArticleComponentSkeleton from "./ArticleComponentSkeleton";
 import { notFound } from "next/navigation";
-import { Metadata } from "next";
 import { useSession } from "next-auth/react";
 import CommentSection from "./CommentSection";
 import { useInView } from "react-intersection-observer";
