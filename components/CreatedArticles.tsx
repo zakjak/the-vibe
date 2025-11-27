@@ -14,8 +14,6 @@ const CreatedArticles = ({ ownerId }: { ownerId: string }) => {
   const visiblePages = data?.pages.slice(-visiblePageCount);
   const createdArticles = visiblePages?.flat();
 
-  console.log(ownerId);
-
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();

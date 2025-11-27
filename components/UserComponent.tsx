@@ -14,14 +14,28 @@ import { FaRegBookmark } from "react-icons/fa6";
 import { IoSettingsOutline } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
 import { User } from "@/lib/types/users";
+import { usePathname, useRouter } from "next/navigation";
 
 const UserComponent = () => {
   const { data: session } = useSession();
+  const pathname = usePathname();
+  const router = useRouter();
 
   const data = session?.user as User;
 
   const handleSignIn = async () => {
     await signIn("google");
+  };
+
+  const handleSignOut = () => {
+    signOut({
+      redirect: false,
+    });
+    const isProfileRouter = pathname.startsWith("/profiles");
+
+    if (!isProfileRouter) {
+      router.push("/");
+    }
   };
 
   return (
@@ -68,9 +82,7 @@ const UserComponent = () => {
                   <IoSettingsOutline />
                   Settings
                 </Link>
-                <Button onClick={() => signOut({ callbackUrl: "/" })}>
-                  Sign Out
-                </Button>
+                <Button onClick={handleSignOut}>Sign Out</Button>
               </div>
             </PopoverContent>
           </Popover>

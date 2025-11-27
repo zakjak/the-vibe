@@ -11,7 +11,6 @@ import {
   DialogTrigger,
 } from "./ui/dialog";
 import { Button } from "./ui/button";
-import AboutUserProfileInformation from "./AboutUserProfileInformation";
 
 const WriterUserProfile = ({
   userInfo,

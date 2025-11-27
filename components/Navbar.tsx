@@ -88,7 +88,10 @@ const Navbar = () => {
             <NavbarLargeLinks navLinks={navLinks as []} />
           </div>
           <div className="flex gap-4 items-center">
+            {/* ====== User Component ===== */}
             <UserComponent />
+
+            {/* ====== Search Component ===== */}
             <Search
               className="hidden lg:block cursor-pointer"
               onClick={() => setIsSearchOpen(!isSearchOpen)}

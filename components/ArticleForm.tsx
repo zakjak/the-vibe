@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 import dynamic from "next/dynamic";
 
 import { Input } from "./ui/input";
-import React, { Dispatch, SetStateAction, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
@@ -91,13 +91,7 @@ const EditorComponent = dynamic(
   }
 );
 
-const ArticleForm = ({
-  user,
-  setError,
-}: {
-  user: User;
-  setError: Dispatch<SetStateAction<boolean>>;
-}) => {
+const ArticleForm = ({ user }: { user: User }) => {
   const [open, setOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
@@ -242,15 +236,12 @@ const ArticleForm = ({
         });
 
         setOpen(false);
-        setError(false);
         setIsSubmitting(false);
       }
     } catch (error) {
       console.log(error);
-      setError(true);
     } finally {
       setIsSubmitting(false);
-      setError(false);
     }
   };
 
@@ -262,7 +253,7 @@ const ArticleForm = ({
       <DialogContent
         aria-describedby={undefined}
         onOpenAutoFocus={(e) => e.preventDefault()}
-        className="overflow-y-scroll h-[40rem] lg:w-[5000px] md:w-[40rem] w-[25rem] z-[999]"
+        className="overflow-y-scroll h-[40rem] z-[999] w-[90%]"
       >
         <DialogHeader>
           <DialogTitle>Create article</DialogTitle>

@@ -82,7 +82,7 @@ const updateUser = async ({
   userId: string;
   userInfo: UserInfo;
 }) => {
-  const res = await fetch(`/api/user/${userId}`, {
+  await fetch(`/api/user/${userId}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
