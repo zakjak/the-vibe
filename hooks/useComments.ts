@@ -95,6 +95,31 @@ export const useAddComment = () => {
   });
 };
 
+export const useEditComment = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: { comment: string; parentId: number }) => {
+      const res = await fetch(`/api/comment`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error("Failed to post comment");
+      return res.json();
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["comments"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["reply-comments"],
+      });
+    },
+  });
+};
+
 export const useDeleteComment = () => {
   const queryClient = useQueryClient();
   return useMutation({

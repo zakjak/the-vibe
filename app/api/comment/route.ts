@@ -1,5 +1,6 @@
 import { comments } from "@/lib/schema/articles";
 import { db } from "@/lib/schema/schema";
+import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -22,5 +23,24 @@ export async function POST(req: Request) {
   } catch (err) {
     console.log(err);
     return NextResponse.json("Server error", { status: 500 });
+  }
+}
+
+export async function PATCH(req: Request) {
+  const body = await req.json();
+
+  const { comment, parentId } = body;
+
+  try {
+    const response = await db
+      .update(comments)
+      .set({ comment: comment })
+      .where(eq(comments.id, parentId))
+      .returning();
+
+    return NextResponse.json(response);
+  } catch (err) {
+    console.log(err);
+    return NextResponse.json("Serer error", { status: 500 });
   }
 }

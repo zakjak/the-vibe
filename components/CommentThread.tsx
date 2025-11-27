@@ -33,6 +33,12 @@ const CommentThread = ({
     allReplies?.[allReplies.length - 1]?.comment?.id !==
       replies?.pages[0]?.lastComment[0]?.id;
 
+  const totalReplies =
+    replies?.pages?.reduce(
+      (acc, page) => acc + (page.replies?.length || 0),
+      0
+    ) ?? 0;
+
   return (
     <div className="mt-3 relative overflow-hidden ">
       {/* {!!replies?.pages[0]?.replies?.length && (
@@ -83,7 +89,7 @@ const CommentThread = ({
               onClick={() => fetchNextPage()}
               className="cursor-pointer flex items-center text-sm font-semibold"
             >
-              Show replies
+              Show {replies?.pages[0]?.repliesCount - totalReplies} more replies
               <FaArrowDown />
             </div>
           </div>

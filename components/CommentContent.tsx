@@ -1,6 +1,7 @@
 import {
   useAddComment,
   useDeleteComment,
+  useEditComment,
   useReplyComments,
 } from "@/hooks/useComments";
 import { useAddVotes, useVotes, VoteProps } from "@/hooks/useVotes";
@@ -57,12 +58,14 @@ const CommentContent = ({
 }) => {
   const [expanded, setExpanded] = useState(false);
   const [isReply, setIsReply] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const { mutate: deleteComment } = useDeleteComment();
   const [needsTruncate, setNeedsTruncate] = useState(false);
   const elRef = useRef<HTMLDivElement>(null);
 
   const { mutate: mutateVotes, isPending: isVotesPending } = useAddVotes();
   const { mutate, isPending } = useAddComment();
+  const { mutate: mutateEdit, isPending: isPendingEdit } = useEditComment();
 
   const { data } = useVotes(comment?.id);
 
@@ -84,7 +87,18 @@ const CommentContent = ({
       comment: values.comment,
       parentId: comment?.id,
     };
-    mutate(commentSection);
+
+    const commentEdit = {
+      comment: values.comment,
+      parentId: comment?.id,
+    };
+
+    if (isReply) {
+      mutate(commentSection);
+    } else {
+      mutateEdit(commentEdit);
+    }
+
     form.reset();
 
     if (isPending) {
@@ -118,6 +132,18 @@ const CommentContent = ({
       else window.removeEventListener("resize", checkOverflow);
     };
   }, [comment.comment, expanded]);
+
+  useEffect(() => {
+    if (isEditing) {
+      form.setValue("comment", comment.comment);
+      setIsReply(false);
+    }
+
+    if (isReply) {
+      form.setValue("comment", "");
+      setIsEditing(false);
+    }
+  }, [comment.comment, isReply, form, isEditing]);
 
   return (
     <div className="flex gap-2">
@@ -221,7 +247,7 @@ const CommentContent = ({
                 <MdMessage /> reply
               </div>
             </div>
-            {isReply && (
+            {(isReply || isEditing) && (
               <div className="absolue">
                 <Form {...form}>
                   <form
@@ -278,9 +304,9 @@ const CommentContent = ({
               <PopoverTrigger>
                 <CiMenuKebab />
               </PopoverTrigger>
-              <PopoverContent className="mt-2">
+              <PopoverContent className="mt-2 flex flex-col items-start mr-4">
                 <AlertDialog>
-                  <AlertDialogTrigger className="text-red-400 font-semibold cursor-pointer">
+                  <AlertDialogTrigger className="text-red-400 font-semibold cursor-pointer px-3">
                     Delete
                   </AlertDialogTrigger>
                   <AlertDialogContent>
@@ -302,6 +328,13 @@ const CommentContent = ({
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
+                <Button
+                  variant="ghost"
+                  onClick={() => setIsEditing(!isEditing)}
+                  className="mt-2 w-full justify-start"
+                >
+                  Edit
+                </Button>
               </PopoverContent>
             </Popover>
           )}
