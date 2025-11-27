@@ -33,7 +33,7 @@ export async function GET(
     const articleComments = await db
       .select()
       .from(comments)
-      .where(eq(comments.postId, articleId) && isNull(comments.parentId))
+      .where(eq(comments.postId, articleId) || isNull(comments.parentId))
       .leftJoin(users, eq(comments.ownerId, users.id))
       .orderBy(desc(comments.date))
       .limit(limit)
@@ -42,12 +42,12 @@ export async function GET(
     const commentsNumber = await db
       .select({ count: count() })
       .from(comments)
-      .where(eq(comments.postId, articleId) && isNull(comments.parentId));
+      .where(eq(comments.postId, articleId) || isNull(comments.parentId));
 
     const lastComment = await db
       .select()
       .from(comments)
-      .where(eq(comments.postId, articleId) && isNull(comments.parentId))
+      .where(eq(comments.postId, articleId) || isNull(comments.parentId))
       .orderBy(asc(sql`${comments.id}`))
       .limit(1);
 

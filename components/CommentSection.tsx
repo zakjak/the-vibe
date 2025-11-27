@@ -44,10 +44,13 @@ const CommentSection = ({
 }) => {
   const { mutate, isPending } = useAddComment();
 
+  console.log(postId);
+
   const {
     data: comments,
     fetchNextPage,
     isFetchingNextPage,
+    isLoading,
   } = useComments(postId, inView);
 
   const allComments =
@@ -80,7 +83,7 @@ const CommentSection = ({
     fetchNextPage();
   };
 
-  if (!inView) {
+  if (!inView && isLoading) {
     return <CommentsSkeleton />;
   }
 
