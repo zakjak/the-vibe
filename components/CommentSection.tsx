@@ -84,6 +84,8 @@ const CommentSection = ({
     return <CommentsSkeleton />;
   }
 
+  const commentCount = comments?.pages[0]?.commentCount ?? 0;
+
   return (
     <div>
       <div className="flex items-center gap-2 mb-4">
@@ -91,7 +93,7 @@ const CommentSection = ({
           Comments Section
         </h2>
         <span className="dark:bg-zinc-100 dark:text-zinc-800 bg-black text-white text-sm  rounded-md shadow-2xl py-2 px-2 font-bold">
-          {groupNumbers(comments?.pages[0]?.commentCount)} comments
+          {groupNumbers(commentCount)} comments
         </span>
       </div>
       <Form {...form}>

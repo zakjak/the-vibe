@@ -26,6 +26,7 @@ const SlateEditor = ({ value, setValue }: EditorProps) => {
             setValue("story", JSON.stringify(val));
           }}
           placeholder="Type your amazing content here..."
+          className="dark:text-white text-zinc-800"
         />
       </EditorContainer>
     </Plate>
