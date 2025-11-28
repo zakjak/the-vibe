@@ -17,6 +17,15 @@ import { useState } from "react";
 import { TiTick } from "react-icons/ti";
 import Link from "next/link";
 import { User } from "@/lib/types/users";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "./ui/navigation-menu";
 
 const ArticleStory = ({
   articleStory,
@@ -92,32 +101,67 @@ const ArticleStory = ({
 
           <div className="flex items-center gap-2">
             <h2>By: </h2>
-            {articleStory?.article[1]?.map((user) => (
-              <div key={user?.id} className="flex items-center gap-2">
-                <Link
-                  href={`/profiles/${slugify(user?.name as string)}/${
-                    user?.id
-                  }`}
-                >
-                  <Image
-                    alt={`${user?.name} profile`}
-                    src={user?.image as string}
-                    width={240}
-                    height={240}
-                    className="rounded-full h-8 w-8 object-cover cursor-pointer hover:opacity-80 transition-opacity"
-                  />
-                </Link>
-
-                <Link
-                  href={`/profiles/${slugify(user?.name as string)}/${
-                    user?.id
-                  }`}
-                  className="cursor-pointer hover:underline text-sm"
-                >
-                  {user?.name}
-                </Link>
+            <div className="*:data-[slot=avatar]:ring-background flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:grayscale">
+              {articleStory?.article[1]?.map((user) => (
+                <Avatar key={user?.id}>
+                  <AvatarImage src={user?.image || "image"} alt="@shadcn" />
+                  <AvatarFallback className="font-bold">
+                    {user?.name?.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
+              ))}
+            </div>
+            {articleStory?.article[1].length > 1 && (
+              <div className="flex">
+                {articleStory?.article[1].length < 3 && (
+                  <p className="flex items-center gap-2 whitespace-nowrap">
+                    {articleStory?.article[1][0]?.name}
+                  </p>
+                )}
+                <NavigationMenu>
+                  <NavigationMenuList className="flex-wrap">
+                    <NavigationMenuList>
+                      <NavigationMenuItem>
+                        <NavigationMenuTrigger>
+                          +{articleStory?.article[1].length - 1} more{" "}
+                          {articleStory?.article[1].length - 1 > 1
+                            ? "people"
+                            : "person"}
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                          <ul className="grid gap-2 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                            {articleStory?.article[1]?.map((user) => (
+                              <li className="row-span-3" key={user?.id}>
+                                <NavigationMenuLink asChild className="">
+                                  <Link
+                                    href={`/profiles/${slugify(
+                                      user?.name as string
+                                    )}/${user?.id}`}
+                                  >
+                                    <div className="flex items-center gap-2">
+                                      <Avatar key={user?.id}>
+                                        <AvatarImage
+                                          src={user?.image || "image"}
+                                          alt="@shadcn"
+                                        />
+                                        <AvatarFallback className="font-bold">
+                                          {user?.name?.charAt(0)}
+                                        </AvatarFallback>
+                                      </Avatar>
+                                      <span>{user?.name}</span>
+                                    </div>
+                                  </Link>
+                                </NavigationMenuLink>
+                              </li>
+                            ))}
+                          </ul>
+                        </NavigationMenuContent>
+                      </NavigationMenuItem>
+                    </NavigationMenuList>
+                  </NavigationMenuList>
+                </NavigationMenu>
               </div>
-            ))}
+            )}
           </div>
         </div>
         <div>

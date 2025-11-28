@@ -44,8 +44,6 @@ const CommentSection = ({
 }) => {
   const { mutate, isPending } = useAddComment();
 
-  console.log(postId);
-
   const {
     data: comments,
     fetchNextPage,
