@@ -26,10 +26,12 @@ const DraftArticles = () => {
   }, [inView, hasNextPage, fetchNextPage, isFetchingNextPage]);
 
   return (
-    <div className="grid lg:grid-cols-3 md:grid-cols-2 lg:gap-6 md:gap-4 w-[90%] mx-auto">
-      {createdArticles?.map((article) => (
-        <TopCategoryStory key={article?.id} topStory={article} />
-      ))}
+    <div className="w-[90%] mx-auto">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 lg:gap-6 md:gap-4">
+        {createdArticles?.map((article) => (
+          <TopCategoryStory key={article?.id} topStory={article} />
+        ))}
+      </div>
 
       <div
         ref={ref}

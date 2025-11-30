@@ -15,6 +15,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
 import { User } from "@/lib/types/users";
 import { usePathname, useRouter } from "next/navigation";
+import { LuFilePenLine } from "react-icons/lu";
 
 const UserComponent = () => {
   const { data: session } = useSession();
@@ -44,7 +45,7 @@ const UserComponent = () => {
         <div className="flex flex-row font-semibold flex-wrap items-center gap-12">
           <Popover>
             <PopoverTrigger>
-              <Avatar className="w-10 h-10">
+              <Avatar className="w-10 h-10 cursor-pointer">
                 <AvatarImage
                   src={`${session?.user?.image}`}
                   alt={`${session?.user?.name} profile`}
@@ -62,12 +63,16 @@ const UserComponent = () => {
                       href={`/profile/${session?.user?.id}/${slugify(
                         session?.user?.name as string
                       )}`}
-                      className="flex items-center md:gap-2 gap-1 bg-blue-500 text-gray-100 hover:bg-blue-400 p-1 font-semibold rounded-sm"
+                      className="flex items-center md:gap-2 gap-1 bg-blue-500 text-gray-100 hover:bg-blue-400 p-1 font-semibold rounded-sm py-2 px-1"
                     >
                       <CgProfile />
                       Profile
                     </Link>
-                    <Link href={`/profile/${session?.user?.id}/draft`}>
+                    <Link
+                      className="flex items-center md:gap-2 gap-1 bg-yellow-100 hover:bg-yellow-50 text-yellow-700 p-1 font-semibold rounded-sm py-2 px-1"
+                      href={`/profile/${session?.user?.id}/draft`}
+                    >
+                      <LuFilePenLine />
                       Draft
                     </Link>
                   </>
@@ -75,14 +80,14 @@ const UserComponent = () => {
 
                 <Link
                   href="/saved"
-                  className="flex items-center md:gap-2 gap-1 font-semibold cursor-pointer hover:bg-gray-200 py-2 px-1 rounded-sm"
+                  className="flex items-center md:gap-2 gap-1 font-semibold cursor-pointer hover:bg-gray-200 hover:text-zinc-900 py-2 px-1 rounded-sm"
                 >
                   <FaRegBookmark />
                   Saved
                 </Link>
                 <Link
                   href="/settings"
-                  className="flex items-center md:gap-2 gap-1 font-semibold cursor-pointer hover:bg-gray-200 py-2 px-1 rounded-sm"
+                  className="flex items-center md:gap-2 gap-1 font-semibold cursor-pointer hover:bg-gray-200 hover:text-zinc-900 py-2 px-2 rounded-sm"
                 >
                   <IoSettingsOutline />
                   Settings
