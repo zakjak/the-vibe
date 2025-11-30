@@ -1,6 +1,6 @@
 import { articles } from "@/drizzle/schema";
 import { db } from "@/lib/schema/schema";
-import { count, eq } from "drizzle-orm";
+import { and, count, eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
@@ -13,12 +13,18 @@ export async function GET(req: Request) {
     const countRows = await db
       .select({ count: count() })
       .from(articles)
-      .where(eq(articles.category, "entertainment"));
+      .where(
+        and(eq(articles.category, "entertainment"), eq(articles.isDraft, false))
+      );
+
     const pageNumber = Math.ceil(countRows[0].count / 10);
+
     const response = await db
       .select()
       .from(articles)
-      .where(eq(articles.category, "entertainment"))
+      .where(
+        and(eq(articles.category, "entertainment"), eq(articles.isDraft, false))
+      )
       .limit(10)
       .offset(calculatePageNumber);
 

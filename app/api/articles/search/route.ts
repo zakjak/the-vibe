@@ -1,6 +1,6 @@
 import { articles } from "@/lib/schema/articles";
 import { db } from "@/lib/schema/schema";
-import { count, sql } from "drizzle-orm";
+import { and, count, eq, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
@@ -13,25 +13,35 @@ export async function GET(req: Request) {
 
     const calculatePageNumber = (page - 1) * 10;
 
-    const countRows = await db.select({ count: count() }).from(articles)
-      .where(sql`(
+    const countRows = await db
+      .select({ count: count() })
+      .from(articles)
+      .where(
+        and(
+          sql`(
         setweight(to_tsvector('english', ${articles.title}), 'A') ||
         setweight(to_tsvector('english', ${articles.story}), 'B')) ||
         setweight(to_tsvector('english', ${articles.category}), 'C')
         @@ plainto_tsquery('english', ${query}
-      )`);
+      )`,
+          eq(articles.isDraft, false)
+        )
+      );
     const pageNumber = Math.ceil(countRows[0].count / 10);
 
     const search = await db
       .select()
       .from(articles)
       .where(
-        sql`(
+        and(
+          sql`(
         setweight(to_tsvector('english', ${articles.title}), 'A') ||
         setweight(to_tsvector('english', ${articles.story}), 'B') ||
         setweight(to_tsvector('english', ${articles.category}), 'C')) 
         @@ plainto_tsquery('english', ${query}
-      )`
+      )`,
+          eq(articles.isDraft, false)
+        )
       )
       .limit(10)
       .offset(calculatePageNumber);
