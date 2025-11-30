@@ -11,6 +11,7 @@ export type Article = {
   imageTitle: string;
   imageCredit: string;
   images: string[];
+  isDraft: boolean;
   imagesTitle: string[];
   tags: string[];
 };

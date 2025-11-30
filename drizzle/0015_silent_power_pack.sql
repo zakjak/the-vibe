@@ -1,1 +1,0 @@
-ALTER TABLE "comments" ADD COLUMN "date" timestamp DEFAULT now() NOT NULL;

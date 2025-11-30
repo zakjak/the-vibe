@@ -84,22 +84,6 @@ export const commentVotes = pgTable("comment_votes", {
 	unique("comment_votes_comment_id_user_id_unique").on(table.commentId, table.userId),
 ]);
 
-export const articles = pgTable("articles", {
-	id: integer().primaryKey().generatedAlwaysAsIdentity({ name: "articles_id_seq", startWith: 1, increment: 1, minValue: 1, maxValue: 2147483647, cache: 1 }),
-	title: varchar({ length: 250 }),
-	image: text().notNull(),
-	imageTitle: text("image_title"),
-	category: varchar({ length: 100 }),
-	date: timestamp({ mode: 'string' }).defaultNow().notNull(),
-	imageCredit: varchar({ length: 250 }).notNull(),
-	story: text().notNull(),
-	tags: text().array().default([""]),
-	images: text().array().default([""]),
-	imagesTitle: text("images_title").array().default([""]),
-	authorsId: uuid("authors_id").array().default([""]),
-	views: integer().default(0),
-});
-
 export const comment = pgTable("comment", {
 	id: serial().primaryKey().notNull(),
 	comment: text(),
@@ -117,4 +101,21 @@ export const about = pgTable("about", {
 	twitter: text(),
 	linkedIn: text(),
 	ownerId: uuid("owner_id"),
+});
+
+export const articles = pgTable("articles", {
+	id: integer().primaryKey().generatedAlwaysAsIdentity({ name: "articles_id_seq", startWith: 1, increment: 1, minValue: 1, maxValue: 2147483647, cache: 1 }),
+	title: varchar({ length: 250 }),
+	image: text().notNull(),
+	imageTitle: text("image_title"),
+	category: varchar({ length: 100 }),
+	date: timestamp({ mode: 'string' }).defaultNow().notNull(),
+	imageCredit: varchar({ length: 250 }).notNull(),
+	isDraft: boolean(),
+	story: text().notNull(),
+	tags: text().array().default([""]),
+	images: text().array().default([""]),
+	imagesTitle: text("images_title").array().default([""]),
+	authorsId: uuid("authors_id").array().default([""]),
+	views: integer().default(0),
 });

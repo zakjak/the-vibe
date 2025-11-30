@@ -100,7 +100,7 @@ const ArticleStory = ({
           <h2>Image Source: {articleStory?.article[0]?.imageCredit}</h2>
 
           <div className="flex items-center gap-2">
-            <h2>By: </h2>
+            <h2 className="">By: </h2>
             <div className="*:data-[slot=avatar]:ring-background flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:grayscale">
               {articleStory?.article[1]?.map((user) => (
                 <Avatar key={user?.id}>
@@ -112,11 +112,16 @@ const ArticleStory = ({
               ))}
             </div>
             {articleStory?.article[1].length > 1 && (
-              <div className="flex">
+              <div className="flex gap-1">
                 {articleStory?.article[1].length < 3 && (
-                  <p className="flex items-center gap-2 whitespace-nowrap">
+                  <Link
+                    href={`/profiles/${slugify(
+                      articleStory?.article[1][0]?.name as string
+                    )}/${articleStory?.article[1][0]?.id}`}
+                    className="flex items-center gap-2 whitespace-nowrap hover:underline"
+                  >
                     {articleStory?.article[1][0]?.name}
-                  </p>
+                  </Link>
                 )}
                 <NavigationMenu>
                   <NavigationMenuList className="flex-wrap">
@@ -138,7 +143,7 @@ const ArticleStory = ({
                                       user?.name as string
                                     )}/${user?.id}`}
                                   >
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex items-center gap-2 flex-nowrap">
                                       <Avatar key={user?.id}>
                                         <AvatarImage
                                           src={user?.image || "image"}

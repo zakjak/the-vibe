@@ -1,1 +1,0 @@
-ALTER TABLE "comments" ALTER COLUMN "owner_id" SET DATA TYPE text;

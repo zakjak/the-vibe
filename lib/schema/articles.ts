@@ -13,6 +13,7 @@ export const articles = table(
     category: t.varchar({ length: 100 }),
     date: t.timestamp().notNull().defaultNow(),
     imageCredit: t.varchar({ length: 250 }).notNull(),
+    isDraft: t.boolean(),
     story: t.text().notNull(),
     tags: t
       .text()

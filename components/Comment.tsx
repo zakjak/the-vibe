@@ -6,7 +6,6 @@ import { FaArrowDown } from "react-icons/fa6";
 import { Skeleton } from "./ui/skeleton";
 import CommentContent from "./CommentContent";
 import CommentThread from "./CommentThread";
-import { useQueryClient } from "@tanstack/react-query";
 
 export const commentSchema = z.object({
   comment: z
@@ -34,8 +33,6 @@ const Comment = ({
     fetchNextPage,
     isFetchingNextPage,
   } = useReplyComments(comment?.id);
-
-  const queryClinet = useQueryClient();
 
   const loadReplies = () => {
     fetchNextPage();

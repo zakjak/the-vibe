@@ -1,5 +1,6 @@
 import { articles } from "@/drizzle/schema";
 import { db } from "@/lib/schema/schema";
+import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -14,6 +15,7 @@ export async function POST(req: Request) {
     imageCredit,
     story,
     authors,
+    isDraft,
     category,
     tags,
   } = body;
@@ -30,6 +32,7 @@ export async function POST(req: Request) {
         story,
         tags,
         images,
+        isDraft,
         authorsId: authors,
         imagesTitle,
       })
@@ -39,5 +42,51 @@ export async function POST(req: Request) {
   } catch (err) {
     console.log(err);
     return NextResponse.json("Server error, try again");
+  }
+}
+
+export async function PATCH(req: Request) {
+  const body = await req.json();
+
+  const {
+    title,
+    image,
+    imageTitle,
+    images,
+    imagesTitle,
+    imageCredit,
+    story,
+    authors,
+    isDraft,
+    category,
+    tags,
+    articleId,
+  } = body;
+
+  console.log(body);
+
+  try {
+    const response = await db
+      .update(articles)
+      .set({
+        title,
+        image,
+        images,
+        imagesTitle,
+        imageCredit,
+        imageTitle,
+        story,
+        authorsId: authors,
+        isDraft,
+        category,
+        tags,
+      })
+      .where(eq(articles.id, articleId))
+      .returning();
+
+    return NextResponse.json(response);
+  } catch (err) {
+    console.log(err);
+    return NextResponse.json("Serer error", { status: 500 });
   }
 }

@@ -1,1 +1,0 @@
-ALTER TABLE "articles" ADD COLUMN "views" integer DEFAULT 1;

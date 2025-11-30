@@ -4,7 +4,7 @@ import { Plate, usePlateEditor } from "platejs/react";
 import { Editor, EditorContainer } from "@/components/ui/editor";
 import { EditorKit } from "@/components/editor/editor-kit";
 import { UseFormSetValue } from "react-hook-form";
-import { ArticleFormData } from "../ArticleForm";
+import { ArticleFormData } from "../ArticleDialogContent";
 
 interface EditorProps {
   setValue: UseFormSetValue<ArticleFormData>;
@@ -12,12 +12,23 @@ interface EditorProps {
 }
 
 const SlateEditor = ({ value, setValue }: EditorProps) => {
-  const editor = usePlateEditor({ plugins: EditorKit });
+  const editor = usePlateEditor({
+    plugins: EditorKit,
+    value: (() => {
+      try {
+        return JSON.parse(value);
+      } catch {
+        return [{ type: "p", children: [{ text: "" }] }];
+      }
+    })(),
+  });
 
   return (
     <Plate
       editor={editor}
-      onValueChange={({ value }) => setValue("story", JSON.stringify(value))}
+      onValueChange={({ value }) =>
+        setValue("story", JSON.stringify(value), { shouldDirty: true })
+      }
     >
       <EditorContainer>
         <Editor

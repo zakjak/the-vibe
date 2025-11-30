@@ -46,3 +46,30 @@ export const useCreateArticle = (userId: string) => {
       queryClient.invalidateQueries({ queryKey: ["created-articles", userId] }),
   });
 };
+
+const editArticle = async (article: Article) => {
+  const res = await fetch(`/api/createArticle`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(article),
+  });
+
+  if (!res.ok) {
+    const error = await res.text();
+    throw new Error(`Failed to create article: ${error}`);
+  }
+
+  return res.json();
+};
+
+export const useEditArticle = (articleId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (article: Article) => editArticle(article),
+
+    onSettled: () =>
+      queryClient.invalidateQueries({
+        queryKey: ["created-articles"],
+      }),
+  });
+};
