@@ -1,6 +1,6 @@
 import { articles } from "@/drizzle/schema";
 import { db } from "@/lib/schema/schema";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
@@ -10,22 +10,33 @@ export async function GET(req: Request) {
         db
           .select()
           .from(articles)
-          .where(eq(articles.category, "politics"))
+          .where(
+            and(eq(articles.isDraft, false), eq(articles.category, "politics"))
+          )
           .limit(1),
         db
           .select()
           .from(articles)
-          .where(eq(articles.category, "sports"))
+          .where(
+            and(eq(articles.isDraft, false), eq(articles.category, "sports"))
+          )
           .limit(1),
         db
           .select()
           .from(articles)
-          .where(eq(articles.category, "business"))
+          .where(
+            and(eq(articles.isDraft, false), eq(articles.category, "business"))
+          )
           .limit(1),
         db
           .select()
           .from(articles)
-          .where(eq(articles.category, "entertainment"))
+          .where(
+            and(
+              eq(articles.isDraft, false),
+              eq(articles.category, "entertainment")
+            )
+          )
           .limit(1),
       ]);
 
@@ -41,37 +52,54 @@ export async function GET(req: Request) {
       db
         .select()
         .from(articles)
-        .where(eq(articles.category, "politics"))
+        .where(
+          and(eq(articles.isDraft, false), eq(articles.category, "politics"))
+        )
         .limit(6),
       db
         .select()
         .from(articles)
-        .where(eq(articles.category, "sports"))
+        .where(
+          and(eq(articles.isDraft, false), eq(articles.category, "sports"))
+        )
         .limit(6),
       db
         .select()
         .from(articles)
-        .where(eq(articles.category, "business"))
+        .where(
+          and(eq(articles.isDraft, false), eq(articles.category, "business"))
+        )
         .limit(6),
       db
         .select()
         .from(articles)
-        .where(eq(articles.category, "entertainment"))
+        .where(
+          and(
+            eq(articles.isDraft, false),
+            eq(articles.category, "entertainment")
+          )
+        )
         .limit(6),
       db
         .select()
         .from(articles)
-        .where(eq(articles.category, "innovation"))
+        .where(
+          and(eq(articles.isDraft, false), eq(articles.category, "innovation"))
+        )
         .limit(6),
       db
         .select()
         .from(articles)
-        .where(eq(articles.category, "culture"))
+        .where(
+          and(eq(articles.isDraft, false), eq(articles.category, "culture"))
+        )
         .limit(6),
       db
         .select()
         .from(articles)
-        .where(eq(articles.category, "technology"))
+        .where(
+          and(eq(articles.isDraft, false), eq(articles.category, "technology"))
+        )
         .limit(6),
     ]);
 

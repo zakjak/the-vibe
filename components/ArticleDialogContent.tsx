@@ -122,7 +122,7 @@ const ArticleDialogContent = ({
   const { data } = useArticle(articleId as number);
 
   const { mutate } = useCreateArticle(user?.id);
-  const { mutate: mutateEditArticle } = useEditArticle(articleId as number);
+  const { mutate: mutateEditArticle } = useEditArticle();
 
   const form = useForm<ArticleFormData>({
     resolver: zodResolver(formSchema),

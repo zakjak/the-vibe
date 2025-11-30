@@ -57,15 +57,20 @@ const UserComponent = () => {
             <PopoverContent className="z-[1000] mr-4">
               <div className="flex flex-col gap-2">
                 {data?.isAdmin && (
-                  <Link
-                    href={`/profile/${session?.user?.id}/${slugify(
-                      session?.user?.name as string
-                    )}`}
-                    className="flex items-center md:gap-2 gap-1 bg-blue-500 text-gray-100 hover:bg-blue-400 p-1 font-semibold rounded-sm"
-                  >
-                    <CgProfile />
-                    Profile
-                  </Link>
+                  <>
+                    <Link
+                      href={`/profile/${session?.user?.id}/${slugify(
+                        session?.user?.name as string
+                      )}`}
+                      className="flex items-center md:gap-2 gap-1 bg-blue-500 text-gray-100 hover:bg-blue-400 p-1 font-semibold rounded-sm"
+                    >
+                      <CgProfile />
+                      Profile
+                    </Link>
+                    <Link href={`/profile/${session?.user?.id}/draft`}>
+                      Draft
+                    </Link>
+                  </>
                 )}
 
                 <Link

@@ -27,7 +27,7 @@ import { useSession } from "next-auth/react";
 import { User } from "@/lib/types/users";
 import { Dialog } from "./ui/dialog";
 import { DialogTrigger } from "@radix-ui/react-dialog";
-
+import { Badge } from "./ui/badge";
 const TopCategoryStory = ({ topStory }: { topStory: Article }) => {
   const [openDelete, setOpenDelete] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
@@ -60,36 +60,46 @@ const TopCategoryStory = ({ topStory }: { topStory: Article }) => {
           </Link>
           <div>
             {isProfile && (
-              <div className="flex flex-col gap-2 absolute top-3 right-3">
-                <Button
-                  variant="destructive"
-                  onClick={() => setOpenDelete(true)}
-                  className="rounded-full ursor-pointer"
-                >
-                  <AiOutlineDelete />
-                  Delete
-                </Button>
-                <Dialog
-                  open={openEdit}
-                  onOpenChange={(open) => {
-                    setOpenEdit(open);
-                  }}
-                >
-                  <DialogTrigger asChild>
-                    <Button onClick={handleEdit}>
-                      <TbEdit />
-                      Edit
-                    </Button>
-                  </DialogTrigger>
+              <>
+                <div className="flex flex-col gap-2 absolute top-3 right-3">
+                  <Button
+                    variant="destructive"
+                    onClick={() => setOpenDelete(true)}
+                    className="rounded-full ursor-pointer"
+                  >
+                    <AiOutlineDelete />
+                    Delete
+                  </Button>
+                  <Dialog
+                    open={openEdit}
+                    onOpenChange={(open) => {
+                      setOpenEdit(open);
+                    }}
+                  >
+                    <DialogTrigger asChild>
+                      <Button onClick={handleEdit}>
+                        <TbEdit />
+                        Edit
+                      </Button>
+                    </DialogTrigger>
 
-                  <ArticleDialogContent
-                    user={session?.user as User}
-                    openEdit={openEdit}
-                    articleId={topStory?.id as number}
-                    setOpenEdit={setOpenEdit}
-                  />
-                </Dialog>
-              </div>
+                    <ArticleDialogContent
+                      user={session?.user as User}
+                      openEdit={openEdit}
+                      articleId={topStory?.id as number}
+                      setOpenEdit={setOpenEdit}
+                    />
+                  </Dialog>
+                </div>
+                {topStory?.isDraft && (
+                  <Badge
+                    className="absolute top-3 left-3 font-bold text-lg"
+                    variant="destructive"
+                  >
+                    Draft
+                  </Badge>
+                )}
+              </>
             )}
           </div>
           <AlertDialog open={openDelete} onOpenChange={setOpenDelete}>

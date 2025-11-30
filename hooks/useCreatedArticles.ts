@@ -62,7 +62,7 @@ const editArticle = async (article: Article) => {
   return res.json();
 };
 
-export const useEditArticle = (articleId: number) => {
+export const useEditArticle = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (article: Article) => editArticle(article),
@@ -71,5 +71,20 @@ export const useEditArticle = (articleId: number) => {
       queryClient.invalidateQueries({
         queryKey: ["created-articles"],
       }),
+  });
+};
+
+export const useDraft = (id: string) => {
+  return useInfiniteQuery({
+    queryKey: ["created-articles", id],
+    queryFn: ({ pageParam }) =>
+      fetch(`/api/articles/draft/${id}?page=${pageParam}`).then((res) =>
+        res.json()
+      ),
+    enabled: !!id,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length === 0 ? undefined : allPages.length + 1;
+    },
   });
 };
