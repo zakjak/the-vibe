@@ -77,7 +77,7 @@ const AllSearch = ({ page, q }: { page: string; q: string }) => {
                       <Separator className="h-4 w-0.5 bg-gray-400" />
                       <span>{calculateTime(article?.date)}</span>
                     </div>
-                    <span className="text-black md:line-clamp-2 my-2 lg:line-clamp-3 dark:text-zinc-400 font-semibold text-[.9rem] hidden">
+                    <span className="text-black md:line-clamp-2 my-2 lg:line-clamp-3 dark:text-zinc-400 text-[.79rem] hidden">
                       {JSON.parse(article.story)[0]?.children[0]?.text +
                         " " +
                         JSON.parse(article.story)[1]?.children[0]?.text +

@@ -42,8 +42,10 @@ export const useCreateArticle = (userId: string) => {
   return useMutation({
     mutationFn: (article: Article) => createArticle(article),
 
-    onSettled: () =>
-      queryClient.invalidateQueries({ queryKey: ["created-articles", userId] }),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["created-articles", userId] });
+      queryClient.invalidateQueries({ queryKey: ["draft-articles", userId] });
+    },
   });
 };
 
@@ -67,16 +69,20 @@ export const useEditArticle = () => {
   return useMutation({
     mutationFn: (article: Article) => editArticle(article),
 
-    onSettled: () =>
+    onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: ["created-articles"],
-      }),
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["draft-articles"],
+      });
+    },
   });
 };
 
 export const useDraft = (id: string) => {
   return useInfiniteQuery({
-    queryKey: ["created-articles", id],
+    queryKey: ["draft-articles", id],
     queryFn: ({ pageParam }) =>
       fetch(`/api/articles/draft/${id}?page=${pageParam}`).then((res) =>
         res.json()

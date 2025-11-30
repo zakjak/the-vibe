@@ -101,7 +101,7 @@ const ArticleStory = ({
 
           <div className="flex items-center gap-2">
             <h2 className="">By: </h2>
-            <div className="*:data-[slot=avatar]:ring-background flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:grayscale">
+            <div className="*:data-[slot=avatar]:ring-background flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:grayscale ">
               {articleStory?.article[1]?.map((user) => (
                 <Avatar key={user?.id}>
                   <AvatarImage src={user?.image || "image"} alt="@shadcn" />
@@ -134,7 +134,7 @@ const ArticleStory = ({
                             : "person"}
                         </NavigationMenuTrigger>
                         <NavigationMenuContent>
-                          <ul className="grid gap-2 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                          <ul className="">
                             {articleStory?.article[1]?.map((user) => (
                               <li className="row-span-3" key={user?.id}>
                                 <NavigationMenuLink asChild className="">
@@ -143,7 +143,7 @@ const ArticleStory = ({
                                       user?.name as string
                                     )}/${user?.id}`}
                                   >
-                                    <div className="flex items-center gap-2 flex-nowrap">
+                                    <div className="flex items-center gap-2 flex-nowrap px-2 py-2">
                                       <Avatar key={user?.id}>
                                         <AvatarImage
                                           src={user?.image || "image"}
@@ -153,7 +153,9 @@ const ArticleStory = ({
                                           {user?.name?.charAt(0)}
                                         </AvatarFallback>
                                       </Avatar>
-                                      <span>{user?.name}</span>
+                                      <span className="whitespace-nowrap">
+                                        {user?.name}
+                                      </span>
                                     </div>
                                   </Link>
                                 </NavigationMenuLink>

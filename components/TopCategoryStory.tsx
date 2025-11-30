@@ -65,7 +65,7 @@ const TopCategoryStory = ({ topStory }: { topStory: Article }) => {
                   <Button
                     variant="destructive"
                     onClick={() => setOpenDelete(true)}
-                    className="rounded-full ursor-pointer"
+                    className="rounded-full cursor-pointer hover:bg-red-600 font-semibold"
                   >
                     <AiOutlineDelete />
                     Delete
@@ -77,7 +77,7 @@ const TopCategoryStory = ({ topStory }: { topStory: Article }) => {
                     }}
                   >
                     <DialogTrigger asChild>
-                      <Button onClick={handleEdit}>
+                      <Button onClick={handleEdit} className="cursor-pointer">
                         <TbEdit />
                         Edit
                       </Button>
