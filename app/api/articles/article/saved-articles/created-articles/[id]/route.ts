@@ -11,25 +11,20 @@ export async function GET(
   const { id } = param;
   const { searchParams } = new URL(req.url);
 
-  if (!id) return;
-
   try {
-    try {
-      const page = Number(searchParams.get("page")) || 1;
-      const calculatePageNumber = (page - 1) * 10;
+    if (!id) return;
 
-      const createdArticles = await db
-        .select()
-        .from(articles)
-        .where(arrayContains(articles?.authors, [id]))
-        .limit(10)
-        .offset(calculatePageNumber);
+    const page = Number(searchParams.get("page")) || 1;
+    const calculatePageNumber = (page - 1) * 10;
 
-      return NextResponse.json(createdArticles);
-    } catch (err) {
-      console.log("Error fetching articles:", err);
-      return NextResponse.json({ error: "Failed fetching articles" });
-    }
+    const createdArticles = await db
+      .select()
+      .from(articles)
+      .where(arrayContains(articles?.authors, [id]))
+      .limit(10)
+      .offset(calculatePageNumber);
+
+    return NextResponse.json(createdArticles);
   } catch (err) {
     console.log(err);
     return NextResponse.json({ error: "Failed fetching articles" });
