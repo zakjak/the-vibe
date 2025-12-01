@@ -111,18 +111,19 @@ const ArticleStory = ({
                 </Avatar>
               ))}
             </div>
-            {articleStory?.article[1].length > 1 && (
-              <div className="flex gap-1">
-                {articleStory?.article[1].length < 3 && (
-                  <Link
-                    href={`/profiles/${slugify(
-                      articleStory?.article[1][0]?.name as string
-                    )}/${articleStory?.article[1][0]?.id}`}
-                    className="flex items-center gap-2 whitespace-nowrap hover:underline"
-                  >
-                    {articleStory?.article[1][0]?.name}
-                  </Link>
-                )}
+
+            <div className="flex gap-1">
+              {articleStory?.article[1].length < 2 && (
+                <Link
+                  href={`/profiles/${slugify(
+                    articleStory?.article[1][0]?.name as string
+                  )}/${articleStory?.article[1][0]?.id}`}
+                  className="flex items-center gap-2 whitespace-nowrap hover:underline"
+                >
+                  {articleStory?.article[1][0]?.name}
+                </Link>
+              )}
+              {articleStory?.article[1].length > 1 && (
                 <NavigationMenu>
                   <NavigationMenuList className="flex-wrap">
                     <NavigationMenuList>
@@ -167,8 +168,8 @@ const ArticleStory = ({
                     </NavigationMenuList>
                   </NavigationMenuList>
                 </NavigationMenu>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
         <div>

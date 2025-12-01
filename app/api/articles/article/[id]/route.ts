@@ -1,6 +1,6 @@
 import { articles, comments } from "@/lib/schema/articles";
 import { db, users } from "@/lib/schema/schema";
-import { asc, count, desc, eq, inArray, isNull, sql } from "drizzle-orm";
+import { and, asc, count, desc, eq, inArray, isNull, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -30,10 +30,12 @@ export async function GET(
       .from(users)
       .where(inArray(users.id, singleArticle[0].authors as string[]));
 
+    console.log(articleId);
+
     const articleComments = await db
       .select()
       .from(comments)
-      .where(eq(comments.postId, articleId) || isNull(comments.parentId))
+      .where(and(eq(comments.postId, articleId), isNull(comments.parentId)))
       .leftJoin(users, eq(comments.ownerId, users.id))
       .orderBy(desc(comments.date))
       .limit(limit)
@@ -42,12 +44,12 @@ export async function GET(
     const commentsNumber = await db
       .select({ count: count() })
       .from(comments)
-      .where(eq(comments.postId, articleId) || isNull(comments.parentId));
+      .where(and(eq(comments.postId, articleId), isNull(comments.parentId)));
 
     const lastComment = await db
       .select()
       .from(comments)
-      .where(eq(comments.postId, articleId) || isNull(comments.parentId))
+      .where(and(eq(comments.postId, articleId), isNull(comments.parentId)))
       .orderBy(asc(sql`${comments.id}`))
       .limit(1);
 

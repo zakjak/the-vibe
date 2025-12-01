@@ -1,5 +1,5 @@
 import { pgTable as table } from "drizzle-orm/pg-core";
-import { BuildColumns, relations, sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import * as t from "drizzle-orm/pg-core";
 import { users } from "./schema";
 
@@ -7,20 +7,20 @@ export const articles = table(
   "articles",
   {
     id: t.integer().primaryKey().generatedAlwaysAsIdentity(),
-    title: t.varchar({ length: 250 }),
+    title: t.varchar("title", { length: 250 }),
     image: t.text().notNull(),
     imageTitle: t.text("image_title"),
     category: t.varchar({ length: 100 }),
     date: t.timestamp().notNull().defaultNow(),
     imageCredit: t.varchar({ length: 250 }).notNull(),
-    isDraft: t.boolean(),
+    isDraft: t.boolean("is_draft"),
     story: t.text().notNull(),
     tags: t
-      .text()
+      .text("tags")
       .array()
       .default(sql`'{}'::text[]`),
     images: t
-      .text()
+      .text("images")
       .array()
       .default(sql`'{}'::text[]`),
     imagesTitle: t

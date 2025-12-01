@@ -63,8 +63,6 @@ export async function PATCH(req: Request) {
     articleId,
   } = body;
 
-  console.log(body);
-
   try {
     const response = await db
       .update(articles)
