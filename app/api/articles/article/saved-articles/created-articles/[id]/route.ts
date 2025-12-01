@@ -10,6 +10,9 @@ export async function GET(
   const param = await params;
   const { id } = param;
   const { searchParams } = new URL(req.url);
+
+  if (!id) return;
+
   try {
     try {
       const page = Number(searchParams.get("page")) || 1;
