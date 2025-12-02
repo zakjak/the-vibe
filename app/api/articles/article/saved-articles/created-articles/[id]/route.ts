@@ -12,6 +12,8 @@ export async function GET(
   const { searchParams } = new URL(req.url);
 
   try {
+    if (!id) return;
+
     const page = Number(searchParams.get("page")) || 1;
     const calculatePageNumber = (page - 1) * 10;
 
