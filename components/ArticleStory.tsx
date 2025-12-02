@@ -26,6 +26,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "./ui/navigation-menu";
+import { notFound } from "next/navigation";
 
 const ArticleStory = ({
   articleStory,
@@ -72,6 +73,10 @@ const ArticleStory = ({
       setCopied(false);
     }
   };
+
+  if (articleStory?.article[0]?.isDraft && !session?.user?.isAdmin) {
+    return notFound();
+  }
 
   return (
     <div className="lg:col-span-4 md:col-span-3 w-full col-span-6">
