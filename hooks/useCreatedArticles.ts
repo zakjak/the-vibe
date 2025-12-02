@@ -16,8 +16,7 @@ export const useCreatedArticles = (id: string) => {
       ).then((res) => res.json()),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
-      if (!lastPage?.data || lastPage?.data?.length === 0) return undefined;
-      return allPages.length + 1;
+      return lastPage.length === 0 ? undefined : allPages.length + 1;
     },
   });
 };
