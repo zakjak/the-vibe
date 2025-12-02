@@ -38,15 +38,11 @@ export async function PUT(
 
   const exists = (result[0]?.count ?? 0) > 0;
 
-  console.log(exists);
-
   if (!exists) {
     const response = await db
       .insert(readList)
       .values({ ownerId: res.ownerId, articleId: numericId })
       .returning({ ownerId: readList.ownerId });
-
-    console.log(response);
 
     return NextResponse.json(response);
   } else {
