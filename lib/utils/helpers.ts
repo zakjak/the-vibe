@@ -8,7 +8,7 @@ export const calculateTime = (date?: string) => {
   const cleanDate = date.split(".")[0]; // "2025-11-19 00:23:51"
 
   const now = moment();
-  const then = moment(cleanDate, "YYYY-MM-DD HH:mm:ss"); // parse as local
+  const then = moment(cleanDate, "YYYY-MM-DD HH:mm:ss").local(); // parse as local
 
   const diff = now.diff(then);
   const duration = moment.duration(diff);
