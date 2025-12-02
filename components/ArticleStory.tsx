@@ -56,7 +56,6 @@ const ArticleStory = ({
   const { mutate, data: toggleMark } = useToggleBookmark(
     session?.user?.id as string
   );
-  console.log(articleStory?.article[0]);
 
   const isSaving =
     toggleMark?.some((item) => item.ownerId === session?.user?.id) ?? false;
