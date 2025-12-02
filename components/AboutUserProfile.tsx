@@ -84,31 +84,31 @@ const AboutUserProfile = ({ user }: { user: User }) => {
 
   return (
     <div className="grid md:grid-cols-2 p-8 gap-2">
-      <div className="w-full h-[25rem]">
-        <div className="relative  w-full h-full flex items-center justify-center">
+      <div className="relative w-full h-[15rem] md:h-[25rem]">
+        <div className="h-full w-full">
           {user?.image && (
             <Image
               alt=""
               src={imagePreview ? imagePreview : (user?.image as string)}
-              className="object-cover w-full h-full rounded-md "
+              className="rounded-md w-full h-full object-cover"
               width={240}
               height={240}
             />
           )}
-          <div className="absolute bottom-2 right-2 cursor-pointer bg-black p-2 rounded-full hover:opacity-90">
-            <HiOutlinePencilAlt
-              onClick={handleIconClick}
-              size={25}
-              className="text-white"
-            />
-            <Input
-              type="file"
-              ref={fileInputRef}
-              onChange={handleImageChange}
-              className="hidden"
-              accept="image/*"
-            />
-          </div>
+        </div>
+        <div className="absolute bottom-2 right-2 cursor-pointer bg-black p-2 rounded-full hover:opacity-90">
+          <HiOutlinePencilAlt
+            onClick={handleIconClick}
+            size={25}
+            className="text-white"
+          />
+          <Input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleImageChange}
+            className="hidden"
+            accept="image/*"
+          />
         </div>
       </div>
       <div className="flex justify-between">

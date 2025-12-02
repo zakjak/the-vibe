@@ -9,7 +9,7 @@ import { Article } from "@/lib/types/article";
 const RelatedArticles = ({ articles }: { articles: Article[] }) => {
   return (
     <div className="md:col-span-2 col-span-6 md:pt-5 md:border-0 mt-8">
-      {articles.length >= 1 && (
+      {articles?.length >= 1 && (
         <h2 className="font-bold leading-2 tracking-wide lg:text-2xl lg:font-semibold md:text-xl text-xl mb-2">
           Top Related Articles
         </h2>

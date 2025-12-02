@@ -23,7 +23,7 @@ const WriterUserProfile = ({
   return (
     <>
       <div className="grid md:grid-cols-2 p-8 gap-2">
-        <div className="w-full h-[25rem]">
+        <div className="w-full h-[20rem] md:h-[25rem]">
           <div className="relative  w-full h-full flex items-center justify-center">
             {userInfo[0]?.image && (
               <Image

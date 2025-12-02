@@ -2,6 +2,7 @@ import { SocialProps } from "@/lib/types/users";
 import Link from "next/link";
 import React from "react";
 import { FaFacebookF, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
+import { Button } from "./ui/button";
 
 const SocialMediaComponent = ({ data }: { data: SocialProps }) => {
   return (
@@ -9,19 +10,25 @@ const SocialMediaComponent = ({ data }: { data: SocialProps }) => {
       <h3>Follow:</h3>
       {data?.fb && (
         <Link href={data?.fb}>
-          <FaFacebookF />
+          <Button variant="outline" className="cursor-pointer">
+            <FaFacebookF />
+          </Button>
         </Link>
       )}
 
       {data?.twitter && (
         <Link href={data?.twitter}>
-          <FaXTwitter />
+          <Button variant="outline" className="cursor-pointer">
+            <FaXTwitter />
+          </Button>
         </Link>
       )}
 
       {data?.linkedIn && (
         <Link href={data?.linkedIn}>
-          <FaLinkedinIn />
+          <Button variant="outline" className="cursor-pointer">
+            <FaLinkedinIn />
+          </Button>
         </Link>
       )}
     </div>
