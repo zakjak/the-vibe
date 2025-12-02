@@ -26,11 +26,11 @@ const CreatedArticles = ({ ownerId }: { ownerId: string }) => {
   return (
     <div className="">
       <div className="grid lg:grid-cols-3 md:grid-cols-2 md:gap-4 gap-2">
-        {/* {createdArticles?.map((article) => (
+        {createdArticles?.map((article) => (
           <TopCategoryStory key={article?.id} topStory={article} />
-        ))} */}
+        ))}
       </div>
-      {/* <div
+      <div
         ref={ref}
         className="bg-red flex justify-center my-4 font-bold text-2xl"
       >
@@ -43,7 +43,7 @@ const CreatedArticles = ({ ownerId }: { ownerId: string }) => {
             <p>No more articles</p>
           </div>
         )}
-      </div> */}
+      </div>
     </div>
   );
 };
