@@ -8,14 +8,14 @@ import { Article } from "@/lib/types/article";
 
 const RelatedArticles = ({ articles }: { articles: Article[] }) => {
   return (
-    <div className="md:col-span-2 col-span-6 md:pt-5">
+    <div className="md:col-span-2 col-span-6 md:pt-5 md:border-0">
       {articles.length >= 1 && (
         <h2 className="font-bold leading-2 tracking-wide lg:text-2xl lg:font-semibold md:text-xl">
           Top Related Articles
         </h2>
       )}
 
-      <div className="grid gap-3 grid-cols-2 md:grid-cols-1">
+      <div className="">
         {articles?.map((article) => (
           <Card key={article.id} className="mt-6">
             <div className=" ">
