@@ -85,7 +85,9 @@ const ArticleStory = ({
           {articleStory?.article[0]?.title}
         </h1>
         <div className="flex items-center gap-1 mb-4">
-          <span>{articleStory?.article[0]?.category}</span>
+          <span className="text-sm font-semibold tracking-wider">
+            {articleStory?.article[0]?.category?.toUpperCase()}
+          </span>
           <Separator className="bg-gray-400 h-4 w-0.5" />
           <span>{calculateTime(articleStory?.article[0]?.date)}</span>
         </div>

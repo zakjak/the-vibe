@@ -15,7 +15,7 @@ const ArticleComponent = ({ id }: { id: number }) => {
   const { ref, inView } = useInView({ threshold: 0 });
 
   const { data: relatedArticles } = useRelatedArticles(
-    data && data?.category,
+    data && data?.article[0]?.category,
     id
   );
 
@@ -27,14 +27,16 @@ const ArticleComponent = ({ id }: { id: number }) => {
     return <ArticleComponentSkeleton />;
   }
 
+  console.log(relatedArticles);
+
   return (
-    <div className="max-w-[80%] lg:w-[60rem] mx-auto">
+    <div className="max-w-[80%] lg:w-[70rem] mx-auto">
       <div className="grid lg:gap-6 gap-4 lg:grid-cols-6 md:grid-cols-5  ">
         {/* Left Section */}
         {data?.article && <ArticleStory articleStory={data} />}
 
         {/* Right Section */}
-        {/* {data && <RelatedArticles articles={relatedArticles} />} */}
+        {data && <RelatedArticles articles={relatedArticles} />}
       </div>
       {session ? (
         <div ref={ref} className="mt-8">

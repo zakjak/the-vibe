@@ -15,10 +15,12 @@ const ListPolitics = ({ articles }: { articles: Article[] }) => {
               "-"
             )}`}
           >
-            <h2>{story.title}</h2>
+            <h2 className="hover:underline">{story.title}</h2>
           </Link>
           <div className="flex items-center text-xs gap-2">
-            <span>{story.category}</span>
+            <span className="font-semibold tracking-wide">
+              {story.category.toUpperCase()}
+            </span>
             <Separator className="w-0.5 h-4 bg-gray-400" />
             <span>{calculateTime(story.date)}</span>
           </div>

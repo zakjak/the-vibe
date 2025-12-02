@@ -15,7 +15,7 @@ const ListSports = ({ articles }: { articles: Article[] }) => {
               "-"
             )}`}
           >
-            <h2>{story.title}</h2>
+            <h2 className="hover:underline">{story.title}</h2>
           </Link>
           <div className="flex items-center text-xs gap-2">
             <span>{story.category}</span>

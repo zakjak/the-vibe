@@ -133,7 +133,9 @@ const TopCategoryStory = ({ topStory }: { topStory: Article }) => {
             <h2 className="text-md line-clamp-2">{topStory?.title}</h2>
           </Link>
           <div className="flex items-center gap-2 text-xs text-gray-400">
-            <span>{topStory?.category}</span>
+            <span className="font-bold text-xs tracking-wider">
+              {topStory?.category?.toUpperCase()}
+            </span>
             <Separator className="h-4! w-0.5! bg-gray-400" />
             <span>{calculateTime(topStory?.date)}</span>
           </div>
