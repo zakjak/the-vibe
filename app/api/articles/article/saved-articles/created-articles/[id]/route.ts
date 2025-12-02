@@ -12,7 +12,7 @@ export async function GET(
   const { searchParams } = new URL(req.url);
 
   if (!id) {
-    return NextResponse.json({ error: "Missing article ID" }, status: 400);
+    return NextResponse.json({ error: "Missing article ID" }, { status: 400 });
   }
 
   try {
