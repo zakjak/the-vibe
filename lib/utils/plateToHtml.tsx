@@ -17,7 +17,11 @@ type SlateNode = {
 
 type TextAlign = "start" | "center" | "end" | "justify";
 
-export const plateToHtml = (nodes: SlateNode[], images?: string[]) => {
+export const plateToHtml = (
+  nodes: SlateNode[],
+  images?: string[],
+  titles?: string[]
+) => {
   const components: React.ReactNode[] = [];
   let paragraphCount = 0;
   let imageIndex = 0;
@@ -34,7 +38,7 @@ export const plateToHtml = (nodes: SlateNode[], images?: string[]) => {
       return;
     }
 
-    const children = plateToHtml(node.children || [], images);
+    const children = plateToHtml(node.children || [], images, titles);
 
     switch (node.type) {
       case "p":
@@ -53,7 +57,12 @@ export const plateToHtml = (nodes: SlateNode[], images?: string[]) => {
         );
 
         // 🖼️ Add an image after every 2nd paragraph
-        if (images && paragraphCount % 2 === 0 && imageIndex < images.length) {
+        if (
+          images &&
+          paragraphCount % 2 === 0 &&
+          imageIndex < images.length &&
+          titles
+        ) {
           components.push(
             <div
               key={`img-${imageIndex}`}
@@ -66,6 +75,9 @@ export const plateToHtml = (nodes: SlateNode[], images?: string[]) => {
                 height={500}
                 className="rounded-lg object-cover"
               />
+              <h3 className="text-xs text-zinc-400 mt-2">
+                {titles[imageIndex]}
+              </h3>
             </div>
           );
           imageIndex++;

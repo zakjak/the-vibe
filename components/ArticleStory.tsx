@@ -56,6 +56,7 @@ const ArticleStory = ({
   const { mutate, data: toggleMark } = useToggleBookmark(
     session?.user?.id as string
   );
+  console.log(articleStory?.article[0]);
 
   const isSaving =
     toggleMark?.some((item) => item.ownerId === session?.user?.id) ?? false;
@@ -238,7 +239,8 @@ const ArticleStory = ({
       <div className="prose mx-auto">
         {plateToHtml(
           JSON.parse(articleStory?.article[0]?.story),
-          articleStory?.article[0]?.images
+          articleStory?.article[0]?.images,
+          articleStory?.article[0]?.imagesTitle
         )}
       </div>
     </div>

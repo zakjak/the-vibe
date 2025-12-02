@@ -30,8 +30,6 @@ export async function GET(
       .from(users)
       .where(inArray(users.id, singleArticle[0].authors as string[]));
 
-    console.log(articleId);
-
     const articleComments = await db
       .select()
       .from(comments)
