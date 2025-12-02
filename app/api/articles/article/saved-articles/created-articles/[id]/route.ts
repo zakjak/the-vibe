@@ -11,9 +11,11 @@ export async function GET(
   const { id } = param;
   const { searchParams } = new URL(req.url);
 
-  try {
-    if (!id) return;
+  if (!id) {
+    return NextResponse.json({ error: "Missing article ID" }, status: 400);
+  }
 
+  try {
     const page = Number(searchParams.get("page")) || 1;
     const calculatePageNumber = (page - 1) * 10;
 
