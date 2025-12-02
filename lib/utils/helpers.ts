@@ -21,9 +21,9 @@ export const calculateTime = (date?: string) => {
     return `${Math.floor(duration.asHours())} hours ago`;
   } else if (duration.asDays() < 30) {
     return `${Math.floor(duration.asDays())} days ago`;
-  } else {
-    return then.format("D MMM YYYY");
   }
+
+  return then.format("D MMM YYYY");
 };
 
 export const nameFallback = (name: string) => {
