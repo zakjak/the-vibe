@@ -20,6 +20,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import SocialMediaComponent from "./SocialMediaComponent";
+import AboutUserSkeleton from "./AboutUserSkeleton";
 
 const formSchema = z.object({
   profilePicture: z.union([
@@ -31,7 +32,7 @@ const formSchema = z.object({
 const AboutUserProfile = ({ user }: { user: User }) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const { data } = useAbout(user?.id);
+  const { data, isFetching } = useAbout(user?.id);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -82,6 +83,10 @@ const AboutUserProfile = ({ user }: { user: User }) => {
 
   const lines = data && data[0]?.bio?.split(/\r?\n/).filter(Boolean);
 
+  if (isFetching) {
+    return <AboutUserSkeleton />;
+  }
+
   return (
     <div className="grid md:grid-cols-2 p-8 gap-2">
       <div className="relative w-full h-[15rem] md:h-[25rem]">
@@ -123,7 +128,7 @@ const AboutUserProfile = ({ user }: { user: User }) => {
             <div className="">
               <h3 className="lg:text-xl text-lg">{data[0]?.postion}</h3>
 
-              <SocialMediaComponent data={data} />
+              {data && <SocialMediaComponent data={data} />}
 
               <Dialog>
                 <DialogTrigger asChild>

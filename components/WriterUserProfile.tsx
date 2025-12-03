@@ -20,6 +20,7 @@ const WriterUserProfile = ({
   writerBio: UserInfo[];
 }) => {
   const lines = writerBio && writerBio[0]?.bio?.split(/\r?\n/).filter(Boolean);
+
   return (
     <>
       <div className="grid md:grid-cols-2 p-8 gap-2">

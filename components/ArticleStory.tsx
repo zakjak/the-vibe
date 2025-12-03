@@ -94,7 +94,7 @@ const ArticleStory = ({
         <Image
           src={articleStory?.article[0]?.image || ""}
           alt={`${articleStory?.article[0]?.imageTitle}` || "image"}
-          className="w-full h-full object-cover rounded-2xl"
+          className="w-full h-full object-cover rounded-lg"
           width={250}
           height={250}
         />

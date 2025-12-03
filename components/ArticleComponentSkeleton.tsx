@@ -13,7 +13,7 @@ const ArticleComponentSkeleton = () => {
             <Skeleton className="h-4 w-[100px]" />
             <Skeleton className="h-4 w-[100px]" />
           </div>
-          <Skeleton className="h-[20em] rounded-2xl w-full" />
+          <Skeleton className="h-[20em] rounded-lg w-full" />
         </div>
         <div className="flex justify-between pt-6">
           <div className="">
@@ -42,7 +42,7 @@ const ArticleComponentSkeleton = () => {
           {relatedArticles.map((article) => (
             <div key={article} className="mt-6 flex flex-col gap-4">
               <div className=" ">
-                <Skeleton className="h-[200px] w-full" />
+                <Skeleton className="h-[200px] w-full rounded-lg" />
               </div>
               <div>
                 <Skeleton className="h-3 w-[200px]" />
