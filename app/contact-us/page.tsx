@@ -76,14 +76,16 @@ const ContatPage = () => {
                   </div>
 
                   <CardTitle>{contact.label}</CardTitle>
-                  <CardDescription>{contact.description}</CardDescription>
+                  <CardDescription className="text-zinc-600">
+                    {contact.description}
+                  </CardDescription>
                 </div>
                 <CardFooter className="mt-2">
                   <Link
                     className="hover:underline flex items-center gap-2"
                     href={`mailto:${contact.email}`}
                   >
-                    <MdEmail />
+                    <MdEmail className="text-[#6F65C7]" />
                     {contact.email}
                   </Link>
                 </CardFooter>
