@@ -11,6 +11,7 @@ import NavbarSmallLinks from "./NavbarSmallLinks";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { Button } from "./ui/button";
 
 const Navbar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -88,6 +89,10 @@ const Navbar = () => {
             <NavbarLargeLinks navLinks={navLinks as []} />
           </div>
           <div className="flex gap-4 items-center">
+            <Link href="/contact-us">
+              <Button className="cursor-pointer">Contact Us</Button>
+            </Link>
+
             {/* ====== User Component ===== */}
             <UserComponent />
 
