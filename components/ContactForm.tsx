@@ -97,7 +97,7 @@ const ContactForm = () => {
                 ────────────────────────────────────────
 
                 MESSAGE:
-                
+
                 ${values.message}
 
                 ────────────────────────────────────────
@@ -107,7 +107,7 @@ const ContactForm = () => {
 
       await sendMail({
         email: "Vybe News <sponsor@thevybenews.com>",
-        subject: `New Advertisement From Company: ${values.company} - Name: ${values.name}`,
+        subject: `New Advertisement Form From Company: ${values.company} - Name: ${values.name}`,
         text: mailText,
       });
 

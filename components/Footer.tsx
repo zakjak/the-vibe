@@ -33,9 +33,22 @@ const Footer = () => {
             <div className="flex gap-4">
               <span>Follow Us:</span>
               <div className="flex items-center gap-3 md:text-2xl text-xl">
-                <FaXTwitter />
-                <FaFacebook />
-                <GrInstagram />
+                <Link target="_blank" href="https://x.com/TheVybeNews">
+                  <FaXTwitter />
+                </Link>
+
+                <Link
+                  target="_blank"
+                  href="https://www.facebook.com/profile.php?id=61584671907641"
+                >
+                  <FaFacebook />
+                </Link>
+                <Link
+                  target="_blank"
+                  href="https://www.instagram.com/thevybenews"
+                >
+                  <GrInstagram />
+                </Link>
               </div>
             </div>
           </div>
