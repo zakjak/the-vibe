@@ -45,16 +45,9 @@ const ContatPage = () => {
           </h1>
         </div>
 
-        <div className="w-full bg-zinc-100 rounded-lg p-10 shadow-2xl">
-          <div className="text-zinc-800 mb-8">
+        <div className="w-full bg-zinc-100 dark:shadow-gray-800 rounded-lg p-10 shadow-2xl">
+          <div className=" mb-8">
             <Image src="/favicon.svg" alt="" width={150} height={100} />
-            <div className="mt-8">
-              <h2 className="font-semibold text-2xl">Advertise with Us</h2>
-              <span className="text-sm text-zinc-600">
-                Kindly complete the form provided and a member of our sales team
-                will be in touch with you shortly.
-              </span>
-            </div>
           </div>
 
           <ContactForm />
@@ -64,11 +57,11 @@ const ContatPage = () => {
           <h1 className="lg:text-5xl md:text-4xl text-2xl text-center font-semibold">
             Prefer direct communication? Reach us through the following:
           </h1>
-          <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-2 w-[80%] mx-auto md:w-full mt-8">
+          <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4 w-[80%] mx-auto md:w-full mt-8">
             {contacts.map((contact) => (
               <Card
                 key={contact.email}
-                className="bg-[#F8F8F8] p-4 shadow-xl rounded-lg text-black"
+                className="bg-[#F8F8F8] p-4 shadow-lg dark:shadow-gray-700 rounded-lg text-black"
               >
                 <div className="flex flex-col items-start gap-2">
                   <div className="bg-[#EAE8F4] text-[#6F65C7] text-2xl p-3 rounded-2xl">

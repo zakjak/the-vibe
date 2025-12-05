@@ -1,4 +1,5 @@
 import ArticleComponent from "@/components/ArticleComponent";
+import { Article } from "@/lib/types/article";
 import { Metadata } from "next";
 import React from "react";
 
@@ -18,10 +19,19 @@ export async function generateMetadata({
     .then((r) => r.json())
     .then((data) => data.article);
 
-  const texts = JSON.parse(article[0]?.story);
+  if (!article || !Array.isArray(article) || !article[0]) {
+    return {
+      title: "Article Not Found",
+      description: "This article does not exist.",
+    };
+  }
 
-  const desc = texts[0]?.children[0]?.text + " " + texts[0]?.children[2]?.text;
-  http: return {
+  const texts = article && JSON.parse(article[0]?.story);
+
+  const desc =
+    texts && texts[0]?.children[0]?.text + " " + texts[0]?.children[2]?.text;
+
+  return {
     title: article[0]?.title,
     description: desc,
     openGraph: {

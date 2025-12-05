@@ -10,6 +10,7 @@ export async function GET(req: Request) {
     const page = Number(searchParams.get("page")) || 1;
 
     const calculatePageNumber = (page - 1) * 10;
+
     const countRows = await db
       .select({ count: count() })
       .from(articles)

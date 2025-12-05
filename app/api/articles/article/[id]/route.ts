@@ -16,6 +16,10 @@ export async function GET(
   const limit = Number(searchParams.get("limit")) || 5;
   const offset = Number(searchParams.get("offset")) || 0;
 
+  if (isNaN(articleId)) {
+    return NextResponse.json("Invalid article ID");
+  }
+
   try {
     const singleArticle = await db
       .select()

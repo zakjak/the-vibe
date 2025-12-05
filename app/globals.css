@@ -136,4 +136,15 @@
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
+
+    input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    @apply appearance-none m-0;
+  }
+
+  /* Firefox */
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
 }
+

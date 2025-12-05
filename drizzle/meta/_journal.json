@@ -15,6 +15,27 @@
       "when": 1764570677570,
       "tag": "0001_young_jigsaw",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1764859153180,
+      "tag": "0002_organic_carlie_cooper",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1764863926276,
+      "tag": "0003_complete_joystick",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1764938272511,
+      "tag": "0004_right_sabra",
+      "breakpoints": true
     }
   ]
 }

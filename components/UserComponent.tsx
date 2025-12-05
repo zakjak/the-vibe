@@ -16,6 +16,7 @@ import { CgProfile } from "react-icons/cg";
 import { User } from "@/lib/types/users";
 import { usePathname, useRouter } from "next/navigation";
 import { LuFilePenLine } from "react-icons/lu";
+import { CiViewTable } from "react-icons/ci";
 
 const UserComponent = () => {
   const { data: session } = useSession();
@@ -67,6 +68,13 @@ const UserComponent = () => {
                     >
                       <CgProfile />
                       Profile
+                    </Link>
+                    <Link
+                      className="bg-blue-600 hover:bg-blue-700 text-white flex items-center md:gap-2 gap-1 p-1 font-semibold rounded-sm py-2 px-1"
+                      href="/dashboard"
+                    >
+                      <CiViewTable />
+                      Dashboard
                     </Link>
                     <Link
                       className="flex items-center md:gap-2 gap-1 bg-yellow-100 hover:bg-yellow-50 text-yellow-700 p-1 font-semibold rounded-sm py-2 px-1"
