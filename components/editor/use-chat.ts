@@ -4,15 +4,12 @@ import * as React from "react";
 
 import { type UseChatHelpers, useChat as useBaseChat } from "@ai-sdk/react";
 import { faker } from "@faker-js/faker";
-import { AIChatPlugin, aiCommentToRange } from "@platejs/ai/react";
 import { getCommentKey, getTransientCommentKey } from "@platejs/comment";
 import { deserializeMd } from "@platejs/markdown";
 import { BlockSelectionPlugin } from "@platejs/selection/react";
 import { type UIMessage, DefaultChatTransport } from "ai";
 import { type TNode, KEYS, nanoid, NodeApi, TextApi } from "platejs";
-import { type PlateEditor, useEditorRef, usePluginOption } from "platejs/react";
-
-import { aiChatPlugin } from "@/components/editor/plugins/ai-kit";
+import { type PlateEditor, useEditorRef } from "platejs/react";
 
 import { discussionPlugin } from "./plugins/discussion-kit";
 
@@ -38,7 +35,6 @@ export type ChatMessage = UIMessage<object, MessageDataPart>;
 
 export const useChat = () => {
   const editor = useEditorRef();
-  const options = usePluginOption(aiChatPlugin, "chatOptions");
 
   // remove when you implement the route /api/ai/command
   const abortControllerRef = React.useRef<AbortController | null>(null);
@@ -52,16 +48,12 @@ export const useChat = () => {
   const baseChat = useBaseChat<ChatMessage>({
     id: "editor",
     transport: new DefaultChatTransport({
-      api: options.api || "/api/ai/command",
       // Mock the API response. Remove it when you implement the route /api/ai/command
       fetch: async (input, init) => {
-        const bodyOptions = editor.getOptions(aiChatPlugin).chatOptions?.body;
-
         const initBody = JSON.parse(init?.body as string);
 
         const body = {
           ...initBody,
-          ...bodyOptions,
         };
 
         const res = await fetch(input, {
@@ -113,10 +105,6 @@ export const useChat = () => {
       },
     }),
     onData(data) {
-      if (data.type === "data-toolName") {
-        editor.setOption(AIChatPlugin, "toolName", data.data);
-      }
-
       if (data.type === "data-comment" && data.data) {
         if (data.data.status === "finished") {
           editor.getApi(BlockSelectionPlugin).blockSelection.deselect();
@@ -125,9 +113,6 @@ export const useChat = () => {
         }
 
         const aiComment = data.data.comment!;
-        const range = aiCommentToRange(editor, aiComment);
-
-        if (!range) return console.warn("No range found for AI comment");
 
         const discussions =
           editor.getOption(discussionPlugin, "discussions") || [];
@@ -170,7 +155,6 @@ export const useChat = () => {
               [KEYS.comment]: true,
             },
             {
-              at: range,
               match: TextApi.isText,
               split: true,
             }
@@ -178,8 +162,6 @@ export const useChat = () => {
         });
       }
     },
-
-    ...options,
   });
 
   const chat = {
@@ -189,7 +171,6 @@ export const useChat = () => {
 
   React.useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    editor.setOption(AIChatPlugin, "chat", chat as any);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chat.status, chat.messages, chat.error]);
 
