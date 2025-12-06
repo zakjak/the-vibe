@@ -1,6 +1,6 @@
 import { emails } from "@/drizzle/schema";
 import { db } from "@/lib/schema/schema";
-import { count } from "drizzle-orm";
+import { count, eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
@@ -65,6 +65,26 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json("success");
+  } catch (err) {
+    console.log(err);
+    return NextResponse.json("Server error");
+  }
+}
+
+export async function PUT(req: Request) {
+  const { searchParams } = new URL(req.url);
+
+  const status = searchParams.get("status");
+  const messageId = Number(searchParams.get("messageId"));
+
+  try {
+    const res = await db
+      .update(emails)
+      .set({ status })
+      .where(eq(emails.id, messageId))
+      .returning();
+
+    return NextResponse.json(res);
   } catch (err) {
     console.log(err);
     return NextResponse.json("Server error");

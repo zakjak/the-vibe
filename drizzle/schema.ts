@@ -84,22 +84,6 @@ export const commentVotes = pgTable("comment_votes", {
 	unique("comment_votes_comment_id_user_id_unique").on(table.commentId, table.userId),
 ]);
 
-export const emails = pgTable("emails", {
-	id: serial().primaryKey().notNull(),
-	company: varchar({ length: 300 }),
-	website: text(),
-	industry: text(),
-	name: text(),
-	message: text(),
-	email: text(),
-	address: text(),
-	phone: text(),
-	country: text(),
-	state: text(),
-	city: text(),
-	zipcode: text(),
-});
-
 export const comment = pgTable("comment", {
 	id: serial().primaryKey().notNull(),
 	comment: text(),
@@ -117,6 +101,24 @@ export const about = pgTable("about", {
 	twitter: text(),
 	linkedIn: text(),
 	ownerId: uuid("owner_id"),
+});
+
+export const emails = pgTable("emails", {
+	id: serial().primaryKey().notNull(),
+	company: varchar({ length: 300 }),
+	website: text(),
+	industry: text(),
+	name: text(),
+	message: text(),
+	email: text(),
+	address: text(),
+	phone: text(),
+	country: text(),
+	state: text(),
+	city: text(),
+	zipcode: text(),
+	status: text().default('new'),
+	date: timestamp({ mode: 'string' }).defaultNow().notNull(),
 });
 
 export const articles = pgTable("articles", {

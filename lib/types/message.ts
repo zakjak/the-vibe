@@ -12,4 +12,6 @@ export type Message = {
   state: string;
   city?: string;
   zipCode?: string;
+  date?: string;
+  status?: string;
 };

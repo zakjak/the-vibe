@@ -40,3 +40,25 @@ export const useAddMessage = () => {
       queryClient.invalidateQueries({ queryKey: ["contact-us"] }),
   });
 };
+
+const toggleStatus = async (messageId: number, status: string) => {
+  const res = await fetch(
+    `/api/contact-us?messageId=${messageId}&status=${status}`,
+    {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+    }
+  );
+
+  return res.json();
+};
+
+export const useToggleStatus = (status: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (messageId: number) => toggleStatus(messageId, status),
+
+    onSettled: () =>
+      queryClient.invalidateQueries({ queryKey: ["contact-us"] }),
+  });
+};

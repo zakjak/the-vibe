@@ -1,31 +1,11 @@
 "use client";
 
-import { useMessage } from "@/hooks/useContact";
-import {
-  ColumnDef,
-  ColumnFiltersState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  SortingState,
-  useReactTable,
-  VisibilityState,
-} from "@tanstack/react-table";
+import { useMessage, useToggleStatus } from "@/hooks/useContact";
+
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
+
 import {
   Table,
   TableBody,
@@ -38,52 +18,123 @@ import {
 import { Message } from "@/lib/types/message";
 import { useState } from "react";
 import { FaChevronDown } from "react-icons/fa6";
+import { calculateTime } from "@/lib/utils/helpers";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { Badge } from "./ui/badge";
 
 const DashboardComponent = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const { data } = useMessage(pageNumber);
+  const [changeStatus, setChangeStatus] = useState("");
+  const { mutate } = useToggleStatus(changeStatus);
 
   const handleShowMore = () => {
     setPageNumber((prev) => prev + 1);
   };
 
+  // console.log(data);
+
+  const updateStatus = (val: string, id: number) => {
+    console.log(val);
+    setChangeStatus(val);
+
+    mutate(id);
+  };
+
+  const badgeColor = (status: string) => {
+    return status === "new"
+      ? "text-blue-600 bg-blue-500/10"
+      : status === "reviewing"
+      ? "text-yellow-600 bg-yellow-500/10"
+      : status === "needs_follow"
+      ? "text-orange-600 bg-orange-500/10"
+      : status === "achived"
+      ? "text-gray-700 bg-gray-500/10"
+      : status === "contacted"
+      ? "text-purple-600 bg-purple-500/10"
+      : status === "completed"
+      ? "text-green-600 bg-green-500/10"
+      : "";
+  };
+
   return (
     <div className="w-[80%]  mx-auto">
-      <Table className="w-[30%] ">
+      <div className="h-[13rem] lg:h-[20rem] shadow-xl md:h-[15rem] w-full bg-linear-to-bl from-[#DBDCF3] to-blue-500 rounded-2xl flex flex-col items-center justify-center">
+        <h1 className="lg:text-5xl md:text-4xl text-2xl text-black font-semibold">
+          Admin Dashboard
+        </h1>
+        <h3 className="text-zinc-700">
+          Messages of advertisement or sponsorship
+        </h3>
+      </div>
+      <div className="">{/* Stats */}</div>
+      <div className="">{/* Search */}</div>
+      <div className="">{/* Filter */}</div>
+
+      <Table className="w-[30%] mt-6">
         <TableCaption>A list of your recent emails</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Name</TableHead>
-            <TableHead className="w-[100px]">Company</TableHead>
+            <TableHead className="w-[100px] font-bold">Company/Name</TableHead>
             <TableHead className="w-[100px]">Email</TableHead>
-            <TableHead className="w-[100px]">Website</TableHead>
-            <TableHead className="w-[100px]">Industry</TableHead>
             <TableHead className="w-[100px]">Message</TableHead>
-            <TableHead className="w-[100px]">Address</TableHead>
-            <TableHead className="w-[100px]">Phone</TableHead>
-            <TableHead className="w-[100px]">Country</TableHead>
-            <TableHead className="w-[100px]">State</TableHead>
-            <TableHead className="w-[100px]">city</TableHead>
-            <TableHead className="w-[100px]">Zipcode</TableHead>
+            <TableHead className="w-[100px] font-bold">Time</TableHead>
+            <TableHead>Status</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {data?.messages?.map((message: Message, index: number) => (
             <TableRow key={message?.id}>
-              <TableCell>{message?.name}</TableCell>
-              <TableCell>{message?.company}</TableCell>
+              <TableCell>
+                <h2 className="font-semibold text-md">{message?.name}</h2>
+                <p>{message?.company}</p>
+              </TableCell>
               <TableCell>{message?.email}</TableCell>
-              <TableCell>{message?.website}</TableCell>
-              <TableCell>{message?.industry}</TableCell>
-
-              <TableCell className="w-[100px]">{message?.message}</TableCell>
-
-              <TableCell>{message?.address}</TableCell>
-              <TableCell>{message?.phone}</TableCell>
-              <TableCell>{message?.country}</TableCell>
-              <TableCell>{message?.state}</TableCell>
-              <TableCell>{message?.city}</TableCell>
-              <TableCell>{message?.zipCode}</TableCell>
+              <TableCell className="w-[100px]">
+                {message?.message?.slice(0, 80)}
+              </TableCell>
+              <TableCell>{calculateTime(message?.date)}</TableCell>
+              <TableCell>
+                <Select
+                  value={message?.status}
+                  onValueChange={(value) => {
+                    if (!message?.id) return;
+                    updateStatus(value, message?.id);
+                  }}
+                >
+                  <SelectTrigger className="border-none bg-transparent!">
+                    <Badge
+                      variant="outline"
+                      className={`border-none tracking-wider! font-bold text-md ${badgeColor(
+                        message?.status as string
+                      )}`}
+                    >
+                      {message?.status?.toUpperCase()}
+                    </Badge>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Status</SelectLabel>
+                      <SelectItem value="new">New</SelectItem>
+                      <SelectItem value="reviewing">Reviewing</SelectItem>
+                      <SelectItem value="needs_follow">
+                        Awaiting Client
+                      </SelectItem>
+                      <SelectItem value="achived">Archived</SelectItem>
+                      <SelectItem value="contacted">Contacted</SelectItem>
+                      <SelectItem value="completed">Completed</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

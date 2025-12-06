@@ -15,4 +15,6 @@ export const email = table("emails", {
   state: t.text("state"),
   city: t.text("city"),
   zipCode: t.text("zipcode"),
+  status: t.text("status").default("new"),
+  date: t.timestamp().notNull().defaultNow(),
 });

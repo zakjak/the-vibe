@@ -23,17 +23,15 @@ const formSchema = z.object({
   company: z
     .string()
     .min(1, { message: "Company/Organization cannot be empty" }),
-  website: z.url(),
+  website: z.string(),
   industry: z.string(),
-  name: z.string().min(1, { message: "Company/Organization cannot be empty" }),
-  message: z
-    .string()
-    .min(1, { message: "Company/Organization cannot be empty" }),
+  name: z.string().min(1, { message: "Name cannot be empty" }),
+  message: z.string().min(1, { message: "Message cannot be empty" }),
   email: z.email().min(1, { message: "Company/Organization cannot be empty" }),
   address: z.string(),
   phone: z.string(),
   country: z.string(),
-  state: z.string().min(1, { message: "Company/Organization cannot be empty" }),
+  state: z.string().min(1, { message: "State/Region cannot be empty" }),
   city: z.string(),
   zipCode: z.string(),
 });
@@ -201,7 +199,7 @@ const ContactForm = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="tracking-wider">
-                      Contact Name
+                      Contact Name (Full name)
                     </FormLabel>
                     <FormControl>
                       <Input className="border border-zinc-400" {...field} />
