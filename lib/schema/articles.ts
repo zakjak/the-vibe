@@ -33,6 +33,11 @@ export const articles = table(
       .default(sql`'{}'::uuid[]`)
       .references(() => users.id),
     views: t.integer().default(0),
+    disclaimer: t
+      .text()
+      .default(
+        "The views and opinions expressed in this article are those of the author and do not reflect position of The Vybe News. The Vybe News will not assume any responsibility for errors, omissions, or results obtained from the use of this content."
+      ),
   },
   (table) => [
     t.index("search_index").using(

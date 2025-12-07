@@ -1,33 +1,7 @@
-import { pgTable, text, timestamp, foreignKey, integer, unique, boolean, serial, uuid, varchar } from "drizzle-orm/pg-core"
+import { pgTable, foreignKey, unique, text, integer, boolean, timestamp, uuid, serial, varchar } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
 
-
-export const verificationToken = pgTable("verificationToken", {
-	identifier: text().notNull(),
-	token: text().notNull(),
-	expires: timestamp({ mode: 'string' }).notNull(),
-});
-
-export const account = pgTable("account", {
-	userId: text().notNull(),
-	type: text().notNull(),
-	provider: text().notNull(),
-	providerAccountId: text().notNull(),
-	refreshToken: text("refresh_token"),
-	accessToken: text("access_token"),
-	expiresAt: integer("expires_at"),
-	tokenType: text("token_type"),
-	scope: text(),
-	idToken: text("id_token"),
-	sessionState: text("session_state"),
-}, (table) => [
-	foreignKey({
-			columns: [table.userId],
-			foreignColumns: [users.id],
-			name: "account_userId_users_id_fk"
-		}).onDelete("cascade"),
-]);
 
 export const authenticator = pgTable("authenticator", {
 	credentialId: text().notNull(),
@@ -59,6 +33,12 @@ export const session = pgTable("session", {
 		}).onDelete("cascade"),
 ]);
 
+export const verificationToken = pgTable("verificationToken", {
+	identifier: text().notNull(),
+	token: text().notNull(),
+	expires: timestamp({ mode: 'string' }).notNull(),
+});
+
 export const users = pgTable("users", {
 	id: text().primaryKey().notNull(),
 	name: text(),
@@ -68,10 +48,34 @@ export const users = pgTable("users", {
 	image: text(),
 });
 
-export const readlist = pgTable("readlist", {
-	id: serial().primaryKey().notNull(),
-	articleId: integer(),
-	ownerId: text("owner_id"),
+export const account = pgTable("account", {
+	userId: text().notNull(),
+	type: text().notNull(),
+	provider: text().notNull(),
+	providerAccountId: text().notNull(),
+	refreshToken: text("refresh_token"),
+	accessToken: text("access_token"),
+	expiresAt: integer("expires_at"),
+	tokenType: text("token_type"),
+	scope: text(),
+	idToken: text("id_token"),
+	sessionState: text("session_state"),
+}, (table) => [
+	foreignKey({
+			columns: [table.userId],
+			foreignColumns: [users.id],
+			name: "account_userId_users_id_fk"
+		}).onDelete("cascade"),
+]);
+
+export const about = pgTable("about", {
+	id: text().primaryKey().notNull(),
+	position: text(),
+	bio: text(),
+	fb: text(),
+	twitter: text(),
+	linkedIn: text(),
+	ownerId: uuid("owner_id"),
 });
 
 export const commentVotes = pgTable("comment_votes", {
@@ -93,14 +97,28 @@ export const comment = pgTable("comment", {
 	date: timestamp({ mode: 'string' }).defaultNow().notNull(),
 });
 
-export const about = pgTable("about", {
-	id: text().primaryKey().notNull(),
-	position: text(),
-	bio: text(),
-	fb: text(),
-	twitter: text(),
-	linkedIn: text(),
+export const readlist = pgTable("readlist", {
+	id: serial().primaryKey().notNull(),
 	ownerId: uuid("owner_id"),
+	articleId: integer(),
+});
+
+export const articles = pgTable("articles", {
+	id: integer().primaryKey().generatedAlwaysAsIdentity({ name: "articles_id_seq", startWith: 1, increment: 1, minValue: 1, maxValue: 2147483647, cache: 1 }),
+	title: varchar({ length: 250 }),
+	image: text().notNull(),
+	imageTitle: text("image_title"),
+	category: varchar({ length: 100 }),
+	date: timestamp({ mode: 'string' }).defaultNow().notNull(),
+	imageCredit: varchar({ length: 250 }).notNull(),
+	isDraft: boolean("is_draft"),
+	story: text().notNull(),
+	tags: text().array().default([""]),
+	images: text().array().default([""]),
+	imagesTitle: text("images_title").array().default([""]),
+	authorsId: uuid("authors_id").array().default([""]),
+	views: integer().default(0),
+	disclaimer: text().default('The views and opinions expressed in this article are those of the author and do not reflect position of The Vybe News. The Vybe News will not assume any responsibility for errors, omissions, or results obtained from the use of this content.'),
 });
 
 export const emails = pgTable("emails", {
@@ -119,21 +137,5 @@ export const emails = pgTable("emails", {
 	zipcode: text(),
 	status: text().default('new'),
 	date: timestamp({ mode: 'string' }).defaultNow().notNull(),
-});
-
-export const articles = pgTable("articles", {
-	id: integer().primaryKey().generatedAlwaysAsIdentity({ name: "articles_id_seq", startWith: 1, increment: 1, minValue: 1, maxValue: 2147483647, cache: 1 }),
-	title: varchar({ length: 250 }),
-	image: text().notNull(),
-	imageTitle: text("image_title"),
-	category: varchar({ length: 100 }),
-	date: timestamp({ mode: 'string' }).defaultNow().notNull(),
-	imageCredit: varchar({ length: 250 }).notNull(),
-	isDraft: boolean("is_draft"),
-	story: text().notNull(),
-	tags: text().array().default([""]),
-	images: text().array().default([""]),
-	imagesTitle: text("images_title").array().default([""]),
-	authorsId: uuid("authors_id").array().default([""]),
-	views: integer().default(0),
+	title: text(),
 });

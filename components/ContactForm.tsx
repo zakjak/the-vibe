@@ -18,26 +18,35 @@ import { useState } from "react";
 import { useAddMessage } from "@/hooks/useContact";
 import { TiTick } from "react-icons/ti";
 import { sendMail } from "@/lib/utils/send-mail";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 const formSchema = z.object({
   company: z
     .string()
     .min(1, { message: "Company/Organization cannot be empty" }),
   website: z.string(),
-  industry: z.string(),
+  industry: z.string().min(1, { message: "Industry cannot be empty" }),
+  title: z.string().min(1, { message: "Title is required" }),
   name: z.string().min(1, { message: "Name cannot be empty" }),
   message: z.string().min(1, { message: "Message cannot be empty" }),
   email: z.email().min(1, { message: "Company/Organization cannot be empty" }),
-  address: z.string(),
-  phone: z.string(),
-  country: z.string(),
+  address: z.string().min(1, { message: "Address cannot be empty" }),
+  phone: z.string().min(1, { message: "Phone cannot be empty" }),
+  country: z.string().min(1, { message: "Country cannot be empty" }),
   state: z.string().min(1, { message: "State/Region cannot be empty" }),
-  city: z.string(),
+  city: z.string().min(1, { message: "City cannot be empty" }),
   zipCode: z.string(),
 });
 const ContactForm = () => {
   const [isSubmittied, setIsSubmitted] = useState(false);
-  const [submittedMessage, setSubmittedMessage] = useState("");
   const { mutate } = useAddMessage();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -46,6 +55,7 @@ const ContactForm = () => {
       company: "",
       website: "",
       industry: "",
+      title: "",
       name: "",
       message: "",
       email: "",
@@ -74,23 +84,23 @@ const ContactForm = () => {
                 COMPANY INFORMATION
                 Company: ${values.company}
                 Website: ${values.website || "Not provided"}
-                Industry: ${values.industry || "Not provided"}
+                Industry: ${values.industry}
 
                 ────────────────────────────────────────
 
                 CONTACT PERSON
-                Name: ${values.name}
+                Name: ${values.title} ${values.name}
                 Email: ${values.email}
-                Phone: ${values.phone || "Not provided"}
+                Phone: ${values.phone}
 
                 ────────────────────────────────────────
 
                 LOCATION
-                Address: ${values.address || "Not provided"}
-                City: ${values.city || "Not provided"}
-                State/Region: ${values.state || "Not provided"}
+                Address: ${values.address}
+                City: ${values.city}
+                State/Region: ${values.state}
                 Zip Code: ${values.zipCode || "Not provided"}
-                Country: ${values.country || "Not provided"}
+                Country: ${values.country}
 
                 ────────────────────────────────────────
 
@@ -105,7 +115,7 @@ const ContactForm = () => {
 
       await sendMail({
         email: "Vybe News <sponsor@thevybenews.com>",
-        subject: `New Advertisement Form From Company: ${values.company} - Name: ${values.name}`,
+        subject: `New Advertisement Form From Company: ${values.company} - Name: ${values.title} ${values.name}`,
         text: mailText,
       });
 
@@ -132,14 +142,13 @@ const ContactForm = () => {
           <div className="text-zinc-800">
             <h2 className="font-semibold text-2xl">Advertise with Us</h2>
             <span className="text-sm text-zinc-600">
-              Kindly complete the form provided and a member of our sales team
-              will be in touch with you shortly.
+              Kindly complete the form below:
             </span>
           </div>
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmut)}
-              className="text-zinc-800 flex flex-col gap-4"
+              className="text-zinc-800 flex flex-col  gap-4"
             >
               <FormField
                 control={form.control}
@@ -181,9 +190,7 @@ const ContactForm = () => {
                   name="industry"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="tracking-wider">
-                        Industry (optional)
-                      </FormLabel>
+                      <FormLabel className="tracking-wider">Industry</FormLabel>
                       <FormControl>
                         <Input className="border border-zinc-400" {...field} />
                       </FormControl>
@@ -192,6 +199,36 @@ const ContactForm = () => {
                   )}
                 />
               </div>
+              <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Title</FormLabel>
+
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger className="border border-zinc-400">
+                        <SelectValue placeholder="Select title" />
+                      </SelectTrigger>
+                      <SelectContent className="border border-zinc-800">
+                        <SelectGroup>
+                          <SelectLabel>Title</SelectLabel>
+                          <SelectItem value="Mr.">Mr.</SelectItem>
+                          <SelectItem value="Mrs.">Mrs.</SelectItem>
+                          <SelectItem value="Ms">Ms</SelectItem>
+                          <SelectItem value="Dr.">Dr.</SelectItem>
+                          <SelectItem value="Prof.">Prof.</SelectItem>
+                          <SelectItem value="Engr.">Engr.</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
               <FormField
                 control={form.control}
@@ -199,7 +236,7 @@ const ContactForm = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="tracking-wider">
-                      Contact Name (Full name)
+                      Contact (Full name)
                     </FormLabel>
                     <FormControl>
                       <Input className="border border-zinc-400" {...field} />
@@ -239,9 +276,7 @@ const ContactForm = () => {
                 name="address"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="tracking-wider">
-                      Address (optional)
-                    </FormLabel>
+                    <FormLabel className="tracking-wider">Address</FormLabel>
                     <FormControl>
                       <Input className="border border-zinc-400" {...field} />
                     </FormControl>
@@ -254,9 +289,7 @@ const ContactForm = () => {
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="tracking-wider">
-                      Phone (optional)
-                    </FormLabel>
+                    <FormLabel className="tracking-wider">Phone</FormLabel>
                     <FormControl>
                       <Input
                         className="border border-zinc-400"
@@ -273,9 +306,7 @@ const ContactForm = () => {
                 name="country"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="tracking-wider">
-                      Country (optional)
-                    </FormLabel>
+                    <FormLabel className="tracking-wider">Country</FormLabel>
                     <FormControl>
                       <Input className="border border-zinc-400" {...field} />
                     </FormControl>
@@ -303,9 +334,7 @@ const ContactForm = () => {
                 name="city"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="tracking-wider">
-                      City (optional)
-                    </FormLabel>
+                    <FormLabel className="tracking-wider">City</FormLabel>
                     <FormControl>
                       <Input className="border border-zinc-400" {...field} />
                     </FormControl>

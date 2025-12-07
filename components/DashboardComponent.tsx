@@ -38,8 +38,6 @@ const DashboardComponent = () => {
     setPageNumber((prev) => prev + 1);
   };
 
-  // console.log(data);
-
   const updateStatus = (val: string, id: number) => {
     console.log(val);
     setChangeStatus(val);
@@ -89,10 +87,12 @@ const DashboardComponent = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data?.messages?.map((message: Message, index: number) => (
+          {data?.messages?.map((message: Message) => (
             <TableRow key={message?.id}>
               <TableCell>
-                <h2 className="font-semibold text-md">{message?.name}</h2>
+                <h2 className="font-semibold text-md">
+                  {message?.title} {message?.name}
+                </h2>
                 <p>{message?.company}</p>
               </TableCell>
               <TableCell>{message?.email}</TableCell>

@@ -249,6 +249,12 @@ const ArticleStory = ({
           articleStory?.article[0]?.imagesTitle
         )}
       </div>
+      <div className="mt-10 bg-gray-600 p-3 rounded-md text-white">
+        <p>
+          <span className="font-bold tracking-wider">Disclaimer: </span>
+          {articleStory?.article[0]?.disclaimer}
+        </p>
+      </div>
     </div>
   );
 };

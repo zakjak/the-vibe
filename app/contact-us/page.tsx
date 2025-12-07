@@ -16,21 +16,19 @@ const ContatPage = () => {
   const contacts = [
     {
       label: "General Enquiries",
-      description:
-        "For questions, feedback or general communication with our newsroom.",
+      description: "For questions, feedback or general information.",
       email: "contact@thevybenews.com",
       icon: <MdEmail />,
     },
     {
-      label: "Sponsorship & advertisement",
-      description:
-        "For brand partnership, promotion and advertising-related requests.",
+      label: "Sponsorship & Advertisement",
+      description: "For partnerships, promotions and advertisements.",
       email: "sponsor@thevybenews.com",
       icon: <IoMegaphoneOutline />,
     },
     {
       label: "Editorial Desk",
-      description: "For editorial matters, submissions and story tips.",
+      description: "For editorials, submissions and story tips.",
       email: "editor@thevybenews.com",
       icon: <FaRegNewspaper />,
     },
@@ -41,7 +39,7 @@ const ContatPage = () => {
       <div className="w-[90%] mx-auto">
         <div className="h-[13rem] lg:h-[20rem] shadow-xl md:h-[15rem] bg-linear-to-bl from-[#DBDCF3] to-blue-500  my-6 rounded-2xl flex items-center justify-center">
           <h1 className="lg:text-5xl md:text-4xl text-2xl text-black font-semibold">
-            Lets Work Together
+            {`Let's Work Together`}
           </h1>
         </div>
 
@@ -55,7 +53,7 @@ const ContatPage = () => {
 
         <div className="my-8">
           <h1 className="lg:text-5xl md:text-4xl text-2xl text-center font-semibold">
-            Prefer direct communication? Reach us through the following:
+            Do you prefer Direct communication? Reach us at:
           </h1>
           <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4 w-[80%] mx-auto md:w-full mt-8">
             {contacts.map((contact) => (

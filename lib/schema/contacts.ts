@@ -6,6 +6,7 @@ export const email = table("emails", {
   company: t.varchar("company", { length: 300 }),
   website: t.text(),
   industry: t.text(),
+  title: t.text("title"),
   contactName: t.text("name"),
   message: t.text(),
   email: t.text("email"),

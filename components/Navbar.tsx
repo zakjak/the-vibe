@@ -50,10 +50,6 @@ const Navbar = () => {
       href: "/culture",
     },
     {
-      name: "Technology",
-      href: "/technology",
-    },
-    {
       name: "Innovation",
       href: "/innovation",
     },

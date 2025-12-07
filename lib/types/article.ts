@@ -14,6 +14,7 @@ export type Article = {
   isDraft: boolean;
   imagesTitle: string[];
   tags: string[];
+  disclaimer: string;
 };
 
 export type Articles = {

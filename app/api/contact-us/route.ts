@@ -40,6 +40,7 @@ export async function POST(req: Request) {
     country,
     state,
     city,
+    title,
     zipCode,
   } = await req.json();
 
@@ -55,6 +56,7 @@ export async function POST(req: Request) {
       phone,
       country,
       city,
+      title,
       state,
       zipcode: zipCode,
     });

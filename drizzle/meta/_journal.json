@@ -50,6 +50,20 @@
       "when": 1765016555624,
       "tag": "0006_thankful_prism",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1765099464632,
+      "tag": "0007_smiling_lord_hawal",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1765111800343,
+      "tag": "0008_overconfident_leopardon",
+      "breakpoints": true
     }
   ]
 }
