@@ -14,13 +14,49 @@ export async function GET(req: Request) {
 
     const pageNumber = Math.ceil(countRows[0].count / 10);
 
+    const [totalMessages] = await db.select({ count: count() }).from(emails);
+    const [totalNew] = await db
+      .select({ count: count() })
+      .from(emails)
+      .where(eq(emails.status, "new"));
+    const [totalReviewing] = await db
+      .select({ count: count() })
+      .from(emails)
+      .where(eq(emails.status, "reviewing"));
+    const [totalAwaiting] = await db
+      .select({ count: count() })
+      .from(emails)
+      .where(eq(emails.status, "awaiting_client"));
+    const [totalArchived] = await db
+      .select({ count: count() })
+      .from(emails)
+      .where(eq(emails.status, "archived"));
+    const [totalContacted] = await db
+      .select({ count: count() })
+      .from(emails)
+      .where(eq(emails.status, "contacted"));
+    const [totalCompleted] = await db
+      .select({ count: count() })
+      .from(emails)
+      .where(eq(emails.status, "completed"));
+
     const res = await db
       .select()
       .from(emails)
       .limit(10)
       .offset(calculatePageNumber);
 
-    return NextResponse.json({ messages: res, pageNumber });
+    return NextResponse.json({
+      messages: res,
+      totalMessages,
+      totalNew,
+      totalArchived,
+      totalAwaiting,
+      totalCompleted,
+      totalContacted,
+      totalReviewing,
+      pageNumber,
+    });
   } catch (err) {
     console.log(err);
     return NextResponse.json("Server error");

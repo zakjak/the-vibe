@@ -27,6 +27,7 @@ import {
   SelectValue,
 } from "./ui/select";
 import { Badge } from "./ui/badge";
+import StatsBoard from "./StatsBoard";
 
 const DashboardComponent = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -71,8 +72,18 @@ const DashboardComponent = () => {
           Messages of advertisement or sponsorship
         </h3>
       </div>
-      <div className="">{/* Stats */}</div>
-      <div className="">{/* Search */}</div>
+      <div className="grid md:grid-cols-5 mt-6">
+        <StatsBoard
+          totalArchived={data?.totalArchived?.count}
+          totalAwaiting={data?.totalAwaiting?.count}
+          totalCompleted={data?.totalCompleted?.count}
+          totalContacted={data?.totalContacted?.count}
+          totalMessages={data?.totalMessages?.count}
+          totalNew={data?.totalNew?.count}
+          totalReviewing={data?.totalReviewing?.count}
+        />
+        <div className="">{/* Search */}</div>
+      </div>
       <div className="">{/* Filter */}</div>
 
       <Table className="w-[30%] mt-6">
@@ -123,10 +134,10 @@ const DashboardComponent = () => {
                       <SelectLabel>Status</SelectLabel>
                       <SelectItem value="new">New</SelectItem>
                       <SelectItem value="reviewing">Reviewing</SelectItem>
-                      <SelectItem value="needs_follow">
+                      <SelectItem value="awaiting_client">
                         Awaiting Client
                       </SelectItem>
-                      <SelectItem value="achived">Archived</SelectItem>
+                      <SelectItem value="archived">Archived</SelectItem>
                       <SelectItem value="contacted">Contacted</SelectItem>
                       <SelectItem value="completed">Completed</SelectItem>
                     </SelectGroup>
