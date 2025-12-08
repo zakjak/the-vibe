@@ -4,7 +4,7 @@ export type Message = {
   website?: string;
   industry: string;
   title: string;
-  name: string;
+  contactName: string;
   message: string;
   email: string;
   address: string;

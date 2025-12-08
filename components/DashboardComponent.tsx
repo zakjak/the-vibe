@@ -24,7 +24,6 @@ import {
   SelectItem,
   SelectLabel,
   SelectTrigger,
-  SelectValue,
 } from "./ui/select";
 import { Badge } from "./ui/badge";
 import StatsBoard from "./StatsBoard";
@@ -68,7 +67,7 @@ const DashboardComponent = () => {
   };
 
   return (
-    <div className="w-[80%]  mx-auto">
+    <div className="w-[80%] lg:max-w-[70rem] md:max-w-[50rem] mx-auto">
       <div className="h-[13rem] lg:h-[20rem] shadow-xl md:h-[15rem] w-full bg-linear-to-bl from-[#DBDCF3] to-blue-500 rounded-2xl flex flex-col items-center justify-center">
         <h1 className="lg:text-5xl md:text-4xl text-2xl text-black font-semibold">
           Admin Dashboard
@@ -96,13 +95,12 @@ const DashboardComponent = () => {
           status={status}
         />
       </div>
-      <div className="">{/* Search */}</div>
 
       <Table className="w-[30%] mt-6">
         <TableCaption>A list of your recent emails</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px] font-bold">Company/Name</TableHead>
+            <TableHead className="w-[100px] font-bold">Name/Company</TableHead>
             <TableHead className="w-[100px]">Email</TableHead>
             <TableHead className="w-[100px]">Message</TableHead>
             <TableHead className="w-[100px] font-bold">Time</TableHead>
@@ -113,8 +111,8 @@ const DashboardComponent = () => {
           {data?.messages?.map((message: Message) => (
             <TableRow key={message?.id}>
               <TableCell>
-                <h2 className="font-semibold text-md">
-                  {message?.title} {message?.name}
+                <h2 className="font-semibold text-md flex">
+                  {message?.title} {message?.contactName}
                 </h2>
                 <p>{message?.company}</p>
               </TableCell>
@@ -160,7 +158,7 @@ const DashboardComponent = () => {
           ))}
         </TableBody>
       </Table>
-      <div className="mt-8 flex justify-center w-full">
+      <div className="my-6 flex justify-center w-full">
         {data?.pageNumber <= 1 && (
           <Button onClick={handleShowMore} className="cursor-pointer">
             Show more <FaChevronDown />
