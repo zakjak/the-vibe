@@ -35,7 +35,7 @@ const formSchema = z.object({
   website: z.string(),
   industry: z.string().min(1, { message: "Industry cannot be empty" }),
   title: z.string().min(1, { message: "Title is required" }),
-  name: z.string().min(1, { message: "Name cannot be empty" }),
+  contactName: z.string().min(1, { message: "Name cannot be empty" }),
   message: z.string().min(1, { message: "Message cannot be empty" }),
   email: z.email().min(1, { message: "Company/Organization cannot be empty" }),
   address: z.string().min(1, { message: "Address cannot be empty" }),
@@ -56,7 +56,7 @@ const ContactForm = () => {
       website: "",
       industry: "",
       title: "",
-      name: "",
+      contactName: "",
       message: "",
       email: "",
       address: "",
@@ -89,7 +89,7 @@ const ContactForm = () => {
                 ────────────────────────────────────────
 
                 CONTACT PERSON
-                Name: ${values.title} ${values.name}
+                Name: ${values.title} ${values.contactName}
                 Email: ${values.email}
                 Phone: ${values.phone}
 
@@ -115,7 +115,7 @@ const ContactForm = () => {
 
       await sendMail({
         email: "Vybe News <sponsor@thevybenews.com>",
-        subject: `New Advertisement Form From Company: ${values.company} - Name: ${values.title} ${values.name}`,
+        subject: `New Advertisement Form From Company: ${values.company} - Name: ${values.title} ${values.contactName}`,
         text: mailText,
       });
 
@@ -232,7 +232,7 @@ const ContactForm = () => {
 
               <FormField
                 control={form.control}
-                name="name"
+                name="contactName"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="tracking-wider">

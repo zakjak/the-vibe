@@ -1,7 +1,7 @@
-import { and, asc, count, desc, eq, gte, like } from "drizzle-orm";
+import { and, count, eq, gte } from "drizzle-orm";
 import { db } from "@/lib/schema/schema";
 import { NextResponse } from "next/server";
-import { startOfMonth, startOfWeek } from "../utils/helpers";
+import { startOfWeek } from "../utils/helpers";
 import { emails } from "@/lib/schema/contacts";
 
 export async function GET(req: Request) {
