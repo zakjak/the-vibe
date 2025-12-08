@@ -1,7 +1,7 @@
 import { pgTable as table } from "drizzle-orm/pg-core";
 import * as t from "drizzle-orm/pg-core";
 
-export const email = table("emails", {
+export const emails = table("emails", {
   id: t.serial("id").primaryKey(),
   company: t.varchar("company", { length: 300 }),
   website: t.text(),
@@ -17,5 +17,5 @@ export const email = table("emails", {
   city: t.text("city"),
   zipCode: t.text("zipcode"),
   status: t.text("status").default("new"),
-  date: t.timestamp().notNull().defaultNow(),
+  date: t.timestamp({ mode: "date" }).notNull().defaultNow(),
 });

@@ -6,18 +6,33 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 
-const fetchMessages = async (page: number) => {
-  const res = await fetch(`/api/contact-us?page=${page}`);
+const fetchMessages = async ({
+  page = 1,
+  date = "all_time",
+  status = "all",
+}: {
+  page?: number;
+  date?: string;
+  status?: string;
+}) => {
+  const params = new URLSearchParams();
+
+  params.set("page", String(page));
+  if (date) params.set("date_range", date);
+  if (status) params.set("status", status);
+
+  const res = await fetch(`api/dashboard?${params.toString()}`);
   if (!res.ok) {
     throw new Error("Network response was not ok");
   }
   return res.json();
 };
 
-export const useMessage = (page: number) => {
+export const useMessage = (page: number, date: string, status?: string) => {
   return useQuery({
-    queryKey: ["contact-us", page],
-    queryFn: () => fetchMessages(page),
+    queryKey: ["dashboard", { page, date, status }],
+    queryFn: () => fetchMessages({ page, date, status }),
+    enabled: date || status ? false : true,
     placeholderData: keepPreviousData,
   });
 };
@@ -27,7 +42,7 @@ export const useAddMessage = () => {
 
   return useMutation({
     mutationFn: async (data: Message) => {
-      const res = await fetch(`/api/contact-us`, {
+      const res = await fetch(`/api/dashboard`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -36,14 +51,13 @@ export const useAddMessage = () => {
       return res.json();
     },
 
-    onSettled: () =>
-      queryClient.invalidateQueries({ queryKey: ["contact-us"] }),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["dashboard"] }),
   });
 };
 
 const toggleStatus = async (messageId: number, status: string) => {
   const res = await fetch(
-    `/api/contact-us?messageId=${messageId}&status=${status}`,
+    `/api/dashboard?messageId=${messageId}&status=${status}`,
     {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -58,7 +72,20 @@ export const useToggleStatus = (status: string) => {
   return useMutation({
     mutationFn: (messageId: number) => toggleStatus(messageId, status),
 
-    onSettled: () =>
-      queryClient.invalidateQueries({ queryKey: ["contact-us"] }),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["dashboard"] }),
   });
 };
+
+// export const useFetchFileredMessages = (
+//   page: number,
+//   date: string,
+//   status: string
+// ) => {
+//   const queryClient = useQueryClient();
+
+//   return useQuery({
+//     queryKey: ["dashboard", page, date, status],
+//     queryFn: () => fetchMessages(page, date, status),
+//     placeholderData: keepPreviousData,
+//   });
+// };

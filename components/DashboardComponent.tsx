@@ -28,12 +28,17 @@ import {
 } from "./ui/select";
 import { Badge } from "./ui/badge";
 import StatsBoard from "./StatsBoard";
+import DashBoardFilter from "./DashBoardFilter";
 
 const DashboardComponent = () => {
   const [pageNumber, setPageNumber] = useState(1);
-  const { data } = useMessage(pageNumber);
   const [changeStatus, setChangeStatus] = useState("");
   const { mutate } = useToggleStatus(changeStatus);
+  const [date, setDate] = useState("");
+  const [status, setStatus] = useState("");
+
+  const { data } = useMessage(pageNumber, date, status);
+  console.log(data);
 
   const handleShowMore = () => {
     setPageNumber((prev) => prev + 1);
@@ -72,7 +77,7 @@ const DashboardComponent = () => {
           Messages of advertisement or sponsorship
         </h3>
       </div>
-      <div className="grid md:grid-cols-5 mt-6">
+      <div className="grid md:grid-cols-5 mt-6 gap-4">
         <StatsBoard
           totalArchived={data?.totalArchived?.count}
           totalAwaiting={data?.totalAwaiting?.count}
@@ -82,9 +87,16 @@ const DashboardComponent = () => {
           totalNew={data?.totalNew?.count}
           totalReviewing={data?.totalReviewing?.count}
         />
-        <div className="">{/* Search */}</div>
+
+        <DashBoardFilter
+          date={date}
+          setDate={setDate}
+          pageNumber={pageNumber}
+          setStatus={setStatus}
+          status={status}
+        />
       </div>
-      <div className="">{/* Filter */}</div>
+      <div className="">{/* Search */}</div>
 
       <Table className="w-[30%] mt-6">
         <TableCaption>A list of your recent emails</TableCaption>
@@ -134,7 +146,7 @@ const DashboardComponent = () => {
                       <SelectLabel>Status</SelectLabel>
                       <SelectItem value="new">New</SelectItem>
                       <SelectItem value="reviewing">Reviewing</SelectItem>
-                      <SelectItem value="awaiting_client">
+                      <SelectItem value="awaiting client">
                         Awaiting Client
                       </SelectItem>
                       <SelectItem value="archived">Archived</SelectItem>
