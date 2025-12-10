@@ -33,6 +33,7 @@ import { Badge } from "./ui/badge";
 import StatsBoard from "./StatsBoard";
 import DashBoardFilter from "./DashBoardFilter";
 import { Skeleton } from "./ui/skeleton";
+import DashBoardSkeleton from "./DashBoardSkeleton";
 
 const DashboardComponent = () => {
   const [changeStatus, setChangeStatus] = useState("");
@@ -41,7 +42,12 @@ const DashboardComponent = () => {
 
   const [status, setStatus] = useState("");
 
-  const { data: initialData, isFetchingNextPage, fetchNextPage } = useMessage();
+  const {
+    data: initialData,
+    isFetchingNextPage,
+    fetchNextPage,
+    isLoading,
+  } = useMessage();
   const {
     data: filteredData,
     refetch: refetchFiltered,
@@ -82,10 +88,11 @@ const DashboardComponent = () => {
   const loadMessages = () => {
     fetchNextPage();
   };
+  if (isLoading) return <DashBoardSkeleton />;
 
   return (
-    <div className="w-[80%] lg:max-w-[70rem] md:max-w-[50rem] mx-auto">
-      <div className="h-[13rem] lg:h-[20rem] shadow-xl md:h-[15rem] w-full bg-linear-to-bl from-[#DBDCF3] to-blue-500 rounded-2xl flex flex-col items-center justify-center">
+    <div className="w-[80%] lg:max-w-280 md:max-w-200 mx-auto">
+      <div className="h-52 lg:h-80 shadow-xl md:h-60 w-full bg-linear-to-bl from-[#DBDCF3] to-blue-500 rounded-2xl flex flex-col items-center justify-center">
         <h1 className="lg:text-5xl md:text-4xl text-2xl text-black font-semibold p-4">
           Admin Dashboard
         </h1>
