@@ -18,19 +18,35 @@ export const uploadToCloudflare = async (file: File) => {
   return result.json();
 };
 
-export function isToday(date: Date) {
+export function startOfToday() {
   const today = new Date();
-  return date.toDateString() === today.toDateString();
-}
 
-export function startOfWeek() {
-  const now = new Date();
-  const day = now.getDay();
-  const diff = now.getDate() - day + (day === 0 ? -6 : 1);
-  return new Date(now.setDate(diff));
+  // Set the time to midnight (00:00:00.000)
+  today.setHours(0, 0, 0, 0);
+
+  return today;
+}
+export function startOfWeekLocal() {
+  const today = new Date();
+  const dayOfWeek = today.getDay(); // Sunday is 0, Monday is 1, etc.
+  const diff = today.getDate() - dayOfWeek; // Calculate the difference to the first day of the week
+
+  // Set the date to the calculated first day
+  today.setDate(diff);
+  // Set the time to midnight
+  today.setHours(0, 0, 0, 0);
+
+  return today;
 }
 
 export function startOfMonth() {
-  const now = new Date();
-  return new Date(now.getFullYear(), now.getMonth(), 1);
+  const today = new Date();
+
+  // Set the date to the 1st day of the current month
+  today.setDate(1);
+
+  // Set the time to midnight (00:00:00.000)
+  today.setHours(0, 0, 0, 0);
+
+  return today;
 }

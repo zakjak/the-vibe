@@ -1,6 +1,10 @@
 "use client";
 
-import { useMessage, useToggleStatus } from "@/hooks/useContact";
+import {
+  useFilterMessage,
+  useMessage,
+  useToggleStatus,
+} from "@/hooks/useContact";
 
 import { Button } from "@/components/ui/button";
 
@@ -28,23 +32,32 @@ import {
 import { Badge } from "./ui/badge";
 import StatsBoard from "./StatsBoard";
 import DashBoardFilter from "./DashBoardFilter";
+import { Skeleton } from "./ui/skeleton";
 
 const DashboardComponent = () => {
-  const [pageNumber, setPageNumber] = useState(1);
   const [changeStatus, setChangeStatus] = useState("");
   const { mutate } = useToggleStatus(changeStatus);
   const [date, setDate] = useState("");
+
   const [status, setStatus] = useState("");
 
-  const { data } = useMessage(pageNumber, date, status);
-  console.log(data);
+  const { data: initialData, isFetchingNextPage, fetchNextPage } = useMessage();
+  const {
+    data: filteredData,
+    refetch: refetchFiltered,
+    isRefetching,
+  } = useFilterMessage(status, date);
 
-  const handleShowMore = () => {
-    setPageNumber((prev) => prev + 1);
-  };
+  const messages = filteredData ?? initialData;
+
+  const allMessages = messages?.pages?.flatMap((page) => page?.messages) ?? [];
+
+  const isExisting =
+    messages &&
+    allMessages?.[allMessages.length - 1]?.id !==
+      messages?.pages[0]?.lastMessage[0]?.id;
 
   const updateStatus = (val: string, id: number) => {
-    console.log(val);
     setChangeStatus(val);
 
     mutate(id);
@@ -66,6 +79,10 @@ const DashboardComponent = () => {
       : "";
   };
 
+  const loadMessages = () => {
+    fetchNextPage();
+  };
+
   return (
     <div className="w-[80%] lg:max-w-[70rem] md:max-w-[50rem] mx-auto">
       <div className="h-[13rem] lg:h-[20rem] shadow-xl md:h-[15rem] w-full bg-linear-to-bl from-[#DBDCF3] to-blue-500 rounded-2xl flex flex-col items-center justify-center">
@@ -78,21 +95,22 @@ const DashboardComponent = () => {
       </div>
       <div className="grid md:grid-cols-5 mt-6 gap-4">
         <StatsBoard
-          totalArchived={data?.totalArchived?.count}
-          totalAwaiting={data?.totalAwaiting?.count}
-          totalCompleted={data?.totalCompleted?.count}
-          totalContacted={data?.totalContacted?.count}
-          totalMessages={data?.totalMessages?.count}
-          totalNew={data?.totalNew?.count}
-          totalReviewing={data?.totalReviewing?.count}
+          totalArchived={messages?.pages[0]?.totalArchived?.count}
+          totalAwaiting={messages?.pages[0]?.totalAwaiting?.count}
+          totalCompleted={messages?.pages[0]?.totalCompleted?.count}
+          totalContacted={messages?.pages[0]?.totalContacted?.count}
+          totalMessages={messages?.pages[0]?.totalMessages?.count}
+          totalNew={messages?.pages[0]?.totalNew?.count}
+          totalReviewing={messages?.pages[0]?.totalReviewing?.count}
         />
 
         <DashBoardFilter
           date={date}
           setDate={setDate}
-          pageNumber={pageNumber}
           setStatus={setStatus}
           status={status}
+          refetchFiltered={refetchFiltered}
+          isRefetching={isRefetching}
         />
       </div>
 
@@ -108,7 +126,7 @@ const DashboardComponent = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data?.messages?.map((message: Message) => (
+          {allMessages?.map((message: Message) => (
             <TableRow key={message?.id}>
               <TableCell>
                 <h2 className="font-semibold text-md flex">
@@ -159,10 +177,21 @@ const DashboardComponent = () => {
         </TableBody>
       </Table>
       <div className="my-6 flex justify-center w-full">
-        {data?.pageNumber <= 1 && (
-          <Button onClick={handleShowMore} className="cursor-pointer">
-            Show more <FaChevronDown />
-          </Button>
+        {isFetchingNextPage ? (
+          <Skeleton />
+        ) : isExisting ? (
+          <div className=" flex items-center text-center justify-center">
+            <Button
+              onClick={loadMessages}
+              className="cursor-pointer flex items-center text-sm font-semibold"
+            >
+              Show more <FaChevronDown />
+            </Button>
+          </div>
+        ) : (
+          <p className="text-gray-400 text-center">
+            {allMessages?.length ? "No More Messages" : "No Messages"}
+          </p>
         )}
       </div>
     </div>

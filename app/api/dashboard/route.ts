@@ -1,22 +1,18 @@
-import { and, count, eq, gte } from "drizzle-orm";
+import { and, asc, count, desc, eq, gte, sql } from "drizzle-orm";
 import { db } from "@/lib/schema/schema";
 import { NextResponse } from "next/server";
-import { startOfWeek } from "../utils/helpers";
+import { startOfMonth, startOfToday, startOfWeekLocal } from "../utils/helpers";
 import { emails } from "@/lib/schema/contacts";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const status = searchParams.get("status");
   const date = searchParams.get("date_range");
-  const page = Number(searchParams.get("page")) || 1;
+
+  const limit = Number(searchParams.get("limit")) || 10;
+  const offset = Number(searchParams.get("offset")) || 0;
 
   try {
-    const countRows = await db.select({ count: count() }).from(emails);
-
-    const calculatePageNumber = (page - 1) * 10;
-
-    const pageNumber = Math.ceil(countRows[0].count / 10);
-
     const [totalMessages] = await db.select({ count: count() }).from(emails);
     const [totalNew] = await db
       .select({ count: count() })
@@ -45,43 +41,55 @@ export async function GET(req: Request) {
 
     const filteredClauses = [];
 
-    if (status && status !== "all") {
-      filteredClauses.push(eq(emails.status, status));
-    }
-
     if (date && date !== "all_time") {
-      const now = new Date();
-
       if (date === "today") {
-        const start = new Date();
-        start.setHours(0, 0, 0, 0);
-        filteredClauses.push(gte(emails.date, start));
+        const today = startOfToday();
+        filteredClauses.push(gte(emails.date, today));
       }
 
       if (date === "this_week") {
-        const weekAgo = startOfWeek();
-        filteredClauses.push(gte(emails.date, weekAgo));
+        filteredClauses.push(gte(emails.date, startOfWeekLocal()));
       }
 
       if (date === "this_month") {
-        const monthAgo = new Date(now.setMonth(now.getMonth() - 1));
+        const monthAgo = startOfMonth();
         filteredClauses.push(gte(emails.date, monthAgo));
       }
+    }
+
+    if (status) {
+      filteredClauses.push(eq(emails.status, status));
     }
 
     const filteredMessages = await db
       .select()
       .from(emails)
-      .where(filteredClauses.length ? and(...filteredClauses) : undefined);
+      .where(filteredClauses.length ? and(...filteredClauses) : undefined)
+      .orderBy(asc(emails.id));
+
+    const lastFilteredMessages = await db
+      .select()
+      .from(emails)
+      .where(filteredClauses.length ? and(...filteredClauses) : undefined)
+      .orderBy(asc(sql`${emails.id}`))
+      .limit(1);
 
     const res = await db
       .select()
       .from(emails)
-      .limit(10)
-      .offset(calculatePageNumber);
+      .orderBy(desc(sql`${emails.date}`))
+      .limit(limit)
+      .offset(offset);
+
+    const lastMessage = await db
+      .select()
+      .from(emails)
+      .orderBy(asc(sql`${emails.date}`))
+      .limit(1);
 
     return NextResponse.json({
       messages: date || status ? filteredMessages : res,
+      lastMessage: date || status ? lastFilteredMessages : lastMessage,
       totalMessages,
       totalNew,
       totalArchived,
@@ -89,7 +97,6 @@ export async function GET(req: Request) {
       totalCompleted,
       totalContacted,
       totalReviewing,
-      pageNumber,
     });
   } catch (err) {
     console.log(err);

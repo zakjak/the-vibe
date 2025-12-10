@@ -24,6 +24,9 @@ const StatsBoard = ({
       <h1 className="tracking-wider font-medium text-xl mb-2">
         Status Overview
       </h1>
+      <h2 className="text-lg">
+        <span className="font-semibold">Todal Messages:</span> {totalMessages}
+      </h2>
       <div className="grid md:grid-cols-2 gap-4">
         <div className="">
           <div className="flex justify-between py-1 border-b dark:border-zinc-400">

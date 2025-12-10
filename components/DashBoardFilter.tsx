@@ -9,26 +9,25 @@ import {
   SelectValue,
 } from "./ui/select";
 import { Button } from "./ui/button";
-import { useMessage } from "@/hooks/useContact";
 import { Spinner } from "./ui/spinner";
 
 const DashBoardFilter = ({
   date,
   setDate,
-  pageNumber,
   status,
   setStatus,
+  refetchFiltered,
+  isRefetching,
 }: {
   date: string;
   setDate: Dispatch<SetStateAction<string>>;
-  pageNumber: number;
   status: string;
   setStatus: Dispatch<SetStateAction<string>>;
+  refetchFiltered: () => void;
+  isRefetching: boolean;
 }) => {
-  const { refetch, isFetching } = useMessage(pageNumber, date, status);
-
   const onFilter = () => {
-    refetch();
+    refetchFiltered();
   };
 
   return (
@@ -36,7 +35,7 @@ const DashBoardFilter = ({
       <h1 className="tracking-wider font-medium text-xl mb-2">Filters</h1>
       <div className="flex flex-col gap-2">
         <Select value={status} onValueChange={(value) => setStatus(value)}>
-          <SelectTrigger className="border dark:border-zinc-200 border-zinc-400 w-full">
+          <SelectTrigger className="border dark:border-zinc-200 border-zinc-400 w-full cursor-pointer">
             <SelectValue placeholder="Select Status" />
           </SelectTrigger>
           <SelectContent>
@@ -53,7 +52,7 @@ const DashBoardFilter = ({
           </SelectContent>
         </Select>
         <Select value={date} onValueChange={(value) => setDate(value)}>
-          <SelectTrigger className="border dark:border-zinc-200 border-zinc-400 w-full">
+          <SelectTrigger className="border dark:border-zinc-200 border-zinc-400 w-full cursor-pointer">
             <SelectValue placeholder="Select Range" />
           </SelectTrigger>
           <SelectContent>
@@ -72,9 +71,9 @@ const DashBoardFilter = ({
       <Button
         className="cursor-pointer"
         onClick={onFilter}
-        disabled={isFetching}
+        disabled={isRefetching}
       >
-        {isFetching ? (
+        {isRefetching ? (
           <p className="flex items-center gap-2">
             Applying Filters <Spinner />
           </p>

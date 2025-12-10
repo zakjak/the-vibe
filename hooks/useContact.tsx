@@ -1,39 +1,28 @@
 import { Message } from "@/lib/types/message";
 import {
   keepPreviousData,
+  useInfiniteQuery,
   useMutation,
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
 
-const fetchMessages = async ({
-  page = 1,
-  date = "all_time",
-  status = "all",
-}: {
-  page?: number;
-  date?: string;
-  status?: string;
-}) => {
-  const params = new URLSearchParams();
-
-  params.set("page", String(page));
-  if (date) params.set("date_range", date);
-  if (status) params.set("status", status);
-
-  const res = await fetch(`api/dashboard?${params.toString()}`);
+const fetchMessages = async (limit: number) => {
+  const res = await fetch(`api/dashboard?limit=${limit}&offset=${limit - 5}`);
   if (!res.ok) {
     throw new Error("Network response was not ok");
   }
   return res.json();
 };
 
-export const useMessage = (page: number, date: string, status?: string) => {
-  return useQuery({
-    queryKey: ["dashboard", { page, date, status }],
-    queryFn: () => fetchMessages({ page, date, status }),
-    enabled: date || status ? false : true,
-    placeholderData: keepPreviousData,
+export const useMessage = () => {
+  return useInfiniteQuery({
+    queryKey: ["dashboard"],
+    queryFn: ({ pageParam }) => fetchMessages(pageParam),
+    initialPageParam: 5,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length === 0 ? undefined : (allPages.length + 1) * 5;
+    },
   });
 };
 
@@ -73,6 +62,28 @@ export const useToggleStatus = (status: string) => {
     mutationFn: (messageId: number) => toggleStatus(messageId, status),
 
     onSettled: () => queryClient.invalidateQueries({ queryKey: ["dashboard"] }),
+  });
+};
+
+export const useFilterMessage = (status: string, date: string) => {
+  const queryClient = useQueryClient();
+
+  return useInfiniteQuery({
+    queryKey: ["dashboard"],
+    queryFn: async ({ pageParam }) => {
+      const url = `/api/dashboard?status=${status}&date_range=${date}&limit=${pageParam}&offset${
+        pageParam - 5
+      }`;
+
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("Failed to fetch emails");
+
+      return res.json();
+    },
+    initialPageParam: 5,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length === 0 ? undefined : (allPages.length + 1) * 5;
+    },
   });
 };
 
