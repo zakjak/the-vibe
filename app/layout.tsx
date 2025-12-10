@@ -40,7 +40,7 @@ export default function RootLayout({
       >
         <Script
           async
-          src="https://www.googletagmanager.com/gtag/js?id=G-8BWKVH6JWS"
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GA_TRACKING_ID}`}
         ></Script>
         <Script>
           {`
@@ -48,7 +48,7 @@ export default function RootLayout({
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-8BWKVH6JWS');
+  gtag('config', ${process.env.GA_TRACKING_ID});
   `}
         </Script>
         <Script
