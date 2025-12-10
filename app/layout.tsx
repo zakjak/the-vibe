@@ -54,7 +54,7 @@ export default function RootLayout({
         <Script
           id="usercentrics-cmp"
           src="https://app.usercentrics.eu/browser-ui/latest/loader.js"
-          data-settings-id="AwOkxTBL_bVgHd"
+          data-settings-id={`${process.env.DATA_SETTINGS_ID}`}
           async
         ></Script>
         <ThemeProvider
