@@ -37,7 +37,7 @@ const ContatPage = () => {
   return (
     <div className="w-full">
       <div className="w-[90%] mx-auto">
-        <div className="h-[13rem] lg:h-[20rem] shadow-xl md:h-[15rem] bg-linear-to-bl from-[#DBDCF3] to-blue-500  my-6 rounded-2xl flex items-center justify-center">
+        <div className="h-52 lg:h-80 shadow-xl md:h-60 bg-linear-to-bl from-[#DBDCF3] to-blue-500  my-6 rounded-2xl flex items-center justify-center">
           <h1 className="lg:text-5xl md:text-4xl text-2xl text-black font-semibold">
             {`Let's Work Together`}
           </h1>

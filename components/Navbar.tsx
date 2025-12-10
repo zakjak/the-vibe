@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { Search } from "lucide-react";
 import ModeToggle from "./ModeToggle";
-import { Separator } from "@radix-ui/react-dropdown-menu";
 import UserComponent from "./UserComponent";
 import NavbarLargeLinks from "./NavbarLargeLinks";
 import SearchInput from "./SearchInput";
@@ -60,7 +59,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="sticky top-0 dark:bg-black dark:shadow bg-white z-[999]">
+    <nav className="sticky top-0 dark:bg-black dark:shadow bg-white z-999">
       <section className="h-14  flex items-center shadow-md">
         <div className="w-[90%] mx-auto flex justify-between items-center">
           <div className="flex items-center gap-2 flex-1">
