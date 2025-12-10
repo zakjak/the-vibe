@@ -5,6 +5,7 @@ import { Separator } from "@radix-ui/react-separator";
 import Image from "next/image";
 import Link from "next/link";
 const LatestStoryBanner = ({ article }: { article: Article }) => {
+  console.log(article);
   return (
     <Card className="flex flex-col gap-2">
       {article && (

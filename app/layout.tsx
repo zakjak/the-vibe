@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/theme-provider";
 import AuthProvider from "@/components/providers";
 import QueryClientProvider from "@/components/QueryClientProvider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +38,25 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen m-0`}
       >
+        {/* <!-- Google tag (gtag.js) --> */}
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-8BWKVH6JWS"
+        ></Script>
+        <Script>
+          {`
+    window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)}
+  gtag('js', new Date());
+    `}
+          gtag('config', 'G-8BWKVH6JWS');
+        </Script>
+        <Script
+          id="usercentrics-cmp"
+          src="https://app.usercentrics.eu/browser-ui/latest/loader.js"
+          data-settings-id="AwOkxTBL_bVgHd"
+          async
+        ></Script>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

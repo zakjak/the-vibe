@@ -6,10 +6,10 @@ const TopMainStoriesSkeleton = () => {
 
   return (
     <div>
-      <div className="grid lg:grid-cols-6 md:grid-cols-4 gap-8 lg:max-w-[70rem] md:max-w-[50rem] mx-auto p-4">
+      <div className="grid lg:grid-cols-6 md:grid-cols-4 gap-8 lg:max-w-280 md:max-w-200 mx-auto p-4">
         <div className="lg:col-span-4 md:col-span-2 ">
-          <div className="flex flex-col gap-2 md:h-full h-[20rem] ">
-            <Skeleton className="w-[100%] h-[100%] rounded-xl" />
+          <div className="flex flex-col gap-2 md:h-full h-80 ">
+            <Skeleton className="w-fulll h-full rounded-xl" />
             <Skeleton className="h-4 w-[250px]" />
             <Skeleton className="h-4 w-[250px]" />
             <Skeleton className="h-4 w-[60px]" />
