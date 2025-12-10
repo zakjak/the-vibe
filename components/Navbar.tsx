@@ -81,7 +81,6 @@ const Navbar = () => {
                 </Link>
               </h1>
             </div>
-            <Separator className="bg-gray-400 h-4 w-0.5 hidden lg:flex" />
             <NavbarLargeLinks navLinks={navLinks as []} />
           </div>
           <div className="flex gap-4 items-center">

@@ -1,6 +1,6 @@
 import { articles } from "@/lib/schema/articles";
 import { db } from "@/lib/schema/schema";
-import { and, eq } from "drizzle-orm";
+import { and, eq, ne } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
@@ -53,21 +53,11 @@ export async function GET(req: Request) {
         .select()
         .from(articles)
         .where(
-          and(eq(articles.isDraft, false), eq(articles.category, "politics"))
-        )
-        .limit(6),
-      db
-        .select()
-        .from(articles)
-        .where(
-          and(eq(articles.isDraft, false), eq(articles.category, "sports"))
-        )
-        .limit(6),
-      db
-        .select()
-        .from(articles)
-        .where(
-          and(eq(articles.isDraft, false), eq(articles.category, "business"))
+          and(
+            eq(articles.isDraft, false),
+            eq(articles.category, "politics"),
+            ne(articles.id, latestPolitics[0].id)
+          )
         )
         .limit(6),
       db
@@ -76,7 +66,30 @@ export async function GET(req: Request) {
         .where(
           and(
             eq(articles.isDraft, false),
-            eq(articles.category, "entertainment")
+            eq(articles.category, "sports"),
+            ne(articles.id, latestSports[0].id)
+          )
+        )
+        .limit(6),
+      db
+        .select()
+        .from(articles)
+        .where(
+          and(
+            eq(articles.isDraft, false),
+            eq(articles.category, "business"),
+            ne(articles.id, latestBusiness[0].id)
+          )
+        )
+        .limit(6),
+      db
+        .select()
+        .from(articles)
+        .where(
+          and(
+            eq(articles.isDraft, false),
+            eq(articles.category, "entertainment"),
+            ne(articles.id, latestEntertainment[0].id)
           )
         )
         .limit(6),
@@ -94,13 +107,7 @@ export async function GET(req: Request) {
           and(eq(articles.isDraft, false), eq(articles.category, "culture"))
         )
         .limit(6),
-      db
-        .select()
-        .from(articles)
-        .where(
-          and(eq(articles.isDraft, false), eq(articles.category, "technology"))
-        )
-        .limit(6),
+      db,
     ]);
 
     const topOtherStories = [
