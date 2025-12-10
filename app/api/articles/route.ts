@@ -1,5 +1,6 @@
 import { articles } from "@/lib/schema/articles";
 import { db } from "@/lib/schema/schema";
+import { Article } from "@/lib/types/article";
 import { and, eq, ne } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
@@ -56,7 +57,7 @@ export async function GET(req: Request) {
           and(
             eq(articles.isDraft, false),
             eq(articles.category, "politics"),
-            ne(articles.id, latestPolitics[0].id)
+            latestPolitics ? ne(articles.id, latestPolitics[0]?.id) : undefined
           )
         )
         .limit(6),
@@ -65,9 +66,9 @@ export async function GET(req: Request) {
         .from(articles)
         .where(
           and(
-            eq(articles.isDraft, false),
+            latestSports && eq(articles.isDraft, false),
             eq(articles.category, "sports"),
-            ne(articles.id, latestSports[0].id)
+            latestSports ? ne(articles.id, latestSports[0]?.id) : undefined
           )
         )
         .limit(6),
@@ -78,7 +79,7 @@ export async function GET(req: Request) {
           and(
             eq(articles.isDraft, false),
             eq(articles.category, "business"),
-            ne(articles.id, latestBusiness[0].id)
+            latestBusiness ? ne(articles.id, latestBusiness[0]?.id) : undefined
           )
         )
         .limit(6),
@@ -89,7 +90,9 @@ export async function GET(req: Request) {
           and(
             eq(articles.isDraft, false),
             eq(articles.category, "entertainment"),
-            ne(articles.id, latestEntertainment[0].id)
+            latestEntertainment
+              ? ne(articles.id, latestEntertainment[0]?.id)
+              : undefined
           )
         )
         .limit(6),
