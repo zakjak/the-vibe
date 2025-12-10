@@ -1,12 +1,6 @@
 import { NextResponse } from "next/server";
 import { uploadToCloudflare } from "../utils/helpers";
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 export async function POST(req: Request) {
   const formData = await req.formData();
 
