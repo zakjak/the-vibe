@@ -86,11 +86,11 @@ const DashboardComponent = () => {
   return (
     <div className="w-[80%] lg:max-w-[70rem] md:max-w-[50rem] mx-auto">
       <div className="h-[13rem] lg:h-[20rem] shadow-xl md:h-[15rem] w-full bg-linear-to-bl from-[#DBDCF3] to-blue-500 rounded-2xl flex flex-col items-center justify-center">
-        <h1 className="lg:text-5xl md:text-4xl text-2xl text-black font-semibold">
+        <h1 className="lg:text-5xl md:text-4xl text-2xl text-black font-semibold p-4">
           Admin Dashboard
         </h1>
         <h3 className="text-zinc-700">
-          Messages of advertisement or sponsorship
+          Emails of advertisement or sponsorship
         </h3>
       </div>
       <div className="grid md:grid-cols-5 mt-6 gap-4">

@@ -25,7 +25,7 @@ const StatsBoard = ({
         Status Overview
       </h1>
       <h2 className="text-lg">
-        <span className="font-semibold">Todal Messages:</span> {totalMessages}
+        <span className="font-semibold">Total Emails:</span> {totalMessages}
       </h2>
       <div className="grid md:grid-cols-2 gap-4">
         <div className="">
