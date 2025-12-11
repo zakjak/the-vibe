@@ -16,7 +16,7 @@ const AuthorAbout = ({ slug }: { slug: string }) => {
               alt={`${data[0]?.name} profile`}
               height={240}
               width={240}
-              className="w-full lg:h-[20rem] object-cover "
+              className="w-full lg:h-80 object-cover "
             />
           </div>
           <div className="">

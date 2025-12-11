@@ -12,7 +12,7 @@ const CommentsSkeleton = () => {
         </div>
       </div>
 
-      <Skeleton className="w-[90%] rounded-xl h-[6rem]" />
+      <Skeleton className="w-[90%] rounded-xl h-24" />
       {comments.map((comment) => (
         <div key={comment} className="flex space-x-4 mt-4 border-b pb-2">
           <Skeleton className="h-12 min-w-12 rounded-full" />

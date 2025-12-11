@@ -109,7 +109,7 @@ const CommentSection = ({
               <FormItem className="w-full">
                 <FormControl>
                   <Textarea
-                    className="min-h-[6rem] max-h-[6rem] w-[90%] bg-transparent! border-none no-scrollbar"
+                    className="min-h-24 max-h-24 w-[90%] bg-transparent! border-none no-scrollbar"
                     placeholder="Enter comment..."
                     {...field}
                   />

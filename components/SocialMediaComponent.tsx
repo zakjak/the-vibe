@@ -1,6 +1,5 @@
 import { SocialProps } from "@/lib/types/users";
 import Link from "next/link";
-import React from "react";
 import { FaFacebookF, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
 import { Button } from "./ui/button";
 

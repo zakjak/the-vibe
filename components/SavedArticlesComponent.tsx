@@ -30,7 +30,7 @@ const SavedArticlesComponent = () => {
     <div>
       <div
         ref={ref}
-        className="grid md:grid-cols-3 gap-4 lg:w-[60rem] md:w-[50rem] w-[65%] mx-auto"
+        className="grid md:grid-cols-3 gap-4 lg:w-240 md:w-200 w-[65%] mx-auto"
       >
         {savedArticles?.map(({ articles }) => (
           <TopCategoryStory key={articles?.id} topStory={articles} />

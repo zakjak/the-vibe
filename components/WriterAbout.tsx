@@ -10,7 +10,7 @@ const WriterAbout = ({ profileId }: { profileId: string }) => {
   const { data, isFetching } = useUserWriter(profileId);
 
   return (
-    <div className="lg:w-[60rem] w-[90%] mx-auto">
+    <div className="lg:w-240 w-[90%] mx-auto">
       {data && !isFetching ? (
         <WriterUserProfile
           userInfo={data?.userInfo as User[]}

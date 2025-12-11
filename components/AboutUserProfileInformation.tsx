@@ -85,7 +85,7 @@ const AboutUserProfileInformation = ({ userId }: { userId: string }) => {
           Edit
         </Button>
       </DialogTrigger>
-      <DialogContent className="z-[999] h-[35rem] overflow-y-scroll">
+      <DialogContent className="z-999 h-140 overflow-y-scroll">
         <DialogHeader>
           <DialogTitle>Edit profile about</DialogTitle>
           <DialogDescription>

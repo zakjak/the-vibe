@@ -5,7 +5,7 @@ const ArticleComponentSkeleton = () => {
   const relatedArticles = [1, 2, 3];
 
   return (
-    <div className="grid lg:gap-6 gap-4 lg:grid-cols-6 md:grid-cols-5 mx-auto lg:max-w-[70rem] md:max-w-[50rem] max-w-[40rem] p-4">
+    <div className="grid lg:gap-6 gap-4 lg:grid-cols-6 md:grid-cols-5 mx-auto lg:max-w-280 md:max-w-200 max-w-160 p-4">
       <div className="lg:col-span-4 md:col-span-3 w-full col-span-3">
         <div className="w-">
           <Skeleton className="h-4" />

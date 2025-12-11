@@ -24,7 +24,7 @@ const WriterUserProfile = ({
   return (
     <>
       <div className="grid md:grid-cols-2 p-8 gap-2">
-        <div className="w-full h-[20rem] md:h-[25rem]">
+        <div className="w-full h-80 md:h-100">
           <div className="relative  w-full h-full flex items-center justify-center">
             {userInfo[0]?.image && (
               <Image
@@ -56,7 +56,7 @@ const WriterUserProfile = ({
                   <DialogTrigger asChild>
                     <Button>Read Full Bio</Button>
                   </DialogTrigger>
-                  <DialogContent className="z-[999]">
+                  <DialogContent className="z-999">
                     <DialogHeader>
                       <DialogTitle>About User</DialogTitle>
                       <DialogDescription className="text-2xl dark:text-white text-zinc-800">
@@ -66,7 +66,7 @@ const WriterUserProfile = ({
                         data={writerBio[0] as SocialProps}
                       />
                     </DialogHeader>
-                    <DialogHeader className="text-start overflow-scroll h-[45vh] text-zinc-800 dark:text-white p-[8px]">
+                    <DialogHeader className="text-start overflow-scroll h-[45vh] text-zinc-800 dark:text-white p-2">
                       <p>{lines.join("\n")}</p>
                     </DialogHeader>
                   </DialogContent>

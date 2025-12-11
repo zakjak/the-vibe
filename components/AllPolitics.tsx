@@ -19,7 +19,7 @@ const AllPolitics = ({ page }: { page: string }) => {
     <div className="w-ful pt-6">
       {politics && (
         <>
-          <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4 lg:gap-6 lg:w-[60rem] md:w-[40rem] w-[70%] mx-auto">
+          <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4 lg:gap-6 lg:w-240 md:w-160 w-[70%] mx-auto">
             {articles?.map((story) => (
               <TopCategoryStory key={story?.id} topStory={story} />
             ))}

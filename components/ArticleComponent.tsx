@@ -28,7 +28,7 @@ const ArticleComponent = ({ id }: { id: number }) => {
   }
 
   return (
-    <div className="max-w-[80%] lg:w-[70rem] mx-auto">
+    <div className="max-w-[80%] lg:w-280 mx-auto">
       <div className="grid lg:gap-6 gap-4 lg:grid-cols-6 md:grid-cols-5  ">
         {/* Left Section */}
         {data?.article && <ArticleStory articleStory={data} />}

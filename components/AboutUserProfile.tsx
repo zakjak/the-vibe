@@ -89,7 +89,7 @@ const AboutUserProfile = ({ user }: { user: User }) => {
 
   return (
     <div className="grid md:grid-cols-2 p-8 gap-2">
-      <div className="relative w-full h-[15rem] md:h-[25rem]">
+      <div className="relative w-full h-60 md:h-100">
         <div className="h-full w-full">
           {user?.image && (
             <Image
@@ -134,7 +134,7 @@ const AboutUserProfile = ({ user }: { user: User }) => {
                 <DialogTrigger asChild>
                   <Button>Read Full Bio</Button>
                 </DialogTrigger>
-                <DialogContent className="z-[999]">
+                <DialogContent className="z-999">
                   <DialogHeader>
                     <DialogTitle>About User</DialogTitle>
                     <DialogDescription className="text-2xl dark:text-white text-zinc-800">
@@ -142,7 +142,7 @@ const AboutUserProfile = ({ user }: { user: User }) => {
                     </DialogDescription>
                     <SocialMediaComponent data={data[0]} />
                   </DialogHeader>
-                  <DialogHeader className="text-start overflow-scroll h-[45vh] text-zinc-800 dark:text-white p-[8px]">
+                  <DialogHeader className="text-start overflow-scroll h-[45vh] text-zinc-800 dark:text-white p-2">
                     <p>{lines.join("\n")}</p>
                   </DialogHeader>
                 </DialogContent>

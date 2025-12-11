@@ -53,7 +53,7 @@ const AllSearch = ({ page, q }: { page: string; q: string }) => {
                   }`}
                   className="h-full"
                 >
-                  <div className="md:h-[10rem] md:w-[15rem] w-[10rem] h-[8rem]">
+                  <div className="md:h-40 md:w-60 w-40 h-32">
                     <Image
                       src={article?.image}
                       width={240}

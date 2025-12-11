@@ -56,7 +56,7 @@ const UserComponent = () => {
                 </AvatarFallback>
               </Avatar>
             </PopoverTrigger>
-            <PopoverContent className="z-[1000] mr-4">
+            <PopoverContent className="z-1000 mr-4">
               <div className="flex flex-col gap-2">
                 {data?.isAdmin && (
                   <>

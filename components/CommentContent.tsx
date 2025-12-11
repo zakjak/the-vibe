@@ -8,7 +8,7 @@ import { CommentProp } from "@/lib/types/article";
 import { User } from "@/lib/types/users";
 import { calculateTime } from "@/lib/utils/helpers";
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IoIosSend, IoIosThumbsDown, IoIosThumbsUp } from "react-icons/io";
 import { IoThumbsDownOutline, IoThumbsUpOutline } from "react-icons/io5";
 import { MdMessage } from "react-icons/md";
@@ -260,7 +260,7 @@ const CommentContent = ({
                         <FormItem className="w-full">
                           <FormControl>
                             <Textarea
-                              className="min-h-[4em] max-h-[4rem] w-[90%] bg-transparent! border-none overflow-scroll"
+                              className="min-h-[4em] max-h-16 w-[90%] bg-transparent! border-none overflow-scroll"
                               placeholder="Enter comment..."
                               {...field}
                             />

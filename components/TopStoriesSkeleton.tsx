@@ -10,7 +10,7 @@ const TopStoriesSkeleton = () => {
           <div className="w-full" key={story}>
             <Skeleton className="h-4 w-[100px]" />
             <div className="mt-2">
-              <Skeleton className="w-full h-[15rem]" />
+              <Skeleton className="w-full h-60" />
               <div className="mt-4">
                 <Skeleton className="h-4 w-[200px]" />
                 <div className="flex items-center text-xs mt-2">

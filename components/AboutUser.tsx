@@ -71,7 +71,7 @@ const AboutUser = ({ user }: { user: User }) => {
     <>
       <div className="flex flex-col items-center mt-8">
         <div className="relative">
-          <Avatar className="w-[8rem] h-[8rem]  flex items-center justify-center">
+          <Avatar className="w-32 h-32  flex items-center justify-center">
             <AvatarImage
               src={imagePreview ? imagePreview : (user?.image as string)}
               className="object-cover w-full h-full rounded-full"
