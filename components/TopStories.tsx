@@ -7,11 +7,19 @@ import TopCategoryStories from "./TopCategoryStories";
 const TopStories = () => {
   const { data: articles, isLoading } = useLatestStories();
 
+  const isVisible =
+    articles?.topPolitics?.length > 0 ||
+    articles?.topEntertainment?.length > 0 ||
+    articles?.topBusiness?.length > 0 ||
+    articles?.topCulture?.length ||
+    articles?.topTechnology?.length > 0 ||
+    articles?.topSports > 0;
+
   if (isLoading) return <TopStoriesSkeleton />;
 
   return (
     <div className="mt-10">
-      {articles && (
+      {isVisible && (
         <>
           <h1 className="text-2xl font-bold">Top Stories</h1>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-y-6 gap-6 mt-2">
