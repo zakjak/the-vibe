@@ -68,7 +68,7 @@ export async function GET(req: Request) {
         .limit(1),
     ]);
 
-    function categoryQuery(cat: string, latest?: any[]) {
+    function categoryQuery(cat: string, latest: any[], latestNews?: any[]) {
       const conditions = [
         eq(articles.isDraft, false),
         eq(articles.category, cat),
@@ -76,6 +76,10 @@ export async function GET(req: Request) {
 
       if (latest && latest[0]) {
         conditions.push(ne(articles.id, latest[0]?.id));
+      }
+
+      if (latestNews && latestNews[0]) {
+        conditions.push(ne(articles.id, latestNews[0]?.id));
       }
 
       return db
@@ -93,12 +97,12 @@ export async function GET(req: Request) {
       topTechnology,
       topCulture,
     ] = await Promise.all([
-      categoryQuery("politics", latestPolitics),
+      categoryQuery("politics", latestPolitics, latestNews),
       categoryQuery("sports", latestSports),
       categoryQuery("business", latestBusiness),
       categoryQuery("entertainment", latestEntertainment),
-      categoryQuery("technology"),
-      categoryQuery("culture"),
+      categoryQuery("technology", latestTechnology),
+      categoryQuery("culture", latestCulture),
     ]);
 
     const topRightStories = [
