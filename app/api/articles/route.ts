@@ -41,76 +41,37 @@ export async function GET(req: Request) {
           .limit(1),
       ]);
 
+    function categoryQuery(cat: string, latest?: any[]) {
+      const conditions = [
+        eq(articles.isDraft, false),
+        eq(articles.category, cat),
+      ];
+
+      if (latest && latest[0]) {
+        conditions.push(ne(articles.id, latest[0]?.id));
+      }
+
+      return db
+        .select()
+        .from(articles)
+        .where(and(...conditions))
+        .limit(6);
+    }
+
     const [
       topPolitics,
       topSports,
       topBusiness,
       topEntertainment,
-      topInnovation,
-      topCulture,
       topTechnology,
+      topCulture,
     ] = await Promise.all([
-      db
-        .select()
-        .from(articles)
-        .where(
-          and(
-            eq(articles.isDraft, false),
-            eq(articles.category, "politics"),
-            latestPolitics ? ne(articles.id, latestPolitics[0]?.id) : undefined
-          )
-        )
-        .limit(6),
-      db
-        .select()
-        .from(articles)
-        .where(
-          and(
-            latestSports && eq(articles.isDraft, false),
-            eq(articles.category, "sports"),
-            latestSports ? ne(articles.id, latestSports[0]?.id) : undefined
-          )
-        )
-        .limit(6),
-      db
-        .select()
-        .from(articles)
-        .where(
-          and(
-            eq(articles.isDraft, false),
-            eq(articles.category, "business"),
-            latestBusiness ? ne(articles.id, latestBusiness[0]?.id) : undefined
-          )
-        )
-        .limit(6),
-      db
-        .select()
-        .from(articles)
-        .where(
-          and(
-            eq(articles.isDraft, false),
-            eq(articles.category, "entertainment"),
-            latestEntertainment
-              ? ne(articles.id, latestEntertainment[0]?.id)
-              : undefined
-          )
-        )
-        .limit(6),
-      db
-        .select()
-        .from(articles)
-        .where(
-          and(eq(articles.isDraft, false), eq(articles.category, "innovation"))
-        )
-        .limit(6),
-      db
-        .select()
-        .from(articles)
-        .where(
-          and(eq(articles.isDraft, false), eq(articles.category, "culture"))
-        )
-        .limit(6),
-      db,
+      categoryQuery("politics", latestPolitics),
+      categoryQuery("sports", latestSports),
+      categoryQuery("business", latestBusiness),
+      categoryQuery("entertainment", latestEntertainment),
+      categoryQuery("technology"),
+      categoryQuery("culture"),
     ]);
 
     const topOtherStories = [
@@ -126,7 +87,6 @@ export async function GET(req: Request) {
       topEntertainment,
       topSports,
       topPolitics,
-      topInnovation,
       topTechnology,
     });
   } catch (err) {

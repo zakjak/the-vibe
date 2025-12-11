@@ -428,7 +428,7 @@ const ArticleDialogContent = ({
         e.preventDefault();
         document.getElementById("title-input")?.focus();
       }}
-      className="overflow-y-scroll h-[40rem] z-[999] w-[90%]"
+      className="overflow-y-scroll h-160 z-999 w-[90%]"
     >
       <DialogHeader>
         <DialogTitle>Create article</DialogTitle>
@@ -530,7 +530,7 @@ const ArticleDialogContent = ({
                     <SelectTrigger>
                       <SelectValue placeholder="Select a cateogory" />
                     </SelectTrigger>
-                    <SelectContent className="z-[999]">
+                    <SelectContent className="z-999">
                       <SelectGroup>
                         <SelectLabel>Categories</SelectLabel>
                         {categories.map((category) => (

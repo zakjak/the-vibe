@@ -45,12 +45,12 @@ const Navbar = () => {
       href: "/business",
     },
     {
-      name: "Culture",
-      href: "/culture",
+      name: "Technology",
+      href: "/technology",
     },
     {
-      name: "Innovation",
-      href: "/innovation",
+      name: "Culture",
+      href: "/culture",
     },
   ];
 
