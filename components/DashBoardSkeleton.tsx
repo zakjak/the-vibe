@@ -20,10 +20,10 @@ const DashBoardSkeleton = () => {
         <Skeleton className="col-span-3 md:col-span-2 p-4 rounded-md h-52 bg-zinc-700 dark:bg-zinc-700 dark:shadow-zinc-800 flex flex-col gap-2" />
       </div>
 
-      <Table className="w-[30%] mt-6">
+      <Table className="w-full mt-6">
         <TableCaption>A list of your recent emails</TableCaption>
-        <TableHeader>
-          <TableRow>
+        <TableHeader className="w-f">
+          <TableRow className="w-full">
             <TableHead className="w-[100px] font-bold">Name/Company</TableHead>
             <TableHead className="w-[100px]">Email</TableHead>
             <TableHead className="w-[100px]">Message</TableHead>
@@ -31,9 +31,9 @@ const DashBoardSkeleton = () => {
             <TableHead>Status</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody className="w-full">
           {allMessages?.map((message) => (
-            <TableRow key={message}>
+            <TableRow key={message} className="w-full">
               <TableCell className="flex flex-col gap-2">
                 <Skeleton className="h-4 w-24 bg-zinc-300" />
                 <Skeleton className="h-4 w-32 bg-zinc-300" />

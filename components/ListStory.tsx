@@ -3,7 +3,7 @@ import { calculateTime } from "@/lib/utils/helpers";
 import { Separator } from "@radix-ui/react-separator";
 import Link from "next/link";
 
-const ListEntertainment = ({ articles }: { articles: Article[] }) => {
+const ListStory = ({ articles }: { articles: Article[] }) => {
   return (
     <div>
       {articles.map((story) => (
@@ -30,4 +30,4 @@ const ListEntertainment = ({ articles }: { articles: Article[] }) => {
   );
 };
 
-export default ListEntertainment;
+export default ListStory;

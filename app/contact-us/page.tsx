@@ -43,7 +43,7 @@ const ContatPage = () => {
           </h1>
         </div>
 
-        <div className="w-full bg-zinc-100 dark:shadow-gray-800 rounded-lg p-10 shadow-2xl">
+        <div className="w-full dark:bg-zinc-100 bg-gray-200 dark:shadow-gray-800 rounded-lg p-10 shadow-2xl">
           <div className=" mb-8">
             <Image src="/favicon.svg" alt="" width={150} height={100} />
           </div>

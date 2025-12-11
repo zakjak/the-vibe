@@ -130,7 +130,9 @@ const TopCategoryStory = ({ topStory }: { topStory: Article }) => {
               topStory?.id
             }/${topStory?.title?.replaceAll(" ", "-")}`}
           >
-            <h2 className="text-md line-clamp-2">{topStory?.title}</h2>
+            <h2 className="text-md line-clamp-2 hover:underline">
+              {topStory?.title}
+            </h2>
           </Link>
           <div className="flex items-center gap-2 text-xs text-gray-400">
             <span className="font-bold text-xs tracking-wider">

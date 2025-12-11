@@ -1,45 +1,72 @@
 import { articles } from "@/lib/schema/articles";
 import { db } from "@/lib/schema/schema";
-import { Article } from "@/lib/types/article";
 import { and, eq, ne } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   try {
-    const [latestPolitics, latestSports, latestBusiness, latestEntertainment] =
-      await Promise.all([
-        db
-          .select()
-          .from(articles)
-          .where(
-            and(eq(articles.isDraft, false), eq(articles.category, "politics"))
+    const [
+      latestNews,
+      latestPolitics,
+      latestSports,
+      latestBusiness,
+      latestTechnology,
+      latestCulture,
+      latestEntertainment,
+    ] = await Promise.all([
+      db
+        .select()
+        .from(articles)
+        .where(
+          and(eq(articles.isDraft, false), eq(articles.category, "politics"))
+        )
+        .limit(1),
+      db
+        .select()
+        .from(articles)
+        .where(
+          and(eq(articles.isDraft, false), eq(articles.category, "politics"))
+        )
+        .limit(2),
+      db
+        .select()
+        .from(articles)
+        .where(
+          and(eq(articles.isDraft, false), eq(articles.category, "sports"))
+        )
+        .limit(1),
+      db
+        .select()
+        .from(articles)
+        .where(
+          and(eq(articles.isDraft, false), eq(articles.category, "business"))
+        )
+        .limit(1),
+      db
+        .select()
+        .from(articles)
+        .where(
+          and(eq(articles.isDraft, false), eq(articles.category, "technology"))
+        )
+        .limit(1),
+      db
+        .select()
+        .from(articles)
+        .where(
+          and(eq(articles.isDraft, false), eq(articles.category, "culture"))
+        )
+        .limit(1),
+      db
+        .select()
+        .from(articles)
+        .where(
+          and(
+            eq(articles.isDraft, false),
+            eq(articles.category, "entertainment")
           )
-          .limit(1),
-        db
-          .select()
-          .from(articles)
-          .where(
-            and(eq(articles.isDraft, false), eq(articles.category, "sports"))
-          )
-          .limit(1),
-        db
-          .select()
-          .from(articles)
-          .where(
-            and(eq(articles.isDraft, false), eq(articles.category, "business"))
-          )
-          .limit(1),
-        db
-          .select()
-          .from(articles)
-          .where(
-            and(
-              eq(articles.isDraft, false),
-              eq(articles.category, "entertainment")
-            )
-          )
-          .limit(1),
-      ]);
+        )
+        .limit(1),
+    ]);
 
     function categoryQuery(cat: string, latest?: any[]) {
       const conditions = [
@@ -74,14 +101,23 @@ export async function GET(req: Request) {
       categoryQuery("culture"),
     ]);
 
-    const topOtherStories = [
+    const topRightStories = [
       ...latestSports,
       ...latestBusiness,
       ...latestEntertainment,
     ];
+
+    const topLeftStories = [
+      ...latestCulture,
+      ...latestTechnology,
+      ...latestPolitics,
+    ];
+
     return NextResponse.json({
+      latestNews,
       latestPolitics,
-      topOtherStories,
+      topRightStories,
+      topLeftStories,
       topBusiness,
       topCulture,
       topEntertainment,

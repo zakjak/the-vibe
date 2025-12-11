@@ -5,7 +5,6 @@ import { Separator } from "@radix-ui/react-separator";
 import Image from "next/image";
 import Link from "next/link";
 const LatestStoryBanner = ({ article }: { article: Article }) => {
-  console.log(article);
   return (
     <Card className="flex flex-col gap-2">
       {article && (
@@ -30,7 +29,7 @@ const LatestStoryBanner = ({ article }: { article: Article }) => {
               article?.id
             }/${article?.title.replaceAll(" ", "-")}`}
           >
-            <h2 className="font-bold">{article?.title}</h2>
+            <h2 className="font-bold hover:underline">{article?.title}</h2>
           </Link>
           <CardFooter className="text-xs flex gap-2">
             <span>{article?.category}</span>
