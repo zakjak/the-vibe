@@ -1,6 +1,6 @@
 import { articles } from "@/lib/schema/articles";
 import { db } from "@/lib/schema/schema";
-import { and, eq, ne } from "drizzle-orm";
+import { and, desc, eq, ne } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
@@ -20,14 +20,16 @@ export async function GET(req: Request) {
         .where(
           and(eq(articles.isDraft, false), eq(articles.category, "politics"))
         )
-        .limit(1),
+        .limit(1)
+        .orderBy(desc(articles.date)),
       db
         .select()
         .from(articles)
         .where(
           and(eq(articles.isDraft, false), eq(articles.category, "politics"))
         )
-        .limit(2),
+        .limit(1)
+        .offset(1),
       db
         .select()
         .from(articles)
@@ -119,7 +121,6 @@ export async function GET(req: Request) {
 
     return NextResponse.json({
       latestNews,
-      latestPolitics,
       topRightStories,
       topLeftStories,
       topBusiness,

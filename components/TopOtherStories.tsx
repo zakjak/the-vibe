@@ -3,6 +3,7 @@ import TopSmallCards from "./TopSmallCards";
 import ListTopStories from "./ListTopStories";
 
 const TopOtherStories = ({ articles }: { articles: Article[] }) => {
+  console.log(articles);
   return (
     <div className="mt-2 flex flex-col gap-4">
       {articles?.length >= 1 && (

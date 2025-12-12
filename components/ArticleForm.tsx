@@ -13,7 +13,7 @@ const ArticleForm = ({ user }: { user: User }) => {
   return (
     <Dialog modal={false} onOpenChange={setOpen} open={open}>
       <DialogTrigger asChild>
-        <Button>Create Article</Button>
+        <Button className="cursor-pointer">Create Article</Button>
       </DialogTrigger>
       <ArticleDialogContent user={user} setOpenEdit={setOpen} />
     </Dialog>

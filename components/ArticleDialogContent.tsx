@@ -300,6 +300,17 @@ const ArticleDialogContent = ({
             };
 
             mutate(article as Article);
+            form.reset({
+              title: "",
+              image: "",
+              category: "",
+              authors: [],
+              imageCredit: "",
+              imageTitle: "",
+              story: "",
+              tags: [],
+              images: [],
+            });
             setIsSubmitting(false);
             setOpenEdit(false);
           } else {
@@ -377,6 +388,17 @@ const ArticleDialogContent = ({
               imagesTitle,
             };
             mutate(article);
+            form.reset({
+              title: "",
+              image: "",
+              category: "",
+              authors: [],
+              imageCredit: "",
+              imageTitle: "",
+              story: "",
+              tags: [],
+              images: [],
+            });
             setIsSubmitting(false);
             setOpenEdit(false);
           } else {

@@ -132,7 +132,7 @@ const AboutUserProfile = ({ user }: { user: User }) => {
 
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button>Read Full Bio</Button>
+                  <Button className="cursor-pointer">Read Full Bio</Button>
                 </DialogTrigger>
                 <DialogContent className="z-999">
                   <DialogHeader>

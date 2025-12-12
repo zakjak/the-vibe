@@ -35,7 +35,7 @@ const TopSmallCards = ({ article }: { article: Article }) => {
             "-"
           )}`}
         >
-          <h3 className="md:text-xs text-md line-clamp-2 hover:underline">
+          <h3 className="md:text-[13px] text-md line-clamp-2 hover:underline">
             {article.title}
           </h3>
         </Link>

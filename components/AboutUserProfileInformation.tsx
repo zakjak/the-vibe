@@ -80,7 +80,7 @@ const AboutUserProfileInformation = ({ userId }: { userId: string }) => {
   return (
     <Dialog modal={false} onOpenChange={setOpen} open={open}>
       <DialogTrigger asChild>
-        <Button className="mt-2">
+        <Button className="mt-2 cursor-pointer">
           <FaRegEdit />
           Edit
         </Button>
