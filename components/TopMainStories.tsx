@@ -8,7 +8,7 @@ import { useLatestStories } from "@/hooks/useLatestStories";
 const TopMainStories = () => {
   const { data: article, isLoading } = useLatestStories();
 
-  if (isLoading) return <TopMainStoriesSkeleton />;
+  if (!isLoading) return <TopMainStoriesSkeleton />;
 
   return (
     <div className="grid lg:grid-cols-8 md:grid-cols-4 gap-8">
