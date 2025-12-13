@@ -24,23 +24,41 @@ const TopStories = () => {
           <h1 className="text-2xl font-bold">Top Stories</h1>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-y-6 gap-6 mt-2">
             {articles?.topPolitics?.length > 0 && (
-              <TopCategoryStories articles={articles?.topPolitics} />
+              <div>
+                <h2 className="text-xl tracking-wider">Politics</h2>
+                <TopCategoryStories articles={articles?.topPolitics} />
+              </div>
             )}
             {articles?.topEntertainment?.length > 0 && (
-              <TopCategoryStories articles={articles?.topEntertainment} />
+              <div>
+                <h2 className="text-xl tracking-wider">topEntertainment</h2>
+                <TopCategoryStories articles={articles?.topEntertainment} />
+              </div>
             )}
             {articles?.topBusiness?.length > 0 && (
-              <TopCategoryStories articles={articles?.topBusiness} />
+              <div>
+                <h2 className="text-xl tracking-wider">Business</h2>
+                <TopCategoryStories articles={articles?.topBusiness} />
+              </div>
             )}
             {articles?.topCulture?.length > 0 && (
-              <TopCategoryStories articles={articles?.topCulture} />
+              <div>
+                <h2 className="text-xl tracking-wider">Culture</h2>
+                <TopCategoryStories articles={articles?.topCulture} />
+              </div>
             )}
 
             {articles?.topTechnology?.length > 0 && (
-              <TopCategoryStories articles={articles?.topTechnology} />
+              <div>
+                <h2 className="text-xl tracking-wider">Technology</h2>
+                <TopCategoryStories articles={articles?.topTechnology} />
+              </div>
             )}
             {articles?.topSports?.length > 0 && (
-              <TopCategoryStories articles={articles?.topSports} />
+              <div>
+                <h2 className="text-xl tracking-wider">Sports</h2>
+                <TopCategoryStories articles={articles?.topSports} />
+              </div>
             )}
           </div>
         </>

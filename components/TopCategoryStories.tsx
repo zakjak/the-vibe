@@ -9,7 +9,6 @@ const TopCategoryStories = ({ articles }: { articles: Article[] }) => {
     <div>
       {articles && (
         <div className="w-full">
-          <h2 className="text-xl tracking-wider">{articles[0]?.category}</h2>
           <TopCategoryStory topStory={articles[0]} />
           <ListStory articles={otherStories} />
         </div>
