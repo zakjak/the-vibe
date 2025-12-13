@@ -15,7 +15,9 @@ const ListTopStories = ({ articles }: { articles: Article[] }) => {
               "-"
             )}`}
           >
-            <h2 className="hover:underline text-sm">{story.title}</h2>
+            <h2 className="hover:underline text-sm line-clamp-3">
+              {story.title}
+            </h2>
           </Link>
           <div className="flex gap-2 items-center text-zinc-400 text-[.7rem] -mt-2">
             <span>{story?.category}</span>

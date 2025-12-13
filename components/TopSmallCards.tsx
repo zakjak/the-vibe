@@ -1,14 +1,12 @@
 import { Card } from "@/components/ui/card";
 import { Article } from "@/lib/types/article";
 import { calculateTime } from "@/lib/utils/helpers";
+import { plateToHtml } from "@/lib/utils/plateToHtml";
 import { Separator } from "@radix-ui/react-separator";
-import { Clock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 const TopSmallCards = ({ article }: { article: Article }) => {
-  const texts = JSON.parse(article.story);
-
   return (
     <Card className="">
       <Link
@@ -39,9 +37,6 @@ const TopSmallCards = ({ article }: { article: Article }) => {
             {article.title}
           </h3>
         </Link>
-        {/* <span className="text-zinc-500 text-[.7rem] line-clamp-2 my-1">
-          {texts[0]?.children[0]?.text + " " + texts[0]?.children[2]?.text}
-        </span> */}
 
         <div className="flex gap-2 items-center text-zinc-400 text-[.7rem]">
           <span>{article?.category}</span>

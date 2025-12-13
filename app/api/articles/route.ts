@@ -15,7 +15,14 @@ export async function GET(req: Request) {
       latestEntertainment,
     ] = await Promise.all([
       db
-        .select()
+        .select({
+          id: articles.id,
+          image: articles.image,
+          imageTitle: articles.imageTitle,
+          date: articles.date,
+          title: articles.title,
+          category: articles.category,
+        })
         .from(articles)
         .where(
           and(eq(articles.isDraft, false), eq(articles.category, "politics"))
@@ -28,14 +35,23 @@ export async function GET(req: Request) {
         .where(
           and(eq(articles.isDraft, false), eq(articles.category, "politics"))
         )
+        .orderBy(desc(articles.date))
         .limit(1)
         .offset(1),
       db
-        .select()
+        .select({
+          id: articles.id,
+          image: articles.image,
+          imageTitle: articles.imageTitle,
+          date: articles.date,
+          title: articles.title,
+          category: articles.category,
+        })
         .from(articles)
         .where(
           and(eq(articles.isDraft, false), eq(articles.category, "sports"))
         )
+        .orderBy(desc(articles.date))
         .limit(1),
       db
         .select()
@@ -43,6 +59,7 @@ export async function GET(req: Request) {
         .where(
           and(eq(articles.isDraft, false), eq(articles.category, "business"))
         )
+        .orderBy(desc(articles.date))
         .limit(1),
       db
         .select()
@@ -50,16 +67,29 @@ export async function GET(req: Request) {
         .where(
           and(eq(articles.isDraft, false), eq(articles.category, "technology"))
         )
+        .orderBy(desc(articles.date))
         .limit(1),
       db
-        .select()
+        .select({
+          id: articles.id,
+          image: articles.image,
+          imageTitle: articles.imageTitle,
+          date: articles.date,
+          title: articles.title,
+          category: articles.category,
+        })
         .from(articles)
         .where(
           and(eq(articles.isDraft, false), eq(articles.category, "culture"))
         )
         .limit(1),
       db
-        .select()
+        .select({
+          id: articles.id,
+          date: articles.date,
+          title: articles.title,
+          category: articles.category,
+        })
         .from(articles)
         .where(
           and(
@@ -67,6 +97,7 @@ export async function GET(req: Request) {
             eq(articles.category, "entertainment")
           )
         )
+        .orderBy(desc(articles.date))
         .limit(1),
     ]);
 
@@ -85,7 +116,14 @@ export async function GET(req: Request) {
       }
 
       return db
-        .select()
+        .select({
+          id: articles.id,
+          title: articles.title,
+          category: articles.category,
+          date: articles.date,
+          image: articles.image,
+          imageTitle: articles.imageTitle,
+        })
         .from(articles)
         .where(and(...conditions))
         .limit(6);
