@@ -31,7 +31,7 @@ const TopStories = () => {
             )}
             {articles?.topEntertainment?.length > 0 && (
               <div>
-                <h2 className="text-xl tracking-wider">topEntertainment</h2>
+                <h2 className="text-xl tracking-wider">Entertainment</h2>
                 <TopCategoryStories articles={articles?.topEntertainment} />
               </div>
             )}
