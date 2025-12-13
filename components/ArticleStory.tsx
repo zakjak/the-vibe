@@ -27,6 +27,7 @@ import {
   NavigationMenuTrigger,
 } from "./ui/navigation-menu";
 import { notFound } from "next/navigation";
+import { Spinner } from "./ui/spinner";
 
 const ArticleStory = ({
   articleStory,
@@ -233,7 +234,22 @@ const ArticleStory = ({
               className="flex items-center gap-1 cursor-pointer"
             >
               {isSavedData || isSaving ? "Saved:" : "Save:"}
-              {isSavedData || isSaving ? <FaBookmark /> : <FaRegBookmark />}
+              {isLoading ? (
+                <Spinner />
+              ) : isSavedData || isSaving ? (
+                <FaBookmark />
+              ) : (
+                <FaRegBookmark />
+              )}
+              {/* {isSavedData || isSaving ? (
+                isFetching ? (
+                  
+                ) : (
+                  <Spinner />
+                )
+              ) : (
+                <FaRegBookmark />
+              )} */}
             </span>
           ) : (
             <span className="flex items-center gap-2 font-bold">
