@@ -124,13 +124,13 @@ const TopCategoryStory = ({ topStory }: { topStory: Article }) => {
             </AlertDialogContent>
           </AlertDialog>
         </div>
-        <div className="mt-4 leading-8">
+        <div className="mt-4">
           <Link
             href={`/${topStory?.category}/${
               topStory?.id
             }/${topStory?.title?.replaceAll(" ", "-")}`}
           >
-            <h2 className="text-md line-clamp-2 hover:underline">
+            <h2 className="text-[15px] line-clamp-2 hover:underline">
               {topStory?.title}
             </h2>
           </Link>

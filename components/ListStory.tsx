@@ -15,7 +15,7 @@ const ListStory = ({ articles }: { articles: Article[] }) => {
               "-"
             )}`}
           >
-            <h2 className="hover:underline">{story.title}</h2>
+            <h2 className="hover:underline text-[15px]">{story.title}</h2>
           </Link>
           <div className="flex items-center text-xs gap-2 text-zinc-400">
             <span className="font-bold tracking-wide">

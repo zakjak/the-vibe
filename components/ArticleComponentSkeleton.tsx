@@ -6,61 +6,64 @@ const ArticleComponentSkeleton = () => {
   const relatedArticles = [1, 2, 3];
 
   return (
-    <div className="grid lg:gap-6 gap-4 lg:grid-cols-6 md:grid-cols-5 mx-auto lg:max-w-280 md:max-w-200 max-w-160 p-4">
-      <div className="lg:col-span-4 md:col-span-3 w-full col-span-3">
-        <div className="">
-          <Skeleton className="h-4 w-4" />
-          <div className="flex gap-2 flex-col">
-            <Skeleton className="h-4 w-[100px]" />
-            <Skeleton className="h-4 w-[100px]" />
-          </div>
-          <div className="flex gap-2">
-            <Skeleton className="h-4 w-[60px]" />
-            <Separator className="w-0.5 h-4 bg-zinc-400" />
-            <Skeleton className="h-4 w-[60px]" />
-          </div>
-          {/* <Skeleton className="h-[20em] rounded-lg w-full" /> */}
-        </div>
-        <div className="flex justify-between pt-6">
+    <div className="max-w-[80%] lg:w-280 mx-auto">
+      <div className="grid lg:gap-6 gap-4 lg:grid-cols-6 md:grid-cols-5 mb-6">
+        <div className="lg:col-span-4 md:col-span-3 w-full col-span-6">
           <div className="">
-            <Skeleton className="h-4 w-[100px] mb-2" />
-            <Skeleton className="h-4 w-[100px]" />
-          </div>
-          <div className="">
-            <span className="flex items-center gap-1 mb-2">
-              <Skeleton className="h-4 w-[100px]" />
-            </span>
-            <Skeleton className="h-4 w-[100px]" />
-          </div>
-        </div>
-        <div className="pt-4">
-          {stories.map((story) => (
-            <Skeleton key={story} className="h-4 mt-2" />
-          ))}
-        </div>
-      </div>
+            <div className="flex flex-col gap-2">
+              <Skeleton className="h-4 w-[90%]" />
+              <Skeleton className="h-4 w-[90%]" />
+            </div>
 
-      <div className="md:col-span-2 col-span-3">
-        <h2 className="text-xl font-bold leading-2 tracking-wide ">
-          <Skeleton className="h-4 w-[200px]" />
-        </h2>
-        <div className="grid gap-3 grid-cols-2 md:grid-cols-1">
-          {relatedArticles.map((article) => (
-            <div key={article} className="mt-6 flex flex-col gap-4">
-              <div className=" ">
-                <Skeleton className="h-[200px] w-full rounded-lg" />
-              </div>
-              <div>
-                <Skeleton className="h-3 w-[200px]" />
-                <div className="flex items-center gap-2 text-sm text-zinc-400 mt-2">
-                  <span className="flex gap-2 items-center">
-                    <Skeleton className="h-4 w-[100px]" />
-                    <Skeleton className="h-4 w-[100px]" />
-                  </span>
+            <div className="flex gap-2 mt-2">
+              <Skeleton className="h-4 w-[60px]" />
+              <Separator className="w-0.5 h-4 bg-zinc-400" />
+              <Skeleton className="h-4 w-[60px]" />
+            </div>
+            <Skeleton className="h-[20em] rounded-lg w-full mt-2" />
+          </div>
+          <div className="flex justify-between pt-6">
+            <div className="">
+              <Skeleton className="h-4 w-[100px] mb-2" />
+              <Skeleton className="h-4 w-[100px]" />
+            </div>
+            <div className="">
+              <span className="flex items-center gap-1 mb-2">
+                <Skeleton className="h-4 w-[100px]" />
+              </span>
+              <Skeleton className="h-4 w-[100px]" />
+            </div>
+          </div>
+          <div className="pt-4">
+            {stories.map((story) => (
+              <Skeleton key={story} className="h-4 mt-2" />
+            ))}
+          </div>
+        </div>
+
+        <div className="md:col-span-2 col-span-3">
+          <h2 className="text-xl font-bold leading-2 tracking-wide ">
+            <Skeleton className="h-4 w-[200px]" />
+          </h2>
+          <div className="grid gap-3 grid-cols-2 md:grid-cols-1">
+            {relatedArticles.map((article) => (
+              <div key={article} className="mt-6 flex flex-col gap-4">
+                <div className=" ">
+                  <Skeleton className="h-[200px] w-full rounded-lg" />
+                </div>
+                <div>
+                  <Skeleton className="h-3 w-[200px]" />
+                  <div className="flex items-center gap-2 text-sm text-zinc-400 mt-2">
+                    <div className="flex gap-2 mt-2">
+                      <Skeleton className="h-4 w-[60px]" />
+                      <Separator className="w-0.5 h-4 bg-zinc-400" />
+                      <Skeleton className="h-4 w-[60px]" />
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
