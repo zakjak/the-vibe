@@ -28,9 +28,9 @@ const WriterUserProfile = ({
           <div className="relative  w-full h-full flex items-center justify-center">
             {userInfo[0]?.image && (
               <Image
-                alt=""
+                alt={`${userInfo[0]?.name} Profile Picture`}
                 src={userInfo[0]?.image as string}
-                className="object-cover w-full h-full rounded-md "
+                className="object-cover w-full h-full rounded-md"
                 width={240}
                 height={240}
               />
@@ -67,7 +67,7 @@ const WriterUserProfile = ({
                       />
                     </DialogHeader>
                     <DialogHeader className="text-start overflow-scroll h-[45vh] text-zinc-800 dark:text-white p-2">
-                      <p>{lines.join("\n")}</p>
+                      <p>{lines?.join("\n")}</p>
                     </DialogHeader>
                   </DialogContent>
                 </Dialog>

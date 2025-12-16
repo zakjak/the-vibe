@@ -4,10 +4,10 @@ import { User } from "@/lib/types/users";
 import CreatedArticles from "./CreatedArticles";
 import ArticleForm from "./ArticleForm";
 
-const SavedArticles = ({ user }: { user: User }) => {
+const SavedArticles = ({ user, userId }: { user: User; userId: string }) => {
   return (
     <div className="m-6">
-      <ArticleForm user={user} />
+      {user?.id === userId && <ArticleForm user={user} />}
 
       <div className="flex items-center gap-2">
         <div className="dark:bg-white bg-black w-1.5 h-5" />

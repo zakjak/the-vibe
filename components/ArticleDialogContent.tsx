@@ -734,8 +734,17 @@ const ArticleDialogContent = ({
                         field.onChange(newSelection);
                       }}
                     >
-                      <span>{user?.name}</span>
-                      {field?.value?.includes(user?.id) && <span>✅</span>}
+                      <Image
+                        src={user?.image as string}
+                        alt={`${user?.name} Profile`}
+                        height={100}
+                        width={100}
+                        className="h-8 w-8 rounded-2xl object-cover cursor-pointer"
+                      />
+                      <span className="cursor-pointer">{user?.name}</span>
+                      {field?.value?.includes(user?.id) && (
+                        <span className="cursor-pointer">✅</span>
+                      )}
                     </CommandItem>
                   ))}
                 </Command>
