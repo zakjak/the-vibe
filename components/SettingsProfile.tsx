@@ -157,7 +157,7 @@ const SettingsProfile = () => {
           </h1>
           <div className="flex justify-between items-center py-4">
             <span>
-              If you delete account, all saved articles will be lost!!!
+              If you delete your account, all saved articles will be lost!!!
             </span>
             <Dialog>
               <DialogTrigger asChild>

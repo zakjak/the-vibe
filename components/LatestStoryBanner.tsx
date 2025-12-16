@@ -32,7 +32,9 @@ const LatestStoryBanner = ({ article }: { article: Article }) => {
             <h2 className="font-bold hover:underline">{article?.title}</h2>
           </Link>
           <CardFooter className="text-xs flex gap-2">
-            <span>{article?.category}</span>
+            <span className="font-bold text-zinc-400">
+              {article?.category.toUpperCase()}
+            </span>
             <Separator className="bg-gray-400 h-4 w-0.5" />
             <span>{calculateTime(article?.date)}</span>
           </CardFooter>

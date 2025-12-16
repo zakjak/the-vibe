@@ -39,7 +39,7 @@ const TopSmallCards = ({ article }: { article: Article }) => {
         </Link>
 
         <div className="flex gap-2 items-center text-zinc-400 text-[.7rem]">
-          <span>{article?.category}</span>
+          <span className="font-bold">{article?.category.toUpperCase()}</span>
           <Separator className="w-0.5 h-3 bg-zinc-400" />
           <span>{calculateTime(article.date)}</span>
         </div>

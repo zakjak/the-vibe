@@ -10,7 +10,7 @@ import CommentSection from "./CommentSection";
 import { useInView } from "react-intersection-observer";
 
 const ArticleComponent = ({ id }: { id: number }) => {
-  const { data, isFetching } = useArticle(id);
+  const { data, isFetching, isLoading } = useArticle(id);
   const { data: session } = useSession();
   const { ref, inView } = useInView({ threshold: 0 });
 
@@ -23,7 +23,7 @@ const ArticleComponent = ({ id }: { id: number }) => {
     return notFound();
   }
 
-  if (isFetching) {
+  if (isLoading) {
     return <ArticleComponentSkeleton />;
   }
 

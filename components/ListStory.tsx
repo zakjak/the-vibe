@@ -17,12 +17,12 @@ const ListStory = ({ articles }: { articles: Article[] }) => {
           >
             <h2 className="hover:underline">{story.title}</h2>
           </Link>
-          <div className="flex items-center text-xs gap-2">
-            <span className="font-semibold tracking-wide">
+          <div className="flex items-center text-xs gap-2 text-zinc-400">
+            <span className="font-bold tracking-wide">
               {story.category.toUpperCase()}
             </span>
-            <Separator className="w-0.5 h-4 bg-gray-400" />
-            <span>{calculateTime(story.date)}</span>
+            <Separator className="w-0.5 h-4 bg-zinc-400" />
+            <span className="font-bold">{calculateTime(story.date)}</span>
           </div>
         </div>
       ))}

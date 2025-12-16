@@ -1,4 +1,5 @@
 import { Skeleton } from "./ui/skeleton";
+import { Separator } from "@radix-ui/react-separator";
 
 const ArticleComponentSkeleton = () => {
   const stories = [1, 2, 3, 4, 5];
@@ -7,13 +8,18 @@ const ArticleComponentSkeleton = () => {
   return (
     <div className="grid lg:gap-6 gap-4 lg:grid-cols-6 md:grid-cols-5 mx-auto lg:max-w-280 md:max-w-200 max-w-160 p-4">
       <div className="lg:col-span-4 md:col-span-3 w-full col-span-3">
-        <div className="w-">
-          <Skeleton className="h-4" />
-          <div className="flex items-center gap-1 my-2">
+        <div className="">
+          <Skeleton className="h-4 w-4" />
+          <div className="flex gap-2 flex-col">
             <Skeleton className="h-4 w-[100px]" />
             <Skeleton className="h-4 w-[100px]" />
           </div>
-          <Skeleton className="h-[20em] rounded-lg w-full" />
+          <div className="flex gap-2">
+            <Skeleton className="h-4 w-[60px]" />
+            <Separator className="w-0.5 h-4 bg-zinc-400" />
+            <Skeleton className="h-4 w-[60px]" />
+          </div>
+          {/* <Skeleton className="h-[20em] rounded-lg w-full" /> */}
         </div>
         <div className="flex justify-between pt-6">
           <div className="">

@@ -134,12 +134,12 @@ const TopCategoryStory = ({ topStory }: { topStory: Article }) => {
               {topStory?.title}
             </h2>
           </Link>
-          <div className="flex items-center gap-2 text-xs text-gray-400">
+          <div className="flex items-center gap-2 text-xs text-zinc-400">
             <span className="font-bold text-xs tracking-wider">
               {topStory?.category?.toUpperCase()}
             </span>
             <Separator className="h-4! w-0.5! bg-gray-400" />
-            <span>{calculateTime(topStory?.date)}</span>
+            <span className="font-bold">{calculateTime(topStory?.date)}</span>
           </div>
         </div>
       </Card>

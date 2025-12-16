@@ -20,7 +20,7 @@ const ListTopStories = ({ articles }: { articles: Article[] }) => {
             </h2>
           </Link>
           <div className="flex gap-2 items-center text-zinc-400 text-[.7rem] -mt-2">
-            <span>{story?.category}</span>
+            <span className="font-bold">{story?.category.toUpperCase()}</span>
             <Separator className="w-0.5 h-3 bg-zinc-400" />
             <span>{calculateTime(story.date)}</span>
           </div>
