@@ -11,7 +11,10 @@ const ProfileAbout = () => {
   return (
     <div className="lg:w-240 w-[90%] mx-auto">
       <AboutUserProfile user={session?.user as User} />
-      <SavedArticles user={session?.user as User} />
+      <SavedArticles
+        user={session?.user as User}
+        userId={session?.user?.id as string}
+      />
     </div>
   );
 };
