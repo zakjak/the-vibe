@@ -24,6 +24,8 @@ export const users = pgTable("users", {
   email: text("email").unique(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   isAdmin: boolean().default(false),
+  isLeader: boolean().default(false),
+  isExecutive: boolean().default(false),
   image: text(),
 });
 

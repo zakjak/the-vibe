@@ -39,15 +39,6 @@ export const verificationToken = pgTable("verificationToken", {
 	expires: timestamp({ mode: 'string' }).notNull(),
 });
 
-export const users = pgTable("users", {
-	id: text().primaryKey().notNull(),
-	name: text(),
-	email: text(),
-	emailVerified: timestamp({ mode: 'string' }),
-	isAdmin: boolean().default(false),
-	image: text(),
-});
-
 export const account = pgTable("account", {
 	userId: text().notNull(),
 	type: text().notNull(),
@@ -67,6 +58,17 @@ export const account = pgTable("account", {
 			name: "account_userId_users_id_fk"
 		}).onDelete("cascade"),
 ]);
+
+export const users = pgTable("users", {
+	id: text().primaryKey().notNull(),
+	name: text(),
+	email: text(),
+	emailVerified: timestamp({ mode: 'string' }),
+	isAdmin: boolean().default(false),
+	image: text(),
+	isLeader: boolean().default(false),
+	isExecutive: boolean().default(false),
+});
 
 export const about = pgTable("about", {
 	id: text().primaryKey().notNull(),

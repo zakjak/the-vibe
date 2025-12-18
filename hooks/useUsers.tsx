@@ -3,6 +3,7 @@
 import { UserInfo } from "@/lib/types/users";
 import {
   keepPreviousData,
+  useInfiniteQuery,
   useMutation,
   useQuery,
   useQueryClient,
@@ -102,5 +103,19 @@ export const useUpdateUserProfile = (userId: string) => {
 
     onSettled: () =>
       queryClient.invalidateQueries({ queryKey: ["about-user", userId] }),
+  });
+};
+
+export const useProfiles = ({ isLeader }: { isLeader?: boolean } = {}) => {
+  return useInfiniteQuery({
+    queryKey: ["profiles", isLeader],
+    queryFn: ({ pageParam }) =>
+      fetch(`/api/profiles?page=${pageParam}&isLeader=${isLeader}`).then(
+        (res) => res.json()
+      ),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length === 0 ? undefined : allPages.length + 1;
+    },
   });
 };
