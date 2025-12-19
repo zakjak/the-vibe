@@ -3,6 +3,7 @@ export type User = {
   email?: string | null;
   name?: string | null;
   isAdmin?: boolean | null;
+  isLeader?: boolean | null;
   image?: string | null;
   emailVerified?: boolean;
 };

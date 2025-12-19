@@ -31,15 +31,13 @@ const ProfilesComponent = ({ slug }: { slug?: string }) => {
     return <ProfilePageSkeleton />;
   }
 
-  console.log(pathname.replaceAll("/", ""));
-
   return (
-    <div className="bg-black h-screen text-white">
+    <div className=" text-black dark:text-white">
       <div className="w-[80%] mx-auto">
         <h1 className="text-2xl font-semibold py-8">
           The Vybe News{" "}
           {pathname.replace("/", "") === "profiles"
-            ? "The Vybe News Profiles A-Z"
+            ? "Profiles A-Z"
             : "Leadership"}
         </h1>
         <div className="grid lg:grid-cols-4 md:grid-cols-3 md:gap-4 gap-2 lg:w-240 md:w-160">

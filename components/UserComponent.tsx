@@ -58,7 +58,7 @@ const UserComponent = () => {
             </PopoverTrigger>
             <PopoverContent className="z-1000 mr-4">
               <div className="flex flex-col gap-2">
-                {data?.isAdmin && (
+                {data?.isAdmin && data?.isLeader && (
                   <>
                     <Link
                       href={`/profile/${session?.user?.id}/${slugify(
